@@ -3,14 +3,19 @@
 
 #include "F2DVectorInt.h"
 
-UF2DVectorInt::UF2DVectorInt()
+F2DVectorInt::F2DVectorInt()
 {
 	X = 0;
 	Y = 0;
 }
 
-UF2DVectorInt::UF2DVectorInt(const int SetX, const int SetY)
+F2DVectorInt::F2DVectorInt(const int SetX, const int SetY)
 {
 	X = SetX;
 	Y = SetY;
+}
+
+F2DVectorInt::~F2DVectorInt()
+{
+
 }

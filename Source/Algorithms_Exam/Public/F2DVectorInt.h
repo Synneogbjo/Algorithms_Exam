@@ -3,20 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+
 #include "F2DVectorInt.generated.h"
 
 /**
  * 
  */
-UCLASS(Blueprintable)
-class ALGORITHMS_EXAM_API UF2DVectorInt : public UObject
+USTRUCT(Blueprintable)
+struct ALGORITHMS_EXAM_API F2DVectorInt
 {
 	GENERATED_BODY()
 
-	UF2DVectorInt();
-	UF2DVectorInt(const int SetX, const int SetY);
+	F2DVectorInt();
+	F2DVectorInt(const int SetX, const int SetY);
 
+	~F2DVectorInt();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "2D Vector Int")
 	int X;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "2D Vector Int")
 	int Y;
 };
