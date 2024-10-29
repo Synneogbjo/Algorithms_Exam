@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "F2DVectorInt.h"
 #include "GameFramework/Actor.h"
+#include "F2DVectorInt.h"
 
 #include "CPP_Piece.generated.h"
 
+class ACPP_Board;
 class UBoxComponent;
 
 UCLASS()
@@ -16,6 +17,9 @@ class ALGORITHMS_EXAM_API ACPP_Piece : public AActor
 	GENERATED_BODY()
 
 	int MaxHealth;
+
+	UPROPERTY()
+	ACPP_Board* CurrentBoard;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -49,11 +53,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	F2DVectorInt BoardPosition;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	TArray<F2DVectorInt> MovementOptions;
+
 	/*
 	 * Functions
 	 */
 
 	UFUNCTION(BlueprintCallable, Category = "Piece")
 	int Damage(int Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Piece")
+	bool MoveTowards(F2DVectorInt Direction);
 
 };

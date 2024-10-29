@@ -57,9 +57,10 @@ bool ACPP_Board::SetBoardSize(const F2DVectorInt Size)
 		{
 			auto NewTile = GetWorld()->SpawnActor<ACPP_Tile>(TileActor, FVector(0, 0, 0), FRotator(0, 0, 0));
 			TileArray2D[w]->TileArray.Emplace(NewTile);
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::White, TEXT("Creating Board"));
 		}
 	}
+
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("Created a Board of size %d, %d"), Size.X, Size.Y));
 
 	return bNoErrors;
 }
@@ -114,12 +115,45 @@ ACPP_Tile* ACPP_Board::GetTileAt(const int X, const int Y)
 	return T[Y];
 }
 
+/// <summary>
+/// Returns a pointer to the Tile at the inserted Position. Will return a nullptr if there is no Tile at the inserted Position, or it is out of range.
+/// </summary>
+/// <param name="Position"> Target Position to check </param>
+/// <returns> Pointer to the Tile at desired Position </returns>
+ACPP_Tile* ACPP_Board::GetTileAt(F2DVectorInt Position)
+{
+	//Makes sure the targeted tile is inside of range, and exists
+
+	if (TileArray2D.IsEmpty()) return nullptr;
+
+	if (Position.X >= TileArray2D.Num()) return nullptr;
+
+	const TArray<ACPP_Tile*> T = TileArray2D[Position.X]->TileArray;
+
+	if (T.IsEmpty()) return nullptr;
+
+	if (Position.Y >= T.Num()) return nullptr;
+
+	//Returns pointer to desired tile
+	return T[Position.Y];
+}
+
+/// <summary>
+/// Returns the current size of the Board based on its stored Tiles.
+/// </summary>
+/// <returns> Width and Height of Board </returns>
 F2DVectorInt ACPP_Board::GetBoardSize()
 {
-	F2DVectorInt BoardSize(-1,-1);
+	F2DVectorInt BoardSize(0,0);
+
+	if (TileArray2D.IsEmpty()) return BoardSize;
 
 	BoardSize.X = TileArray2D.Num();
+
+	if (TileArray2D[0]->TileArray.IsEmpty()) return BoardSize;
+
 	BoardSize.Y = TileArray2D[0]->TileArray.Num();
+	
 
 	return BoardSize;
 }

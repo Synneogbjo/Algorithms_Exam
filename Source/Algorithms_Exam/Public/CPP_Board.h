@@ -63,6 +63,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Board")
 	ACPP_Tile* GetTileAt(const int X, const int Y);
+	ACPP_Tile* GetTileAt(F2DVectorInt Position);
 
 	UFUNCTION(BlueprintCallable, Category = "Board")
 	F2DVectorInt GetBoardSize();
