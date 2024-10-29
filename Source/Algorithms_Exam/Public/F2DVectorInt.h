@@ -21,6 +21,9 @@ public:
 
 	~F2DVectorInt();
 
+	bool WithinRange(const F2DVectorInt& Min, const F2DVectorInt& Max) const;
+	bool WithinRange(const F2DVectorInt& Max) const;
+
 	/*
 	 * Operator Overloading
 	 */
