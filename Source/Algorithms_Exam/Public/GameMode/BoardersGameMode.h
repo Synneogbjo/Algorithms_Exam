@@ -39,7 +39,10 @@ public:
 	TArray<APawn*> PlayerArray;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
-	TSubclassOf<APlayerPawn> PlayerClass;
+	TSubclassOf<APlayerPawn> Player1Class;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
+	TSubclassOf<APlayerPawn> Player2Class;
 
 	UPROPERTY()
 	APawn* CurrentPlayer;

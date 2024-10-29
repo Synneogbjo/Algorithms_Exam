@@ -8,7 +8,8 @@
 ABoardersGameMode::ABoardersGameMode()
 {
 
-	PlayerClass = APlayerPawn::StaticClass();
+	Player1Class = APlayerPawn::StaticClass();
+	Player2Class = APlayerPawn::StaticClass();
 
 	CurrentPlayer = nullptr;
 	Player1 = nullptr;
@@ -19,14 +20,16 @@ ABoardersGameMode::ABoardersGameMode()
 void ABoardersGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	SpawnPlayers();
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	SpawnPlayers();
+	
 
 	CurrentPlayer = PlayerArray[0];
 	if (PlayerController != nullptr)
 	{
 		CurrentPlayer->PossessedBy(PlayerController);
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
+
 	}
 
 }
@@ -67,8 +70,8 @@ void ABoardersGameMode::SpawnPlayers()
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 
-	Player1 = GetWorld()->SpawnActor<APlayerPawn>(PlayerClass, Player1Location, Rotation, SpawnParameters);
-	Player2 = GetWorld()->SpawnActor<APlayerPawn>(PlayerClass, Player2Location, Rotation, SpawnParameters);
+	Player1 = GetWorld()->SpawnActor<APlayerPawn>(Player1Class, Player1Location, Rotation, SpawnParameters);
+	Player2 = GetWorld()->SpawnActor<APlayerPawn>(Player2Class, Player2Location, Rotation, SpawnParameters);
 
 	Enqueue_Implementation(Player1);
 
@@ -94,16 +97,24 @@ void ABoardersGameMode::EndTurn_Implementation()
 		return;
 	}
 
-	// calls dequeue first and get the pawn return, then call enqueue
-	APawn* PlayerDequeued = Dequeue_Implementation();
 
 	if (IsValid(CurrentPlayer))
 	{
 		CurrentPlayer->UnPossessed();
 	}
 
-	//Enqueue the Player that was removed from the que back into it
-	Enqueue_Implementation(PlayerDequeued);
+	
+	// calls dequeue first and get the pawn return, then call enqueue
+	APawn* PlayerDequeued = Dequeue_Implementation();
+
+	if(PlayerDequeued)
+	{
+
+		//Enqueue the Player that was removed from the que back into it
+		Enqueue_Implementation(PlayerDequeued);
+
+	}
+
 
 
 
