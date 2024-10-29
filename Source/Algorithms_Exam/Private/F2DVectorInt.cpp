@@ -19,3 +19,13 @@ F2DVectorInt::~F2DVectorInt()
 {
 
 }
+
+F2DVectorInt F2DVectorInt::operator+(const F2DVectorInt& Other) const
+{
+	return F2DVectorInt(X + Other.X, Y + Other.Y);
+}
+
+bool F2DVectorInt::operator==(const F2DVectorInt& Other) const
+{
+	return (X == Other.X && Y == Other.Y);
+}
