@@ -34,11 +34,14 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 	StartPath->PathCost = 0;
 
 	PositionQueue.Add(StartPath);
+	LegalPaths.Add(StartPath);
 
 	int Steps = 0;
 
+	int IterationCounter = 0;
+
 	//Pathfinding loop
-	while (!PositionQueue.IsEmpty() && Steps <= StepAmount)
+	while (!PositionQueue.IsEmpty() && Steps < StepAmount)
 	{
 		Steps++;
 
@@ -48,12 +51,12 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 
 			UCPP_AlgorithmPath* CurrentPath = PositionQueue[0];
 
-			LegalPaths.Add(CurrentPath);
-
 			PositionQueue.RemoveAt(0, 1, true);
 
 			for (int i = 0; i < MovementOptions.Num(); i++)
 			{
+				IterationCounter++;
+
 				F2DVectorInt TargetPosition = CurrentPath->Position + MovementOptions[i];
 
 				if (!TargetPosition.WithinRange(Board->GetBoardSize())) continue;
@@ -65,8 +68,6 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 				{
 					if (TargetPosition == LegalPaths[p]->Position)
 					{
-						UE_LOG(LogTemp, Warning, TEXT("Target: %d,%d | Saved: %d,%d"), TargetPosition.X, TargetPosition.Y, LegalPaths[p]->Position.X, LegalPaths[p]->Position.Y);
-
 						bTargetPositionIsSaved = true;
 						break;
 					}
@@ -84,11 +85,14 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 				NewPath->Parent = CurrentPath;
 
 				PositionQueue.Add(NewPath);
+				LegalPaths.Add(NewPath);
+
+				UE_LOG(LogTemp, Log, TEXT("Added position %d,%d"), TargetPosition.X, TargetPosition.Y);
 			}
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Legal Path Amount: %d"), LegalPaths.Num());
+	UE_LOG(LogTemp, Warning, TEXT("Legal Path Amount: %d | Iteration Count: %d"), LegalPaths.Num(), IterationCounter);
 
 	return LegalPaths;
 }
