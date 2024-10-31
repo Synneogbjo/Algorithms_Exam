@@ -10,16 +10,17 @@
 
 class ACPP_Board;
 class UBoxComponent;
+class UCPP_AlgorithmPath;
 
 UCLASS()
 class ALGORITHMS_EXAM_API ACPP_Piece : public AActor
 {
 	GENERATED_BODY()
 
-	int MaxHealth;
-
 	UPROPERTY()
 	ACPP_Board* CurrentBoard;
+
+
 	
 public:	
 	// Sets default values for this actor's properties
@@ -48,7 +49,16 @@ public:
 	 */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	int MaxHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	int Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	int MaxActionPoints;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	int ActionPoints;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	F2DVectorInt BoardPosition;
@@ -66,4 +76,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Piece")
 	bool MoveTowards(F2DVectorInt Direction);
 
+	UFUNCTION(BlueprintCallable, Category = "Piece")
+	int MoveAlongPath(UCPP_AlgorithmPath* Path);
 };

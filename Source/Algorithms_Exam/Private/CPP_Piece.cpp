@@ -8,6 +8,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
+#include "CPP_AlgorithmPath.h"
 
 // Sets default values
 ACPP_Piece::ACPP_Piece()
@@ -28,6 +29,7 @@ ACPP_Piece::ACPP_Piece()
 	CurrentBoard = Cast<ACPP_Board>(UGameplayStatics::GetActorOfClass(this, ACPP_Board::StaticClass()));
 
 	MaxHealth = Health = 4;
+	MaxActionPoints = ActionPoints = 6;
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
 
@@ -118,4 +120,19 @@ bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
 	BoardPosition = TargetPosition;
 
 	return true;
+}
+
+int ACPP_Piece::MoveAlongPath(UCPP_AlgorithmPath* Path)
+{
+	int ActionPointsUsed = 0;
+
+	if (!Path) return ActionPointsUsed;
+
+	if (Path->Parent) ActionPointsUsed = (Path->Parent, ActionPointsUsed - Path->PathCost);
+
+	MoveTowards(Path->Position);
+
+	ActionPointsUsed -= Path->PathCost;
+
+	return ActionPointsUsed;
 }
