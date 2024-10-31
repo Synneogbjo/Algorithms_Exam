@@ -11,7 +11,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class ALGORITHMS_EXAM_API UCPP_AlgorithmPath : public UObject
 {
 	GENERATED_BODY()

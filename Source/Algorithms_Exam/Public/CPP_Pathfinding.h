@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 #include "UObject/NoExportTypes.h"
 #include "F2DVectorInt.h"
 
@@ -14,18 +15,18 @@ class ACPP_Board;
 /**
  * 
  */
-UCLASS()
-class ALGORITHMS_EXAM_API UCPP_Pathfinding : public UObject
+UCLASS(Blueprintable, BlueprintType)
+class ALGORITHMS_EXAM_API ACPP_Pathfinding : public AActor
 {
 private:
 
 	GENERATED_BODY()
 
-
-
 public:
 
-	UFUNCTION(BlueprintType, Category = "Pathfinding")
+	ACPP_Pathfinding();
+
+	UFUNCTION(BlueprintCallable, Category = "Pathfinding")
 	TArray<UCPP_AlgorithmPath*> RunPathfinding(F2DVectorInt StartPosition, TArray<F2DVectorInt> MovementOptions, ACPP_Board* Board, int Steps = 3);
 	
 };

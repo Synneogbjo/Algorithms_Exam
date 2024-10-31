@@ -5,8 +5,16 @@
 
 #include "CPP_AlgorithmPath.h"
 #include "CPP_Board.h"
+#include "Algo/Find.h"
 
-TArray<UCPP_AlgorithmPath*> UCPP_Pathfinding::RunPathfinding(F2DVectorInt StartPosition, TArray<F2DVectorInt> MovementOptions, ACPP_Board* Board, int StepAmount)
+
+ACPP_Pathfinding::ACPP_Pathfinding()
+{
+	// Set this actor to call Tick() every frame if needed. You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+}
+
+TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartPosition, TArray<F2DVectorInt> MovementOptions, ACPP_Board* Board, int StepAmount)
 {
 	TArray<UCPP_AlgorithmPath*> LegalPaths;
 
@@ -34,6 +42,8 @@ TArray<UCPP_AlgorithmPath*> UCPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 	{
 		UCPP_AlgorithmPath* CurrentPath = PositionQueue[0];
 
+		LegalPaths.Add(CurrentPath);
+
 		PositionQueue.RemoveAt(0, 1, true);
 
 		for (int i = 0; i < MovementOptions.Num(); i++)
@@ -41,6 +51,12 @@ TArray<UCPP_AlgorithmPath*> UCPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 			F2DVectorInt TargetPosition = CurrentPath->Position + MovementOptions[i];
 
 			if (!TargetPosition.WithinRange(Board->GetBoardSize())) continue;
+
+			//Checks if the current TargetPosition has already been found, then move on to the next TargetPosition
+			if (Algo::FindByPredicate(LegalPaths, [&](const UCPP_AlgorithmPath* Item){ return Item && Item->Position == TargetPosition; }))
+			{
+				continue;
+			}
 
 			if (Board->GetTileAt(TargetPosition)->bIsOccupied) continue;
 
