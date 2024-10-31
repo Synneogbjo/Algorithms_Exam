@@ -22,9 +22,9 @@ class ALGORITHMS_EXAM_API ICPP_Stacks_Interface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	/*UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "StacksInterface")
-	void Push(ACardActor* Card);
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "StacksInterface")
+	void Push(ACPP_Card* Card);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "StacksInterface")
-	ACardActor* Pop();*/
+	ACPP_Card* Pop();
 };

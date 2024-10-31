@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "CPP_Card.h"
 #include "CPP_CountingSort.generated.h"
 
 
@@ -19,9 +20,10 @@ public:
 	void PrintArray();
 
 	UFUNCTION(BlueprintCallable, Category = "CountingSort")
-	void FillHand(int32  input);
+	void FillHand(ACPP_Card* input);  //int32 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CountingSort")
-	TArray<int32> CardsForSorting;
+	TArray<ACPP_Card*> CardsForSorting; //array of cards, and then access their int32 through ->
+	
 	
 };

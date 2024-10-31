@@ -6,7 +6,7 @@ void UCPP_CountingSort::Sort()
 {
 	int32 n = CardsForSorting.Num();
 
-	if (n > 0 && n < 8) {     //if the characetr piece dies, the max amount of cards wont be 8 anymore
+	if (n > 0 && n < 9) {     //if the characetr piece dies, the max amount of cards wont be 8 anymore
 		int32 EvenNumber = n % 2; //we only allow sorting when the hand is full (2 cards of each type), so amount must be even number
 		if (EvenNumber == 0) {
 			const int32 max = 4; //we know that we only have 4 classes of cards, so the max number is always 4

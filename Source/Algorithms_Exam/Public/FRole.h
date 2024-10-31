@@ -33,4 +33,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Role")
 	UPaperSprite* RoleSprite;
+
+	int32 Index;
 };
