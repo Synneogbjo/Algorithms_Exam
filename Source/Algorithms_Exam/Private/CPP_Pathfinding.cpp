@@ -16,7 +16,7 @@ ACPP_Pathfinding::ACPP_Pathfinding()
 
 TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartPosition, TArray<F2DVectorInt> MovementOptions, ACPP_Board* Board, int StepAmount)
 {
-	TArray<UCPP_AlgorithmPath*> LegalPaths;
+	TArray<UCPP_AlgorithmPath*> LegalPaths = {};
 
 	//Failsafe checks
 	if (MovementOptions.IsEmpty()) return LegalPaths;
@@ -35,41 +35,60 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 
 	PositionQueue.Add(StartPath);
 
-	int Steps = 1;
+	int Steps = 0;
 
 	//Pathfinding loop
 	while (!PositionQueue.IsEmpty() && Steps <= StepAmount)
 	{
-		UCPP_AlgorithmPath* CurrentPath = PositionQueue[0];
+		Steps++;
 
-		LegalPaths.Add(CurrentPath);
+		int PositionQueueCount = PositionQueue.Num();
 
-		PositionQueue.RemoveAt(0, 1, true);
+		for (int a = 0; a < PositionQueueCount; a++) {
 
-		for (int i = 0; i < MovementOptions.Num(); i++)
-		{
-			F2DVectorInt TargetPosition = CurrentPath->Position + MovementOptions[i];
+			UCPP_AlgorithmPath* CurrentPath = PositionQueue[0];
 
-			if (!TargetPosition.WithinRange(Board->GetBoardSize())) continue;
+			LegalPaths.Add(CurrentPath);
 
-			//Checks if the current TargetPosition has already been found, then move on to the next TargetPosition
-			if (Algo::FindByPredicate(LegalPaths, [&](const UCPP_AlgorithmPath* Item){ return Item && Item->Position == TargetPosition; }))
+			PositionQueue.RemoveAt(0, 1, true);
+
+			for (int i = 0; i < MovementOptions.Num(); i++)
 			{
-				continue;
+				F2DVectorInt TargetPosition = CurrentPath->Position + MovementOptions[i];
+
+				if (!TargetPosition.WithinRange(Board->GetBoardSize())) continue;
+
+				bool bTargetPositionIsSaved = false;
+
+				//Checks if the current TargetPosition has already been found, then move on to the next TargetPosition
+				for (int p = 0; p < LegalPaths.Num(); p++)
+				{
+					if (TargetPosition == LegalPaths[p]->Position)
+					{
+						UE_LOG(LogTemp, Warning, TEXT("Target: %d,%d | Saved: %d,%d"), TargetPosition.X, TargetPosition.Y, LegalPaths[p]->Position.X, LegalPaths[p]->Position.Y);
+
+						bTargetPositionIsSaved = true;
+						break;
+					}
+				}
+
+				if (bTargetPositionIsSaved) continue;
+
+				if (!Board->GetTileAt(TargetPosition)) continue;
+
+				if (Board->GetTileAt(TargetPosition)->bIsOccupied) continue;
+
+				auto NewPath = NewObject<UCPP_AlgorithmPath>();
+				NewPath->Position = TargetPosition;
+				NewPath->PathCost = Steps;
+				NewPath->Parent = CurrentPath;
+
+				PositionQueue.Add(NewPath);
 			}
-
-			if (Board->GetTileAt(TargetPosition)->bIsOccupied) continue;
-
-			auto NewPath = NewObject<UCPP_AlgorithmPath>();
-			NewPath->Position = TargetPosition;
-			NewPath->PathCost = Steps;
-			NewPath->Parent = CurrentPath;
-
-			PositionQueue.Add(NewPath);
 		}
-
-		StepAmount++;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Legal Path Amount: %d"), LegalPaths.Num());
 
 	return LegalPaths;
 }
