@@ -67,4 +67,7 @@ public:
 	UFUNCTION()
 	void SwitchPlayer();
 
+	UFUNCTION()
+	void EndGame();
+
 };

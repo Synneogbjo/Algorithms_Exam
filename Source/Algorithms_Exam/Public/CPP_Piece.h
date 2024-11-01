@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
+#include "Player/PlayerPawn.h"
 
 #include "CPP_Piece.generated.h"
 
@@ -56,6 +57,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	TArray<F2DVectorInt> MovementOptions;
 
+
+	//Player reference, Player who owns the piece
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	APlayerPawn* PlayerOwner;
+
 	/*
 	 * Functions
 	 */
@@ -66,4 +72,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Piece")
 	bool MoveTowards(F2DVectorInt Direction);
 
+
+	UFUNCTION()
+	void Onclicked();
 };

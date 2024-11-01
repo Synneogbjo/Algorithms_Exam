@@ -31,6 +31,8 @@ ACPP_Piece::ACPP_Piece()
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
 
+	PlayerOwner = nullptr;
+
 }
 
 // Called when the game starts or when spawned
@@ -118,4 +120,16 @@ bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
 	BoardPosition = TargetPosition;
 
 	return true;
+}
+
+void ACPP_Piece::Onclicked()
+{
+	if (PlayerOwner == UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetOwner())
+	{
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
+
+	}
+
+
 }

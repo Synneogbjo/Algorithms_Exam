@@ -3,6 +3,7 @@
 
 #include "Player/PlayerPawn.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameplayTagContainer.h"
 #include "InputMappingContext.h"
 
 APlayerPawn::APlayerPawn()
@@ -12,6 +13,8 @@ APlayerPawn::APlayerPawn()
 	Camera->SetupAttachment(RootComponent);
 	// this allow the camera to rotate
 	Camera->bUsePawnControlRotation = true;
+	TotalPieces = 0;
+
 }
 
 void APlayerPawn::BeginPlay()
@@ -25,6 +28,7 @@ void APlayerPawn::BeginPlay()
 			Subsystem->AddMappingContext(Imc, 0);
 		}
 	}
+
 
 }
 

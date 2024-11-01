@@ -37,6 +37,12 @@ void ABoardersGameMode::BeginPlay()
 void ABoardersGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	/*FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle ,this, &ABoardersGameMode::SwitchPlayer,4);*/
+
+	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::EndGame);
+
 }
 
 void ABoardersGameMode::Enqueue_Implementation(APawn* Actor)
@@ -84,6 +90,20 @@ void ABoardersGameMode::SwitchPlayer()
 
 	PlayerController->Possess(CurrentPlayer);
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+
+}
+
+void ABoardersGameMode::EndGame()
+{
+	/*if (Player1->ActorHasTag("Player1"))
+	{
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Player1 has tag Player 1"));
+
+	}*/
+
+
+
 
 }
 
