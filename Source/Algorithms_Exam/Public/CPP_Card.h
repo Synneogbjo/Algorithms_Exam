@@ -8,7 +8,7 @@
 #include "F2DVectorInt.h"
 #include "CPP_Card.generated.h"
 
-UCLASS(Blueprintable)
+UCLASS(BlueprintType,Blueprintable)
 class ALGORITHMS_EXAM_API ACPP_Card : public AActor
 {
 	GENERATED_BODY()
@@ -24,6 +24,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Card")
+	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Card")
 	FString CardName;

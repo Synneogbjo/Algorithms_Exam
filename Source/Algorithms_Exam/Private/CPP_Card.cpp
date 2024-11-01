@@ -10,6 +10,7 @@ ACPP_Card::ACPP_Card()
 	PrimaryActorTick.bCanEverTick = true;
 	CardCost = 0;
 	//CardRole = ? ;
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 }
 
 // Called when the game starts or when spawned

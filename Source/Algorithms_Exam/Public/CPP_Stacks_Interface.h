@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "CPP_Card.h"
 #include "CPP_Stacks_Interface.generated.h"
 
 // This class does not need to be modified.

@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "CPP_Card.h" 
+#include "CoreMinimal.h" 
 #include "CPP_Stacks_Interface.h"
 #include "UObject/NoExportTypes.h"
 #include "CPP_Stack.generated.h"

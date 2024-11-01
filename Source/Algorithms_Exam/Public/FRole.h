@@ -35,5 +35,5 @@ public:
 	UPaperSprite* RoleSprite;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Role")
-	int32 ClassIndex=0;
+	int32 ClassIndex=1;
 };
