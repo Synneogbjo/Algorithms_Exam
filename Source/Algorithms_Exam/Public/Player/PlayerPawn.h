@@ -45,10 +45,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
+	class UInputAction* ClickLeftAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
+	class UInputAction* ClickRightAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TotalPieces")
 	int32 TotalPieces;
 
-	
+	UPROPERTY()
+	bool bRightMouseButton = false;
 
 
 	UFUNCTION()
@@ -56,5 +63,14 @@ public:
 
 	UFUNCTION()
 	void CameraLook(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnClick();
+
+	UFUNCTION()
+	void RightMouseButtonIsclicked();
+
+	UFUNCTION()
+	void RightMouseButtonNotclicked();
 
 };

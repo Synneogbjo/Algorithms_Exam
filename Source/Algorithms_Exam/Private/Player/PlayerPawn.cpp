@@ -5,6 +5,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameplayTagContainer.h"
 #include "InputMappingContext.h"
+#include "Kismet/GameplayStatics.h"
 
 APlayerPawn::APlayerPawn()
 {
@@ -45,8 +46,10 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	EnhancedInputComponent->BindAction(Wasd, ETriggerEvent::Triggered, this, &APlayerPawn::PlayerMovement);
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerPawn::CameraLook);
+	EnhancedInputComponent->BindAction(ClickLeftAction, ETriggerEvent::Triggered, this, &APlayerPawn::OnClick);
 
-
+	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Ongoing, this, &APlayerPawn::RightMouseButtonIsclicked);
+	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Completed, this, &APlayerPawn::RightMouseButtonNotclicked);
 }
 
 void APlayerPawn::PlayerMovement(const FInputActionValue& Value)
@@ -74,7 +77,7 @@ void APlayerPawn::CameraLook(const FInputActionValue& Value)
 
 	const FVector2D LookInput = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if (bRightMouseButton)
 	{
 		AddControllerYawInput(LookInput.X);
 
@@ -82,4 +85,51 @@ void APlayerPawn::CameraLook(const FInputActionValue& Value)
 
 	}
 
+}
+
+void APlayerPawn::OnClick()
+{
+
+	FVector2D MousePos = FVector2D(0,0);
+
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetMousePosition(MousePos.X, MousePos.Y);
+
+
+	const FVector StartTrace = FVector(MousePos.X, MousePos.Y, 0);
+	FVector EndTrace = StartTrace + Camera->GetComponentRotation().Vector() * 1000;
+
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+
+	CollisionParams.AddIgnoredActor(this);
+
+	if (UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, HitResult))
+		//LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility, CollisionParams))
+	{
+		
+		AActor* test = HitResult.GetActor();
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *test->GetName()));
+
+
+		//GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	}
+
+
+
+
+}
+
+void APlayerPawn::RightMouseButtonIsclicked()
+{
+
+	bRightMouseButton = true;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ay"));
+
+}
+
+void APlayerPawn::RightMouseButtonNotclicked()
+{
+
+	bRightMouseButton = false;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
 }
