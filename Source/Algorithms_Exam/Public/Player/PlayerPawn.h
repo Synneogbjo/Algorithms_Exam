@@ -51,7 +51,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
 	class UInputAction* ClickRightAction;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Player Component")
+	class UPlayerComponent* PlayerComponent; 
 
 	UPROPERTY()
 	bool bRightMouseButton = false;

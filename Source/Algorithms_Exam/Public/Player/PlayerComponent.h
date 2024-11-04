@@ -26,22 +26,14 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TotalPieces")
-	int32 TotalPieces;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
-	TArray<AActor*> SpawnPoints;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
-	TArray<TSubclassOf<ACPP_Piece>> Pieces;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
 	TArray<ACPP_Piece*> SpawnedPieces;
 
 	UFUNCTION()
-	void SpawnPieces();
+	void RemoveTotalPieces(ACPP_Piece * RemovePiece);
 
 	UFUNCTION()
-	void RemoveTotalPieces();
+	bool PieceBelongToPlayer(ACPP_Piece* InterectPiece);
 		
 };

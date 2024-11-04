@@ -8,6 +8,7 @@
 #include "GameplayTagContainer.h"
 #include "InputMappingContext.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PlayerComponent.h"
 
 APlayerPawn::APlayerPawn()
 {
@@ -16,7 +17,8 @@ APlayerPawn::APlayerPawn()
 	Camera->SetupAttachment(RootComponent);
 	// this allow the camera to rotate
 	Camera->bUsePawnControlRotation = true;
-	
+
+	PlayerComponent = CreateDefaultSubobject<UPlayerComponent>(TEXT("Player Component"));
 
 }
 
@@ -100,9 +102,9 @@ void APlayerPawn::OnClick()
 	{
 		if (IsValid(HitResult.GetActor()))
 		{
-			FVector NewLocation = HitResult.Location;
+			//FVector NewLocation = HitResult.Location;
 
-			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green,FString::Printf(TEXT("%s"), *HitResult.GetActor()->GetName()));
+			
 			// check if the player clicked on a piece.
 			CheckActor(HitResult.GetActor());
 
@@ -120,8 +122,15 @@ void APlayerPawn::CheckActor(AActor* Actor)
 
 		if (Piece != nullptr)
 		{
-			// access the piece that the player clicked
+			
+			if (PlayerComponent->PieceBelongToPlayer(Piece))
+			{
+
+				// access the piece that the player clicked
 			Piece->Onclicked();
+
+			}
+			
 
 		}
 		

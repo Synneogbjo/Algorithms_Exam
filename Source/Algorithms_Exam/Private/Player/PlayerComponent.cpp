@@ -14,7 +14,6 @@ UPlayerComponent::UPlayerComponent()
 
 	// ...
 
-	TotalPieces = 0;
 
 }
 
@@ -26,7 +25,6 @@ void UPlayerComponent::BeginPlay()
 
 	// ...
 
-	SpawnPieces();
 	
 }
 
@@ -37,40 +35,33 @@ void UPlayerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"),SpawnedPieces.Num()));
+
 }
 
-void UPlayerComponent::SpawnPieces()
+
+
+void UPlayerComponent::RemoveTotalPieces(ACPP_Piece* RemovePiece)
 {
 
-	for (AActor* SpawnPoint : SpawnPoints)
+	SpawnedPieces.Remove(RemovePiece);
+
+}
+
+bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InterectPiece)
+{
+	for (ACPP_Piece* Piece : SpawnedPieces)
 	{
-		if (SpawnPoint)
+		if (Piece == InterectPiece)
 		{
-			FVector SpawnLocation = SpawnPoint->GetActorLocation();
-
-			for (TSubclassOf<ACPP_Piece> Piece : Pieces)
-			{
-				if (IsValid(Piece))
-				{
-					ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnLocation, FRotator::ZeroRotator);
-
-					SpawnedPieces.Emplace(SpawnedPiece);
-				}
-
-			}
-			
-
+			return true;
 		}
 
 
 	}
 
+	return false;
 }
 
-void UPlayerComponent::RemoveTotalPieces()
-{
-
-	TotalPieces--;
-
-}
 
