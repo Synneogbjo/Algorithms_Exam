@@ -2,6 +2,8 @@
 
 
 #include "Player/PlayerPawn.h"
+
+#include "CPP_Piece.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameplayTagContainer.h"
 #include "InputMappingContext.h"
@@ -14,7 +16,7 @@ APlayerPawn::APlayerPawn()
 	Camera->SetupAttachment(RootComponent);
 	// this allow the camera to rotate
 	Camera->bUsePawnControlRotation = true;
-	TotalPieces = 0;
+	
 
 }
 
@@ -89,33 +91,41 @@ void APlayerPawn::CameraLook(const FInputActionValue& Value)
 
 void APlayerPawn::OnClick()
 {
-
-	FVector2D MousePos = FVector2D(0,0);
-
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetMousePosition(MousePos.X, MousePos.Y);
-
-
-	const FVector StartTrace = FVector(MousePos.X, MousePos.Y, 0);
-	FVector EndTrace = StartTrace + Camera->GetComponentRotation().Vector() * 1000;
-
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 
 	CollisionParams.AddIgnoredActor(this);
 
 	if (UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, HitResult))
-		//LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility, CollisionParams))
 	{
-		
-		AActor* test = HitResult.GetActor();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *test->GetName()));
+		if (IsValid(HitResult.GetActor()))
+		{
+			FVector NewLocation = HitResult.Location;
 
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green,FString::Printf(TEXT("%s"), *HitResult.GetActor()->GetName()));
+			// check if the player clicked on a piece.
+			CheckActor(HitResult.GetActor());
 
-		//GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+		}
+
 	}
 
+}
 
+void APlayerPawn::CheckActor(AActor* Actor)
+{
+	if (Actor !=nullptr)
+	{
+		ACPP_Piece* Piece = Cast<ACPP_Piece>(Actor);
 
+		if (Piece != nullptr)
+		{
+			// access the piece that the player clicked
+			Piece->Onclicked();
+
+		}
+		
+	}
 
 }
 
@@ -123,7 +133,7 @@ void APlayerPawn::RightMouseButtonIsclicked()
 {
 
 	bRightMouseButton = true;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ay"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ay"));
 
 }
 
@@ -131,5 +141,6 @@ void APlayerPawn::RightMouseButtonNotclicked()
 {
 
 	bRightMouseButton = false;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
 }
+

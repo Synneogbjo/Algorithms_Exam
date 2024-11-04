@@ -51,8 +51,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
 	class UInputAction* ClickRightAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TotalPieces")
-	int32 TotalPieces;
+	
 
 	UPROPERTY()
 	bool bRightMouseButton = false;
@@ -68,9 +67,14 @@ public:
 	void OnClick();
 
 	UFUNCTION()
+	void CheckActor(AActor* Actor);
+
+	UFUNCTION()
 	void RightMouseButtonIsclicked();
 
 	UFUNCTION()
 	void RightMouseButtonNotclicked();
+
+
 
 };

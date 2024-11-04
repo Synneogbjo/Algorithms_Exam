@@ -4,6 +4,7 @@
 #include "GameMode/BoardersGameMode.h"
 #include "Player/PlayerPawn.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PlayerComponent.h"
 
 ABoardersGameMode::ABoardersGameMode()
 {
@@ -85,28 +86,6 @@ void ABoardersGameMode::SpawnPlayers()
 
 }
 
-void ABoardersGameMode::SwitchPlayer()
-{
-
-	PlayerController->Possess(CurrentPlayer);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
-
-}
-
-void ABoardersGameMode::EndGame()
-{
-	/*if (Player1->ActorHasTag("Player1"))
-	{
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Player1 has tag Player 1"));
-
-	}*/
-
-
-
-
-}
-
 void ABoardersGameMode::EndTurn_Implementation()
 {
 
@@ -123,11 +102,11 @@ void ABoardersGameMode::EndTurn_Implementation()
 		CurrentPlayer->UnPossessed();
 	}
 
-	
+
 	// calls dequeue first and get the pawn return, then call enqueue
 	APawn* PlayerDequeued = Dequeue_Implementation();
 
-	if(PlayerDequeued)
+	if (PlayerDequeued)
 	{
 
 		//Enqueue the Player that was removed from the que back into it
@@ -143,7 +122,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Assigned"));
 
 		CurrentPlayer = PlayerArray[0];
-	
+
 		if (IsValid(CurrentPlayer) && IsValid(PlayerController))
 		{
 			GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::SwitchPlayer);
@@ -152,3 +131,30 @@ void ABoardersGameMode::EndTurn_Implementation()
 	}
 
 }
+
+void ABoardersGameMode::SwitchPlayer()
+{
+
+	PlayerController->Possess(CurrentPlayer);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+
+}
+
+void ABoardersGameMode::EndGame()
+{
+
+	if (true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+
+	}
+	if (true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
+
+	}
+
+
+}
+
+

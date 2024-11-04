@@ -129,6 +129,10 @@ void ACPP_Piece::Onclicked()
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
 
+
+		//Move option appears
+
+		//Attack option appears
 	}
 
 
