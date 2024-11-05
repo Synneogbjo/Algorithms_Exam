@@ -14,6 +14,7 @@ UPlayerComponent::UPlayerComponent()
 
 	// ...
 
+	Points = 0;
 
 }
 
@@ -49,11 +50,11 @@ void UPlayerComponent::RemoveTotalPieces(ACPP_Piece* RemovePiece)
 
 }
 
-bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InterectPiece)
+bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InteractPiece)
 {
 	for (ACPP_Piece* Piece : SpawnedPieces)
 	{
-		if (Piece == InterectPiece)
+		if (Piece == InteractPiece)
 		{
 			return true;
 		}
@@ -62,6 +63,13 @@ bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InterectPiece)
 	}
 
 	return false;
+}
+
+void UPlayerComponent::ActionCost()
+{
+
+	//Logic for taking points away points from player when he does an action
+
 }
 
 

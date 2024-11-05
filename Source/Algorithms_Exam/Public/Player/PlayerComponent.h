@@ -26,14 +26,24 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
-
+	//array that will contain the pieces spawned
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
 	TArray<ACPP_Piece*> SpawnedPieces;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Points")
+	int32 Points;
 
 	UFUNCTION()
 	void RemoveTotalPieces(ACPP_Piece * RemovePiece);
 
+
+	//function that checks if the piece the player interacts belongs to him
 	UFUNCTION()
-	bool PieceBelongToPlayer(ACPP_Piece* InterectPiece);
-		
+	bool PieceBelongToPlayer(ACPP_Piece* InteractPiece);
+
+
+	UFUNCTION()
+	void ActionCost();
+
 };

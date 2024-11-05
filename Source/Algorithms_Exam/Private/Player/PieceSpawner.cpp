@@ -37,7 +37,7 @@ void APieceSpawner::Tick(float DeltaTime)
 void APieceSpawner::SpawnPieces()
 {
 
-
+	// a loop that will spawn one piece in one location 
 	for (int32 i = 0; i<SpawnPoints.Num(); i++)
 	{
 		AActor* SpawnPoint = SpawnPoints[i];
@@ -76,7 +76,8 @@ void APieceSpawner::AssignPlayer(ACPP_Piece* Piece)
 
 		if (IsValid(SpawnedPiece))
 		{
-			//assigns the piece spawned to an array corresponding to the player assign in the Blueprint
+			//assigns the piece spawned to an array in the player component corresponding to the player
+			//that's assign in the blueprint
 			PlayerComponent->SpawnedPieces.Emplace(SpawnedPiece);
 
 		}
