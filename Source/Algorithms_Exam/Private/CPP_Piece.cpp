@@ -8,6 +8,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PlayerComponent.h"
 
 // Sets default values
 ACPP_Piece::ACPP_Piece()
@@ -124,16 +125,17 @@ bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
 
 void ACPP_Piece::Onclicked()
 {
-	if (PlayerOwner == UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetOwner())
-	{
-
+	
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
-
-
+		APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
+		if (Player != nullptr)
+		{
+			Player->PlayerComponent->ActionCost(2);
+		}
+		
 		//Move option appears
 
 		//Attack option appears
-	}
-
+	
 
 }

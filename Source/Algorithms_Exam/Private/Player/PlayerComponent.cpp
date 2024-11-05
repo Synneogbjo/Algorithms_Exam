@@ -14,7 +14,8 @@ UPlayerComponent::UPlayerComponent()
 
 	// ...
 
-	Points = 0;
+	MaxPoints = 0;
+	
 
 }
 
@@ -25,7 +26,7 @@ void UPlayerComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-
+	RefillPoints();
 	
 }
 
@@ -65,10 +66,46 @@ bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InteractPiece)
 	return false;
 }
 
-void UPlayerComponent::ActionCost()
+void UPlayerComponent::ActionCost(int32 Cost)
 {
-
+	int32 NewCost = Cost;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Called"));
 	//Logic for taking points away points from player when he does an action
+	if (Points >= Cost)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Cost lower then points"));
+		if (Points >= 0)
+		{
+			Points = CurrentPoints - Cost;
+
+			CurrentPoints = Points;
+
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), CurrentPoints));
+
+		}
+
+	}
+	
+	
+
+
+
+}
+
+void UPlayerComponent::FillArray(ACPP_Piece* Piece)
+{
+	//Piece->SetOwner(this);
+
+	SpawnedPieces.Emplace(Piece);
+
+}
+
+
+void UPlayerComponent::RefillPoints()
+{
+	
+	Points = MaxPoints;
+	CurrentPoints = MaxPoints;
 
 }
 

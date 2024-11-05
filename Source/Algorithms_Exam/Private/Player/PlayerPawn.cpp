@@ -104,9 +104,18 @@ void APlayerPawn::OnClick()
 		{
 			//FVector NewLocation = HitResult.Location;
 
-			
+
 			// check if the player clicked on a piece.
-			CheckActor(HitResult.GetActor());
+			if (CheckActor(HitResult.GetActor()))
+			{
+				ACPP_Piece* Piece = Cast<ACPP_Piece>(HitResult.GetActor());
+				
+				// access the piece that the player clicked
+				Piece->Onclicked();
+
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+			}
+			
 
 		}
 
@@ -114,8 +123,9 @@ void APlayerPawn::OnClick()
 
 }
 
-void APlayerPawn::CheckActor(AActor* Actor)
+bool APlayerPawn::CheckActor(AActor* Actor)
 {
+	
 	if (Actor !=nullptr)
 	{
 		ACPP_Piece* Piece = Cast<ACPP_Piece>(Actor);
@@ -125,9 +135,9 @@ void APlayerPawn::CheckActor(AActor* Actor)
 			
 			if (PlayerComponent->PieceBelongToPlayer(Piece))
 			{
-
-				// access the piece that the player clicked
-			Piece->Onclicked();
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("fucking"));
+				return true;
+				
 
 			}
 			
@@ -136,6 +146,7 @@ void APlayerPawn::CheckActor(AActor* Actor)
 		
 	}
 
+	return false;
 }
 
 void APlayerPawn::RightMouseButtonIsclicked()

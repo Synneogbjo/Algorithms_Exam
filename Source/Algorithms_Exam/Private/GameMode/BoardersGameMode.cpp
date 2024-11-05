@@ -68,17 +68,13 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 
 void ABoardersGameMode::SpawnPlayers()
 {
-
-
-	FVector Player1Location = FVector(0, 0, 0);
-	FVector Player2Location = FVector(0, 0, 100);
-	FRotator Rotation = FRotator::ZeroRotator;
+	const FRotator Rotation = FRotator::ZeroRotator;
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 
-	Player1 = GetWorld()->SpawnActor<APlayerPawn>(Player1Class, Player1Location, Rotation, SpawnParameters);
-	Player2 = GetWorld()->SpawnActor<APlayerPawn>(Player2Class, Player2Location, Rotation, SpawnParameters);
+	Player1 = GetWorld()->SpawnActor<APlayerPawn>(Player1Class, PLayer1SpawnLocation(), Rotation, SpawnParameters);
+	Player2 = GetWorld()->SpawnActor<APlayerPawn>(Player2Class, PLayer2SpawnLocation(), Rotation, SpawnParameters);
 
 	Enqueue_Implementation(Player1);
 
@@ -100,6 +96,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 	if (IsValid(CurrentPlayer))
 	{
 		CurrentPlayer->UnPossessed();
+		ResetPlayer(CurrentPlayer);
 	}
 
 
@@ -137,6 +134,61 @@ void ABoardersGameMode::SwitchPlayer()
 
 	PlayerController->Possess(CurrentPlayer);
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+
+}
+
+void ABoardersGameMode::ResetPlayer(APawn* Player)
+{
+	if (Player == Player1)
+	{
+
+		//logic to place player back to the starting position
+		//reset points so player can use his points again
+
+		Player->SetActorLocation(PLayer1SpawnLocation());
+
+		UPlayerComponent* PlayerComponent = Player->FindComponentByClass<UPlayerComponent>();
+		if (IsValid(PlayerComponent))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
+			PlayerComponent->RefillPoints();
+		}
+			
+
+
+	}
+	if (Player == Player2)
+	{
+		
+
+		Player->SetActorLocation(PLayer2SpawnLocation());
+
+		UPlayerComponent* PlayerComponent = Player->FindComponentByClass<UPlayerComponent>();
+		if (IsValid(PlayerComponent))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
+			PlayerComponent->RefillPoints();
+			
+		}
+
+	}
+
+
+}
+
+FVector ABoardersGameMode::PLayer1SpawnLocation()
+{
+	const AActor* SpawnPoint1 = UGameplayStatics::GetActorOfClass(GetWorld(), Player1SpawnPoint);
+
+	const FVector Player1Location = SpawnPoint1->GetActorLocation();
+	return Player1Location;
+}
+
+FVector ABoardersGameMode::PLayer2SpawnLocation()
+{
+	const AActor* SpawnPoint2 = UGameplayStatics::GetActorOfClass(GetWorld(), Player2SpawnPoint);
+	const FVector Player2Location = SpawnPoint2->GetActorLocation();
+	return Player2Location;
 
 }
 

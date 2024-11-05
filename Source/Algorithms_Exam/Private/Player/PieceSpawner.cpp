@@ -78,8 +78,8 @@ void APieceSpawner::AssignPlayer(ACPP_Piece* Piece)
 		{
 			//assigns the piece spawned to an array in the player component corresponding to the player
 			//that's assign in the blueprint
-			PlayerComponent->SpawnedPieces.Emplace(SpawnedPiece);
-
+			PlayerComponent->FillArray(SpawnedPiece);
+			SpawnedPiece->SetOwner(CurrentPlayer);
 		}
 		
 

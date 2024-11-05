@@ -68,7 +68,7 @@ public:
 	void OnClick();
 
 	UFUNCTION()
-	void CheckActor(AActor* Actor);
+	bool CheckActor(AActor* Actor);
 
 	UFUNCTION()
 	void RightMouseButtonIsclicked();

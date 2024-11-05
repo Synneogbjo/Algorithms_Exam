@@ -58,6 +58,13 @@ public:
 	APlayerController* PlayerController = nullptr;
 
 
+	// spawn points for players
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="SpawnPoint")
+	TSubclassOf<AActor> Player1SpawnPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPoint")
+	TSubclassOf<AActor> Player2SpawnPoint;
+
 	UFUNCTION()
 	void SpawnPlayers();
 
@@ -66,6 +73,15 @@ public:
 
 	UFUNCTION()
 	void SwitchPlayer();
+
+	UFUNCTION()
+	void ResetPlayer(APawn* Player);
+
+	UFUNCTION()
+	FVector PLayer1SpawnLocation();
+
+	UFUNCTION()
+	FVector PLayer2SpawnLocation();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void EndGame();

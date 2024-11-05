@@ -32,7 +32,13 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Points")
+	int32 MaxPoints;
+
+	UPROPERTY()
 	int32 Points;
+
+	UPROPERTY()
+	int32 CurrentPoints;
 
 	UFUNCTION()
 	void RemoveTotalPieces(ACPP_Piece * RemovePiece);
@@ -44,6 +50,12 @@ public:
 
 
 	UFUNCTION()
-	void ActionCost();
+	void ActionCost(int32 Cost);
+
+	UFUNCTION()
+	void FillArray(ACPP_Piece* Piece);
+
+	UFUNCTION()
+	void RefillPoints();
 
 };
