@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CPP_Hand.h"
 #include "CPP_Piece.h"
 #include "Components/ActorComponent.h"
 #include "PlayerComponent.generated.h"
@@ -42,6 +43,9 @@ public:
 
 	UFUNCTION()
 	void RemoveTotalPieces(ACPP_Piece * RemovePiece);
+
+	UPROPERTY()
+	UCPP_Hand* Hand;
 
 
 	//function that checks if the piece the player interacts belongs to him

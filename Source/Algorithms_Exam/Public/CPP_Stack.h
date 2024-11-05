@@ -15,6 +15,7 @@ class ALGORITHMS_EXAM_API UCPP_Stack : public UObject, public ICPP_Stacks_Interf
 {
 	GENERATED_BODY()
 
+public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Stack")
 	virtual void Push_Implementation(ACPP_Card* Card) override;
@@ -22,9 +23,13 @@ class ALGORITHMS_EXAM_API UCPP_Stack : public UObject, public ICPP_Stacks_Interf
 	UFUNCTION(BlueprintCallable, Category = "Stack")
 	virtual ACPP_Card* Pop_Implementation() override;
 
-public:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<ACPP_Card*> CardsArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stack")
+	FRole Role;
+
+	//UPROPERTY()
+	//UCPP_DiscardPile* DiscardPile;
 	
 };
