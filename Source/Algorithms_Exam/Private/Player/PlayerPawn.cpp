@@ -2,8 +2,13 @@
 
 
 #include "Player/PlayerPawn.h"
+
+#include "CPP_Piece.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameplayTagContainer.h"
 #include "InputMappingContext.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/PlayerComponent.h"
 
 APlayerPawn::APlayerPawn()
 {
@@ -12,6 +17,9 @@ APlayerPawn::APlayerPawn()
 	Camera->SetupAttachment(RootComponent);
 	// this allow the camera to rotate
 	Camera->bUsePawnControlRotation = true;
+
+	PlayerComponent = CreateDefaultSubobject<UPlayerComponent>(TEXT("Player Component"));
+
 }
 
 void APlayerPawn::BeginPlay()
@@ -25,6 +33,7 @@ void APlayerPawn::BeginPlay()
 			Subsystem->AddMappingContext(Imc, 0);
 		}
 	}
+
 
 }
 
@@ -41,8 +50,10 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	EnhancedInputComponent->BindAction(Wasd, ETriggerEvent::Triggered, this, &APlayerPawn::PlayerMovement);
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerPawn::CameraLook);
+	EnhancedInputComponent->BindAction(ClickLeftAction, ETriggerEvent::Triggered, this, &APlayerPawn::OnClick);
 
-
+	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Ongoing, this, &APlayerPawn::RightMouseButtonIsclicked);
+	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Completed, this, &APlayerPawn::RightMouseButtonNotclicked);
 }
 
 void APlayerPawn::PlayerMovement(const FInputActionValue& Value)
@@ -70,7 +81,7 @@ void APlayerPawn::CameraLook(const FInputActionValue& Value)
 
 	const FVector2D LookInput = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if (bRightMouseButton)
 	{
 		AddControllerYawInput(LookInput.X);
 
@@ -79,3 +90,66 @@ void APlayerPawn::CameraLook(const FInputActionValue& Value)
 	}
 
 }
+
+void APlayerPawn::OnClick()
+{
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+
+	CollisionParams.AddIgnoredActor(this);
+
+	if (UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, HitResult))
+	{
+		if (IsValid(HitResult.GetActor()))
+		{
+			//FVector NewLocation = HitResult.Location;
+
+			
+			// check if the player clicked on a piece.
+			CheckActor(HitResult.GetActor());
+
+		}
+
+	}
+
+}
+
+void APlayerPawn::CheckActor(AActor* Actor)
+{
+	if (Actor !=nullptr)
+	{
+		ACPP_Piece* Piece = Cast<ACPP_Piece>(Actor);
+
+		if (Piece != nullptr)
+		{
+			
+			if (PlayerComponent->PieceBelongToPlayer(Piece))
+			{
+
+				// access the piece that the player clicked
+			Piece->Onclicked();
+
+			}
+			
+
+		}
+		
+	}
+
+}
+
+void APlayerPawn::RightMouseButtonIsclicked()
+{
+
+	bRightMouseButton = true;
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ay"));
+
+}
+
+void APlayerPawn::RightMouseButtonNotclicked()
+{
+
+	bRightMouseButton = false;
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
+}
+

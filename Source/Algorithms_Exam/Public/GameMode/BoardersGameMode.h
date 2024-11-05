@@ -67,4 +67,7 @@ public:
 	UFUNCTION()
 	void SwitchPlayer();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void EndGame();
+
 };

@@ -6,6 +6,7 @@
 #include "GameFramework/DefaultPawn.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
+#include "GameplayTagContainer.h"
 #include "PlayerPawn.generated.h"
 
 /**
@@ -44,11 +45,37 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
+	class UInputAction* ClickLeftAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inputs")
+	class UInputAction* ClickRightAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Player Component")
+	class UPlayerComponent* PlayerComponent; 
+
+	UPROPERTY()
+	bool bRightMouseButton = false;
+
 
 	UFUNCTION()
 	void PlayerMovement(const FInputActionValue& Value);
 
 	UFUNCTION()
 	void CameraLook(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnClick();
+
+	UFUNCTION()
+	void CheckActor(AActor* Actor);
+
+	UFUNCTION()
+	void RightMouseButtonIsclicked();
+
+	UFUNCTION()
+	void RightMouseButtonNotclicked();
+
+
 
 };

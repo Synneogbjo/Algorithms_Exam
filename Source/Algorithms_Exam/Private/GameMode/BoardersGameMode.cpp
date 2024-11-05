@@ -4,6 +4,7 @@
 #include "GameMode/BoardersGameMode.h"
 #include "Player/PlayerPawn.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PlayerComponent.h"
 
 ABoardersGameMode::ABoardersGameMode()
 {
@@ -37,6 +38,12 @@ void ABoardersGameMode::BeginPlay()
 void ABoardersGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	/*FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle ,this, &ABoardersGameMode::SwitchPlayer,4);*/
+
+	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::EndGame);
+
 }
 
 void ABoardersGameMode::Enqueue_Implementation(APawn* Actor)
@@ -79,14 +86,6 @@ void ABoardersGameMode::SpawnPlayers()
 
 }
 
-void ABoardersGameMode::SwitchPlayer()
-{
-
-	PlayerController->Possess(CurrentPlayer);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
-
-}
-
 void ABoardersGameMode::EndTurn_Implementation()
 {
 
@@ -103,11 +102,11 @@ void ABoardersGameMode::EndTurn_Implementation()
 		CurrentPlayer->UnPossessed();
 	}
 
-	
+
 	// calls dequeue first and get the pawn return, then call enqueue
 	APawn* PlayerDequeued = Dequeue_Implementation();
 
-	if(PlayerDequeued)
+	if (PlayerDequeued)
 	{
 
 		//Enqueue the Player that was removed from the que back into it
@@ -123,7 +122,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Assigned"));
 
 		CurrentPlayer = PlayerArray[0];
-	
+
 		if (IsValid(CurrentPlayer) && IsValid(PlayerController))
 		{
 			GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::SwitchPlayer);
@@ -132,3 +131,47 @@ void ABoardersGameMode::EndTurn_Implementation()
 	}
 
 }
+
+void ABoardersGameMode::SwitchPlayer()
+{
+
+	PlayerController->Possess(CurrentPlayer);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+
+}
+
+void ABoardersGameMode::EndGame_Implementation()
+{
+
+	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
+	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
+	if (Player1Component->SpawnedPieces.Num() <= 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+
+	}
+	if (Player2Component->SpawnedPieces.Num() <= 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
+
+	}
+}
+
+//void ABoardersGameMode::EndGame()
+//{
+//	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
+//	if (Player1Component->SpawnedPieces.Num()<= 0)
+//	{
+//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+//
+//	}
+//	if (true)
+//	{
+//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
+//
+//	}
+//
+//
+//}
+
+
