@@ -11,6 +11,8 @@ ACPP_EffectDamage::ACPP_EffectDamage()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	EffectType = DAMAGE;
+
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	TriggerBox->SetupAttachment(GetRootComponent());
 	TriggerBox->SetBoxExtent(FVector(1, 1, 1));
