@@ -61,11 +61,12 @@ void UPlayerComponent::RemoveTotalPieces(ACPP_Piece* RemovePiece)
 
 bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InteractPiece)
 {
-	
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *InteractPiece->GetName()));
 	for (ACPP_Piece* Piece : SpawnedPieces)
 	{
 		if (Piece == InteractPiece)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Fucky fucky"));
 			
 			return true;
 		}

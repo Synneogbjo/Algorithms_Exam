@@ -102,6 +102,25 @@ void APlayerPawn::OnClick()
 
 	if (UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, HitResult))
 	{
+		if (EDefault == Default)
+		{
+			if (IsValid(HitResult.GetActor()))
+			{
+
+				// check if the player clicked on a piece.
+				if (CheckActor(HitResult.GetActor()))
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Fuckkkkky"));
+					ACPP_Piece* Piece = Cast<ACPP_Piece>(HitResult.GetActor());
+					// access the piece that the player clicked
+					Piece->Onclicked();
+					SavePreviousPiece(Piece);
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+				}
+			}
+
+		}
+
 
 		if (EDefault == Clicked)
 		{
@@ -113,7 +132,6 @@ void APlayerPawn::OnClick()
 				{
 
 					SavedPiece->GetTile(TileClicked);
-					Deselect();
 
 				}
 				
@@ -129,27 +147,9 @@ void APlayerPawn::OnClick()
 
 
 		}
-
-		if (EDefault == Default)
-		{
-			if (IsValid(HitResult.GetActor()))
-			{
-
-				// check if the player clicked on a piece.
-				if (CheckActor(HitResult.GetActor()))
-				{
-					ACPP_Piece* Piece = Cast<ACPP_Piece>(HitResult.GetActor());
-					// access the piece that the player clicked
-					Piece->Onclicked();
-					SavePreviousPiece(Piece);
-					EDefault = Clicked;
-					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
-				}
-			}
-
-		}
 		
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+		//EDefault = Clicked;
 
 	}
 
@@ -167,7 +167,7 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 			
 			if (PlayerComponent->PieceBelongToPlayer(Piece))
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Its true"));
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("fucking"));
 
 				return true;
 				
@@ -178,7 +178,7 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not a piece"));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("i dont exist"));
 		}
 	}
 
@@ -204,15 +204,15 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 {
 
 	SavedPiece = ClickedPiece;
-	if (SavedPiece == nullptr)
+	/*if (SavedPiece == nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
 	}
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
-	}
-	
+	}*/
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), SavedPiece->GetName()));
 
 }
 

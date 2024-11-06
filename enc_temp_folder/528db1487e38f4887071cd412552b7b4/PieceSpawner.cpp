@@ -43,7 +43,7 @@ void APieceSpawner::SpawnPieces()
 		AActor* SpawnPoint = SpawnPoints[i];
 		if (IsValid(SpawnPoint))
 		{
-			FVector SpawnLocation = SpawnPoint->GetActorLocation() + FVector(0.0f,0.0f,180.0f);
+			FVector SpawnLocation = SpawnPoint->GetActorLocation();
 
 			TSubclassOf<ACPP_Piece> Piece = Pieces[i];
 			if (IsValid(Piece))
@@ -53,6 +53,7 @@ void APieceSpawner::SpawnPieces()
 					AssignPlayer(SpawnedPiece);
 
 			}
+
 
 
 		}

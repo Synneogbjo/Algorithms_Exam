@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "CPP_Piece.h"
+#include "PlayerPawn.h"
 #include "GameFramework/Actor.h"
 #include "PieceSpawner.generated.h"
+
 
 UCLASS()
 class ALGORITHMS_EXAM_API APieceSpawner : public AActor
