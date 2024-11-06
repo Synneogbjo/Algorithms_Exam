@@ -6,6 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "CPP_EffectParent.generated.h"
 
+enum EEffectType
+{
+	UNDEFINED,
+	LOCATION,
+	DAMAGE
+};
+
 UCLASS()
 class ALGORITHMS_EXAM_API ACPP_EffectParent : public AActor
 {
@@ -22,5 +29,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	EEffectType EffectType = UNDEFINED;
 
 };

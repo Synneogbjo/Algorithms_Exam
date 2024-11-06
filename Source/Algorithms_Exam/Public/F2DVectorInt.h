@@ -29,6 +29,7 @@ public:
 	 */
 
 	F2DVectorInt operator+(const F2DVectorInt& Other) const;
+	F2DVectorInt operator-(const F2DVectorInt& Other) const;
 	bool operator==(const F2DVectorInt& Other) const;
 
 	/*
