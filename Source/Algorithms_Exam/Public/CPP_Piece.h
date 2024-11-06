@@ -6,7 +6,7 @@
 #include "CPP_Tile.h"
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
-
+#include "Components/SkeletalMeshComponent.h"
 #include "CPP_Piece.generated.h"
 
 class ACPP_Board;
@@ -42,7 +42,7 @@ public:
 	UBoxComponent* TriggerBox;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
-	UStaticMeshComponent* MeshComponent;
+	USkeletalMeshComponent* MeshComponent;
 
 	/*
 	 * Variables

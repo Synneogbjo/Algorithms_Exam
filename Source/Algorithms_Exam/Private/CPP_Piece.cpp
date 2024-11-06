@@ -21,8 +21,10 @@ ACPP_Piece::ACPP_Piece()
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	SetRootComponent(TriggerBox);
 
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	MeshComponent->SetupAttachment(GetRootComponent());
+
+
 
 	/*
 	 * Variable Initialization
