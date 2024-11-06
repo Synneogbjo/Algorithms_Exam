@@ -2,8 +2,8 @@
 
 
 #include "Player/PlayerPawn.h"
-
 #include "CPP_Piece.h"
+#include "CPP_Tile.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameplayTagContainer.h"
 #include "InputMappingContext.h"
@@ -19,6 +19,8 @@ APlayerPawn::APlayerPawn()
 	Camera->bUsePawnControlRotation = true;
 
 	PlayerComponent = CreateDefaultSubobject<UPlayerComponent>(TEXT("Player Component"));
+
+
 
 }
 
@@ -100,24 +102,53 @@ void APlayerPawn::OnClick()
 
 	if (UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, HitResult))
 	{
-		if (IsValid(HitResult.GetActor()))
+		if (EDefault == Default)
 		{
-			//FVector NewLocation = HitResult.Location;
-
-
-			// check if the player clicked on a piece.
-			if (CheckActor(HitResult.GetActor()))
+			if (IsValid(HitResult.GetActor()))
 			{
-				ACPP_Piece* Piece = Cast<ACPP_Piece>(HitResult.GetActor());
-				
-				// access the piece that the player clicked
-				Piece->Onclicked();
+				// check if the player clicked on a piece.
+				if (CheckActor(HitResult.GetActor()))
+				{
 
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+					ACPP_Piece* Piece = Cast<ACPP_Piece>(HitResult.GetActor());
+					// access the piece that the player clicked
+					Piece->Onclicked();
+					SavePreviousPiece(Piece);
+
+				}
+			}
+
+		}
+
+
+		if (EDefault == Clicked)
+		{
+			if (SavedPiece != nullptr)
+			{
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
+				ACPP_Tile* TileClicked = Cast<ACPP_Tile>(HitResult.GetActor());
+				if (IsValid(TileClicked))
+				{
+
+					SavedPiece->GetTile(TileClicked);
+
+				}
+				
+
+			}
+
+			if (HitResult.GetActor() == SavedPiece)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Going to buy milk"));
+				Deselect();
 			}
 			
 
+
 		}
+		
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+		EDefault = Clicked;
 
 	}
 
@@ -136,6 +167,7 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 			if (PlayerComponent->PieceBelongToPlayer(Piece))
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("fucking"));
+
 				return true;
 				
 
@@ -163,4 +195,29 @@ void APlayerPawn::RightMouseButtonNotclicked()
 	bRightMouseButton = false;
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
 }
+
+void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
+{
+
+	SavedPiece = ClickedPiece;
+	/*if (SavedPiece == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
+	}*/
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), SavedPiece->GetName()));
+
+}
+
+void APlayerPawn::Deselect()
+{
+
+	EDefault = Default;
+	SavedPiece = nullptr;
+
+}
+
 

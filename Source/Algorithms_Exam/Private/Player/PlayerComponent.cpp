@@ -46,8 +46,11 @@ void UPlayerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UPlayerComponent::RemoveTotalPieces(ACPP_Piece* RemovePiece)
 {
-
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%p"),RemovePiece));
+	
 	SpawnedPieces.Remove(RemovePiece);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), SpawnedPieces.Num()));
 
 }
 
@@ -69,11 +72,11 @@ bool UPlayerComponent::PieceBelongToPlayer(ACPP_Piece* InteractPiece)
 void UPlayerComponent::ActionCost(int32 Cost)
 {
 	int32 NewCost = Cost;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Called"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Called"));
 	//Logic for taking points away points from player when he does an action
 	if (Points >= Cost)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Cost lower then points"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Cost lower then points"));
 		if (Points >= 0)
 		{
 			Points = CurrentPoints - Cost;
@@ -94,7 +97,6 @@ void UPlayerComponent::ActionCost(int32 Cost)
 
 void UPlayerComponent::FillArray(ACPP_Piece* Piece)
 {
-	//Piece->SetOwner(this);
 
 	SpawnedPieces.Emplace(Piece);
 

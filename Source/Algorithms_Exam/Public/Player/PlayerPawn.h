@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CPP_Piece.h"
 #include "GameFramework/DefaultPawn.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
@@ -12,6 +13,19 @@
 /**
  * 
  */
+
+
+enum my_enum
+{
+	Default,
+	Clicked,
+	MoveOrAttack
+
+
+};
+
+
+
 UCLASS()
 class ALGORITHMS_EXAM_API APlayerPawn : public ADefaultPawn
 {
@@ -52,7 +66,14 @@ public:
 	class UInputAction* ClickRightAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Player Component")
-	class UPlayerComponent* PlayerComponent; 
+	class UPlayerComponent* PlayerComponent;
+
+	//Enum
+	my_enum EDefault = Default;
+
+
+	UPROPERTY()
+	ACPP_Piece* SavedPiece = nullptr;
 
 	UPROPERTY()
 	bool bRightMouseButton = false;
@@ -76,6 +97,11 @@ public:
 	UFUNCTION()
 	void RightMouseButtonNotclicked();
 
+	UFUNCTION()
+	void SavePreviousPiece(ACPP_Piece* ClickedPiece);
 
+
+	UFUNCTION()
+	void Deselect();
 
 };

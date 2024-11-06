@@ -8,7 +8,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
+
 #include "Player/PlayerComponent.h"
+#include "Player/PlayerPawn.h"
 
 // Sets default values
 ACPP_Piece::ACPP_Piece()
@@ -32,7 +34,7 @@ ACPP_Piece::ACPP_Piece()
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
 
-	PlayerOwner = nullptr;
+	
 
 }
 
@@ -64,6 +66,13 @@ int ACPP_Piece::Damage(int Value)
 	else
 	{
 		Health -= Value;
+		if (Health <= 0)
+		{
+
+			DestroyPiece();
+
+		}
+
 	}
 
 	return Health;
@@ -123,6 +132,18 @@ bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
 	return true;
 }
 
+void ACPP_Piece::DestroyPiece()
+{
+	APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
+	if (Player != nullptr)
+	{
+		Player->PlayerComponent->RemoveTotalPieces(this);
+		Destroy();
+	}
+
+
+}
+
 void ACPP_Piece::Onclicked()
 {
 	
@@ -130,12 +151,20 @@ void ACPP_Piece::Onclicked()
 		APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
 		if (Player != nullptr)
 		{
-			Player->PlayerComponent->ActionCost(2);
+			//Player->PlayerComponent->ActionCost(2);
 		}
 		
 		//Move option appears
 
 		//Attack option appears
 	
+
+}
+
+void ACPP_Piece::GetTile(ACPP_Tile* Tile)
+{
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Bjorn"));
+
 
 }
