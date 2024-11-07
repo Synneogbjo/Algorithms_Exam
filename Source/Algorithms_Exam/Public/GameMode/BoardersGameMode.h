@@ -8,6 +8,7 @@
 #include "Player/PlayerPawn.h"
 #include "BoardersGameMode.generated.h"
 
+class UEndGameWidget;
 /**
  * 
  */
@@ -44,6 +45,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
 	TSubclassOf<APlayerPawn> Player2Class;
 
+
 	UPROPERTY()
 	APawn* CurrentPlayer;
 
@@ -64,6 +66,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPoint")
 	TSubclassOf<AActor> Player2SpawnPoint;
+
+	UFUNCTION(BlueprintCallable)
+	FString SendPlayerName(FString Name);
 
 	UFUNCTION()
 	void SpawnPlayers();

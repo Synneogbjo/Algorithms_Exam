@@ -41,6 +41,9 @@ public:
 	UPROPERTY()
 	int32 CurrentPoints;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Name")
+	FString PlayerName;
+
 	UFUNCTION()
 	void RemoveTotalPieces(ACPP_Piece * RemovePiece);
 

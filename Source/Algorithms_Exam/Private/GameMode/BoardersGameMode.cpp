@@ -2,6 +2,8 @@
 
 
 #include "GameMode/BoardersGameMode.h"
+
+#include "EndGameWidget.h"
 #include "Player/PlayerPawn.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
@@ -15,6 +17,7 @@ ABoardersGameMode::ABoardersGameMode()
 	CurrentPlayer = nullptr;
 	Player1 = nullptr;
 	Player2 = nullptr;
+
 
 }
 
@@ -32,7 +35,8 @@ void ABoardersGameMode::BeginPlay()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
-
+	//EndGame_Implementation();
+	
 }
 
 void ABoardersGameMode::Tick(float DeltaTime)
@@ -64,6 +68,12 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 	}
 
 	return DequeueActor;
+}
+
+FString ABoardersGameMode::SendPlayerName(FString Name)
+{
+	EndGameWidgetRef->DisplayWinner(Name);
+	return Name;
 }
 
 void ABoardersGameMode::SpawnPlayers()
@@ -199,11 +209,14 @@ void ABoardersGameMode::EndGame_Implementation()
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
 	if (Player1Component->SpawnedPieces.Num() <= 0)
 	{
+		// it would be best to create the end game widget and add it to the screen
+		SendPlayerName(Player1Component->PlayerName);
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
 
 	}
 	if (Player2Component->SpawnedPieces.Num() <= 0)
 	{
+		SendPlayerName(Player2Component->PlayerName);
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
 
 	}
