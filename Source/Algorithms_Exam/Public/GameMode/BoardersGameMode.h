@@ -67,8 +67,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPoint")
 	TSubclassOf<AActor> Player2SpawnPoint;
 
-	UFUNCTION(BlueprintCallable)
-	FString SendPlayerName(FString Name);
+	/*UFUNCTION(BlueprintCallable)
+	FString SendPlayerName(FString Name);*/
 
 	UFUNCTION()
 	void SpawnPlayers();

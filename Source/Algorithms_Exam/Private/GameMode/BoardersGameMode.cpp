@@ -5,6 +5,7 @@
 
 #include "EndGameWidget.h"
 #include "Player/PlayerPawn.h"
+#include "UIComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
 
@@ -35,8 +36,14 @@ void ABoardersGameMode::BeginPlay()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
-	//EndGame_Implementation();
 	
+
+
+	//for testing end game widget
+	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
+	Player2Component->SpawnedPieces.SetNum(0);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("constructor is called"));
+	EndGame_Implementation();
 }
 
 void ABoardersGameMode::Tick(float DeltaTime)
@@ -70,11 +77,11 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 	return DequeueActor;
 }
 
-FString ABoardersGameMode::SendPlayerName(FString Name)
-{
-	EndGameWidgetRef->DisplayWinner(Name);
-	return Name;
-}
+//FString ABoardersGameMode::SendPlayerName(FString Name)
+//{
+//	EndGameWidgetRef->DisplayWinner(Name);
+//	return Name;
+//}
 
 void ABoardersGameMode::SpawnPlayers()
 {
@@ -207,16 +214,24 @@ void ABoardersGameMode::EndGame_Implementation()
 
 	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
-	if (Player1Component->SpawnedPieces.Num() <= 0)
-	{
-		// it would be best to create the end game widget and add it to the screen
-		SendPlayerName(Player1Component->PlayerName);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+	//if (Player1Component->SpawnedPieces.Num() <= 0)
+	//{
+	//	//UUIComponent(); ////call this constructor to create widget, add it to viewport
+	//	//DisplayWinner(Player1);
 
-	}
+	//	// it would be best to create the end game widget and add it to the screen
+	//	//SendPlayerName(Player1Component->PlayerName);
+	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+
+	//}
 	if (Player2Component->SpawnedPieces.Num() <= 0)
 	{
-		SendPlayerName(Player2Component->PlayerName);
+
+		//UUIComponent(); ////call this constructor to create widget, add it to viewport
+		//DisplayWinner(Player1);
+
+
+		//SendPlayerName(Player2Component->PlayerName);
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
 
 	}

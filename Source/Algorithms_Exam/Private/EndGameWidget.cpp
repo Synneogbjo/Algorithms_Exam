@@ -5,5 +5,5 @@
 
 void UEndGameWidget::DisplayWinner(FString NewText)
 {
-	Winner = "NewText";
+	Winner = NewText;
 }

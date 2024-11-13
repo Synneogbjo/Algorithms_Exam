@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/WidgetComponent.h"
+//#include "Components/WidgetComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "EndGameWidget.generated.h"
+
+class UCanvasPanel;
+
 
 /**
  * 
@@ -19,11 +23,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="EndGameResult")
 	void DisplayWinner(FString NewText);  //i can call DisplayWinner(Player1/2) in where the outcome is decided
 
-	void testtest();
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= "EndGameResult")
 	FString Winner="";
 
+	UPROPERTY(EditAnywhere, Category = "EndGameResult", meta = (BindWidget))
+	UCanvasPanel* Canvas;
 
 
 };
