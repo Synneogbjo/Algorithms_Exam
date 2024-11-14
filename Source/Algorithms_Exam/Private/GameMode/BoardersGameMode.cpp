@@ -5,7 +5,9 @@
 
 #include "EndGameWidget.h"
 #include "Player/PlayerPawn.h"
-#include "UIComponent.h"
+//#include "UIComponent.h"
+#include "EndGameWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
 
@@ -39,11 +41,8 @@ void ABoardersGameMode::BeginPlay()
 	
 
 
-	//for testing end game widget
-	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
-	Player2Component->SpawnedPieces.SetNum(0);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("constructor is called"));
-	EndGame_Implementation();
+	
+	//EndGame_Implementation();
 }
 
 void ABoardersGameMode::Tick(float DeltaTime)
@@ -209,31 +208,41 @@ FVector ABoardersGameMode::PLayer2SpawnLocation()
 
 }
 
+UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> WidgetClass)
+{
+	if (WidgetClass) {
+		UIInstance = CreateWidget<UEndGameWidget>(GetWorld(), WidgetClass);
+		if (UIInstance) {
+			UIInstance->AddToViewport();
+		}
+	}
+	return UIInstance;
+}
+
+
 void ABoardersGameMode::EndGame_Implementation()
 {
 
 	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
-	//if (Player1Component->SpawnedPieces.Num() <= 0)
-	//{
-	//	//UUIComponent(); ////call this constructor to create widget, add it to viewport
-	//	//DisplayWinner(Player1);
+	if (Player1Component->SpawnedPieces.Num() <= 0)
+	{
+		CreateUIWidget(UEndGameWidgetClass);
+		if (UEndGameWidgetClass)
+		{
+			UIInstance->Text->SetText(FText::FromString(TEXT("Player2 wins!")));
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
 
-	//	// it would be best to create the end game widget and add it to the screen
-	//	//SendPlayerName(Player1Component->PlayerName);
-	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
-
-	//}
+	}
 	if (Player2Component->SpawnedPieces.Num() <= 0)
 	{
-
-		//UUIComponent(); ////call this constructor to create widget, add it to viewport
-		//DisplayWinner(Player1);
-
-
-		//SendPlayerName(Player2Component->PlayerName);
+		CreateUIWidget(UEndGameWidgetClass);
+		if(UEndGameWidgetClass)
+		{
+			UIInstance->Text->SetText(FText::FromString(TEXT("Player1 wins!")));
+		}
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
-
 	}
 }
 

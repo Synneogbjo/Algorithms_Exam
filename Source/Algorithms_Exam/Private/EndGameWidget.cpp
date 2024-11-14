@@ -3,7 +3,11 @@
 
 #include "EndGameWidget.h"
 
-void UEndGameWidget::DisplayWinner(FString NewText)
+
+
+void UEndGameWidget::NativeConstruct()
 {
-	Winner = NewText;
+	
 }
+
+

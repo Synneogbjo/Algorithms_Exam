@@ -6,6 +6,8 @@
 #include "QueueInterface.h"
 #include "GameFramework/GameModeBase.h"
 #include "Player/PlayerPawn.h"
+#include "Components/ActorComponent.h" //UI
+#include "EndGameWidget.h"
 #include "BoardersGameMode.generated.h"
 
 class UEndGameWidget;
@@ -90,5 +92,19 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void EndGame();
+
+
+	/*End Game UI*/
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UEndGameWidget> UEndGameWidgetClass;
+
+	UUserWidget* CreateUIWidget(TSubclassOf<UEndGameWidget> WidgetClass);
+
+	UPROPERTY()
+	UEndGameWidget* UIInstance;
+
+	/*UFUNCTION(BlueprintCallable, Category = "UI")
+	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
+
 
 };
