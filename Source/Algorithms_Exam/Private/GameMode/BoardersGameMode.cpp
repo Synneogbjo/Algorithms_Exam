@@ -208,6 +208,8 @@ FVector ABoardersGameMode::PLayer2SpawnLocation()
 
 }
 
+
+
 UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> WidgetClass)
 {
 	if (WidgetClass) {
@@ -246,21 +248,5 @@ void ABoardersGameMode::EndGame_Implementation()
 	}
 }
 
-//void ABoardersGameMode::EndGame()
-//{
-//	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
-//	if (Player1Component->SpawnedPieces.Num()<= 0)
-//	{
-//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
-//
-//	}
-//	if (true)
-//	{
-//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
-//
-//	}
-//
-//
-//}
 
 

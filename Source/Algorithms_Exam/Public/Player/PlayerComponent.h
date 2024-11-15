@@ -35,8 +35,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Points")
 	int32 MaxPoints;
 
-	UPROPERTY()
-	int32 Points;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Points")
+	int32 Points = 0;
 
 	UPROPERTY()
 	int32 CurrentPoints;

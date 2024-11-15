@@ -55,7 +55,7 @@ void UPlayerComponent::RemoveTotalPieces(ACPP_Piece* RemovePiece)
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%p"),RemovePiece));
 	
 	SpawnedPieces.Remove(RemovePiece);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), SpawnedPieces.Num()));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), SpawnedPieces.Num()));
 
 }
 

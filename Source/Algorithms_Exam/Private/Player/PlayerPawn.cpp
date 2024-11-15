@@ -105,6 +105,7 @@ void APlayerPawn::OnClick()
 
 		if (EDefault == Clicked)
 		{
+
 			if (SavedPiece != nullptr)
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
@@ -122,7 +123,7 @@ void APlayerPawn::OnClick()
 
 			if (HitResult.GetActor() == SavedPiece)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Going to buy milk"));
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Going to buy milk"));
 				Deselect();
 			}
 			
@@ -143,7 +144,8 @@ void APlayerPawn::OnClick()
 					Piece->Onclicked();
 					SavePreviousPiece(Piece);
 					EDefault = Clicked;
-					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+					PlayerComponent->ActionCost(1);
+					//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
 				}
 			}
 
@@ -172,6 +174,10 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 				return true;
 				
 
+			}
+			else
+			{
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not my piece"));
 			}
 			
 
