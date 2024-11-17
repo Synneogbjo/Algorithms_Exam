@@ -111,7 +111,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	if (IsValid(CurrentPlayer))
 	{
-		CurrentPlayer->UnPossessed();
+		CurrentPlayer->UnPossessed();;
 		ResetPlayer(CurrentPlayer);
 	}
 
@@ -149,7 +149,7 @@ void ABoardersGameMode::SwitchPlayer()
 {
 
 	PlayerController->Possess(CurrentPlayer);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
 }
 
@@ -191,6 +191,7 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 
 
 }
+
 
 FVector ABoardersGameMode::PLayer1SpawnLocation()
 {

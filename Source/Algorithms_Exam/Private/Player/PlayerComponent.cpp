@@ -3,6 +3,7 @@
 
 #include "Player/PlayerComponent.h"
 
+#include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -90,7 +91,7 @@ void UPlayerComponent::ActionCost(int32 Cost)
 
 			CurrentPoints = Points;
 
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), CurrentPoints));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), CurrentPoints));
 
 		}
 
@@ -114,5 +115,9 @@ void UPlayerComponent::RefillPoints()
 	CurrentPoints = MaxPoints;
 
 }
+
+
+
+
 
 

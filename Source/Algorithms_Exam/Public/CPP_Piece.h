@@ -75,4 +75,17 @@ public:
 
 	UFUNCTION()
 	void GetTile(ACPP_Tile* Tile);
+
+
+	//Hightlight Functions
+
+	UFUNCTION(BlueprintNativeEvent,BlueprintCallable, Category = "Hightlight")
+	void HighlightPiece();
+
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hightlight")
+	void NotHighlightPiece();
+
+	
+
 };

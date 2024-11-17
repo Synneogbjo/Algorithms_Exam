@@ -125,14 +125,20 @@ void APlayerPawn::OnClick()
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Going to buy milk"));
 				Deselect();
+
 			}
-			
+			if (EDefault == Default)
+			{
+				return;
+
+			}
 
 
 		}
 
 		if (EDefault == Default)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("new"));
 			if (IsValid(HitResult.GetActor()))
 			{
 
@@ -151,7 +157,7 @@ void APlayerPawn::OnClick()
 
 		}
 		
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *HitResult.GetActor()->GetOwner()->GetName()));
 
 	}
 
@@ -210,24 +216,28 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 {
 
 	SavedPiece = ClickedPiece;
+	SavedPiece->HighlightPiece();
 	if (SavedPiece == nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
 	}
 	
 
 }
 
+
 void APlayerPawn::Deselect()
 {
 
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
 	EDefault = Default;
+	SavedPiece->NotHighlightPiece();
 	SavedPiece = nullptr;
-
+	
 }
 
 
