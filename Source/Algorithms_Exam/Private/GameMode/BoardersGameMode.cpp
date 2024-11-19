@@ -143,6 +143,8 @@ void ABoardersGameMode::EndTurn_Implementation()
 		}
 	}
 
+	//////////////////////////call delegate here and set count++ to keep track of who's turn it is
+
 }
 
 void ABoardersGameMode::SwitchPlayer()
