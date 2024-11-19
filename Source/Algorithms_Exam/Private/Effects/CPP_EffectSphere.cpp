@@ -3,7 +3,6 @@
 
 #include "Effects/CPP_EffectSphere.h"
 
-#include "GameMode/BoardersGameMode.h"
 
 ACPP_EffectSphere::ACPP_EffectSphere()
 {
@@ -26,20 +25,20 @@ void ACPP_EffectSphere::BeginPlay()
 void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
                                        class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result)
 {
-	/*auto CurrentPlayer = CurrentGameMode->CurrentPlayer;*/
+	///*auto CurrentPlayer = CurrentGameMode->CurrentPlayer;*/
 
-	if (OtherActor->IsA(ACPP_Piece::StaticClass()))
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit")));
-		Cast<ACPP_Piece>(OtherActor)->Damage(1);
+	//if (OtherActor->IsA(ACPP_Piece::StaticClass()))
+	//{
+	//	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit")));
+	//	Cast<ACPP_Piece>(OtherActor)->Damage(1);
 
-		Destroy();
-	}
-	
-	else
-	{
-		
-	}
+	//	Destroy();
+	//}
+	//
+	//else
+	//{
+	//	
+	//}
 }
 
 //delegates

@@ -6,7 +6,6 @@
 #include "Effects/CPP_EffectParent.h"
 #include "CPP_Piece.h"
 #include "Components/SphereComponent.h"
-#include "BoardersGameMode.generated.h"
 #include "Kismet/GameplayStatics.h"
 #include "CPP_EffectSphere.generated.h"
 
@@ -35,6 +34,10 @@ public:
 
 	/*UPROPERTY()
 	ABoardersGameMode* CurrentGameMode = reinterpret_cast<ABoardersGameMode*>(GetWorld()->GetAuthGameMode());*/
+
+
+
+
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result);

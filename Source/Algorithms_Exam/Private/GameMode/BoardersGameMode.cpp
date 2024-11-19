@@ -221,6 +221,15 @@ UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> Widge
 	return UIInstance;
 }
 
+void ABoardersGameMode::ActivateDelegate()
+{
+	if (OnPlayersSecondTurn.IsBound())
+	{
+		OnPlayersSecondTurn.Execute();
+	}
+
+}
+
 
 void ABoardersGameMode::EndGame_Implementation()
 {

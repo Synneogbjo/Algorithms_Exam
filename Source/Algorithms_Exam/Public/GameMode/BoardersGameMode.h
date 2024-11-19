@@ -11,6 +11,11 @@
 #include "BoardersGameMode.generated.h"
 
 class UEndGameWidget;
+
+/* Effect Sphere delegate*/
+DECLARE_DELEGATE(FOnPlayersSecondTurn)  //DECLARE_DELEGATE_OneParam(DelegateName, Param1Type) Param1 should be of type you want to use 
+
+
 /**
  * 
  */
@@ -69,9 +74,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPoint")
 	TSubclassOf<AActor> Player2SpawnPoint;
 
-	/*UFUNCTION(BlueprintCallable)
-	FString SendPlayerName(FString Name);*/
-
 	UFUNCTION()
 	void SpawnPlayers();
 
@@ -106,5 +108,9 @@ public:
 	/*UFUNCTION(BlueprintCallable, Category = "UI")
 	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
 
+	/*Delegates*/
+	FOnPlayersSecondTurn OnPlayersSecondTurn;
 
+	UFUNCTION()
+	void ActivateDelegate();
 };
