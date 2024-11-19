@@ -34,7 +34,8 @@ void ABoardersGameMode::BeginPlay()
 	CurrentPlayer = PlayerArray[0];
 	if (PlayerController != nullptr)
 	{
-		CurrentPlayer->PossessedBy(PlayerController);
+		SwitchPlayer();
+		//CurrentPlayer->PossessedBy(PlayerController);
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
@@ -149,6 +150,14 @@ void ABoardersGameMode::SwitchPlayer()
 {
 
 	PlayerController->Possess(CurrentPlayer);
+	if (CurrentPlayer ==Player1)
+	{
+		Player1WidgetSwitch();
+	}
+	else if (CurrentPlayer == Player2)
+	{
+		Player2WidgetSwitch();
+	}
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
 }
@@ -192,6 +201,14 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 
 }
 
+void ABoardersGameMode::Player1WidgetSwitch_Implementation()
+{
+}
+
+
+void ABoardersGameMode::Player2WidgetSwitch_Implementation()
+{
+}
 
 FVector ABoardersGameMode::PLayer1SpawnLocation()
 {

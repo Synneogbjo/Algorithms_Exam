@@ -83,6 +83,14 @@ public:
 	UFUNCTION()
 	void ResetPlayer(APawn* Player);
 
+	//PLayer widgets switch
+
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent, Category="PlayerWidgetSwitch")
+	void Player1WidgetSwitch();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "PlayerWidgetSwitch")
+	void Player2WidgetSwitch();
+
 	UFUNCTION()
 	FVector PLayer1SpawnLocation();
 

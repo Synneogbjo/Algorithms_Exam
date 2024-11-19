@@ -104,4 +104,7 @@ public:
 	UFUNCTION()
 	void Deselect();
 
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void test();
+
 };

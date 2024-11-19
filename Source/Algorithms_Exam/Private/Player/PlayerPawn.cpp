@@ -240,4 +240,8 @@ void APlayerPawn::Deselect()
 	
 }
 
+void APlayerPawn::test_Implementation()
+{
+}
+
 
