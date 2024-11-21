@@ -149,6 +149,7 @@ void APlayerPawn::OnClick()
 					// access the piece that the player clicked
 					Piece->Onclicked();
 					SavePreviousPiece(Piece);
+					ShowCards();
 					EDefault = Clicked;
 					PlayerComponent->ActionCost(1);
 					//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
@@ -235,13 +236,20 @@ void APlayerPawn::Deselect()
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
 	EDefault = Default;
+	HideCards();
 	SavedPiece->NotHighlightPiece();
 	SavedPiece = nullptr;
 	
 }
 
-void APlayerPawn::test_Implementation()
+void APlayerPawn::HideCards_Implementation()
 {
 }
+
+void APlayerPawn::ShowCards_Implementation()
+{
+}
+
+
 
 
