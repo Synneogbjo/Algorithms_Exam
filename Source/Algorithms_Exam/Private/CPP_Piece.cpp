@@ -149,7 +149,8 @@ void ACPP_Piece::DestroyPiece()
 void ACPP_Piece::Onclicked()
 {
 	
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
+		
 		APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
 		if (Player != nullptr)
 		{
@@ -167,6 +168,18 @@ void ACPP_Piece::GetTile(ACPP_Tile* Tile)
 {
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Bjorn"));
+
+
+}
+
+void ACPP_Piece::NotHighlightPiece_Implementation()
+{
+
+
+}
+
+void ACPP_Piece::HighlightPiece_Implementation()
+{
 
 
 }

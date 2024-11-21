@@ -34,7 +34,8 @@ void ABoardersGameMode::BeginPlay()
 	CurrentPlayer = PlayerArray[0];
 	if (PlayerController != nullptr)
 	{
-		CurrentPlayer->PossessedBy(PlayerController);
+		SwitchPlayer();
+		//CurrentPlayer->PossessedBy(PlayerController);
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
@@ -111,7 +112,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	if (IsValid(CurrentPlayer))
 	{
-		CurrentPlayer->UnPossessed();
+		CurrentPlayer->UnPossessed();;
 		ResetPlayer(CurrentPlayer);
 	}
 
@@ -149,7 +150,15 @@ void ABoardersGameMode::SwitchPlayer()
 {
 
 	PlayerController->Possess(CurrentPlayer);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+	if (CurrentPlayer ==Player1)
+	{
+		Player1WidgetSwitch();
+	}
+	else if (CurrentPlayer == Player2)
+	{
+		Player2WidgetSwitch();
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
 }
 
@@ -192,6 +201,15 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 
 }
 
+void ABoardersGameMode::Player1WidgetSwitch_Implementation()
+{
+}
+
+
+void ABoardersGameMode::Player2WidgetSwitch_Implementation()
+{
+}
+
 FVector ABoardersGameMode::PLayer1SpawnLocation()
 {
 	const AActor* SpawnPoint1 = UGameplayStatics::GetActorOfClass(GetWorld(), Player1SpawnPoint);
@@ -207,6 +225,8 @@ FVector ABoardersGameMode::PLayer2SpawnLocation()
 	return Player2Location;
 
 }
+
+
 
 UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> WidgetClass)
 {
@@ -246,21 +266,5 @@ void ABoardersGameMode::EndGame_Implementation()
 	}
 }
 
-//void ABoardersGameMode::EndGame()
-//{
-//	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
-//	if (Player1Component->SpawnedPieces.Num()<= 0)
-//	{
-//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
-//
-//	}
-//	if (true)
-//	{
-//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
-//
-//	}
-//
-//
-//}
 
 
