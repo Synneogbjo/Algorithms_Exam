@@ -8,7 +8,6 @@
 
 #include "CPP_AlgorithmPath.generated.h"
 
-class ACPP_Tile;
 /**
  * 
  */

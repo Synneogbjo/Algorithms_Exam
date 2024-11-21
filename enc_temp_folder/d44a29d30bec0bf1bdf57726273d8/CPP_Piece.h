@@ -3,8 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CPP_AlgorithmPath.h"
-#include "CPP_Pathfinding.h"
 #include "CPP_Tile.h"
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
@@ -23,12 +21,6 @@ class ALGORITHMS_EXAM_API ACPP_Piece : public AActor
 
 	UPROPERTY()
 	ACPP_Board* CurrentBoard;
-
-	UPROPERTY()
-	ACPP_Pathfinding* Pathfinding;
-
-	UPROPERTY()
-	TArray<UCPP_AlgorithmPath*> LegalPaths;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -65,9 +57,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	TArray<F2DVectorInt> MovementOptions;
 
-	UPROPERTY()
-	int CurrentMovementCost;
-
 	/*
 	 * Functions
 	 */
@@ -76,10 +65,7 @@ public:
 	int Damage(int Value);
 
 	UFUNCTION(BlueprintCallable, Category = "Piece")
-	bool MoveTo(F2DVectorInt TargetPosition);
-
-	UFUNCTION(BlueprintCallable, Category = "Piece")
-	int MoveAlongPath(UCPP_AlgorithmPath* Path);
+	bool MoveTowards(F2DVectorInt Direction);
 
 	UFUNCTION()
 	void DestroyPiece();

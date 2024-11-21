@@ -94,7 +94,7 @@ void UPlayerComponent::ActionCost(int32 Cost)
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), CurrentPoints));
 
 		}
-		
+
 	}
 
 

@@ -177,12 +177,9 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
 			PlayerComponent->RefillPoints();
+		}
+			
 
-			for (auto Piece : PlayerComponent->SpawnedPieces)
-			{
-				Piece->CurrentMovementCost = 0;
-			}
-		}			
 
 	}
 	if (Player == Player2)
@@ -196,14 +193,11 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
 			PlayerComponent->RefillPoints();
-
-			for (auto Piece : PlayerComponent->SpawnedPieces)
-			{
-				Piece->CurrentMovementCost = 0;
-			}			
+			
 		}
 
 	}
+
 
 }
 

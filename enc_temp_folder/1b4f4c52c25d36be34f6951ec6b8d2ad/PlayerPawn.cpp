@@ -150,7 +150,7 @@ void APlayerPawn::OnClick()
 					Piece->Onclicked();
 					SavePreviousPiece(Piece);
 					EDefault = Clicked;
-					//PlayerComponent->ActionCost(1);
+					PlayerComponent->ActionCost(1);
 					//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
 				}
 			}
