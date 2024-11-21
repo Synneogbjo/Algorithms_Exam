@@ -13,6 +13,9 @@ UCLASS()
 class ALGORITHMS_EXAM_API APieceSpawner : public AActor
 {
 	GENERATED_BODY()
+
+	UPROPERTY()
+	ACPP_Board* Board;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -28,7 +31,7 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
-	TArray<AActor*> SpawnPoints;
+	TArray<F2DVectorInt> SpawnPoints;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
 	TArray<TSubclassOf<ACPP_Piece>> Pieces;

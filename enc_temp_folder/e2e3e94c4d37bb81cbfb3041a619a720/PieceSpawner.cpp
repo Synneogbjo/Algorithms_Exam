@@ -56,14 +56,12 @@ void APieceSpawner::SpawnPieces()
 
 		if (IsValid(Piece))
 		{
-			ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnPoint, FRotator::ZeroRotator);
-			
-			AssignPlayer(SpawnedPiece);
+				ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnPoint, FRotator::ZeroRotator);
+				
+				AssignPlayer(SpawnedPiece);
 
-			SpawnedPiece->BoardPosition = SpawnPoints[i];
-
-			SpawnTile->bIsOccupied = true;
-			SpawnTile->OccupyingActor = SpawnedPiece;
+				SpawnTile->bIsOccupied = true;
+				SpawnTile->OccupyingActor = SpawnedPiece;
 
 		}
 	}

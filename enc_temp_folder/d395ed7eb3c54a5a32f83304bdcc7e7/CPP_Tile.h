@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "F2DVectorInt.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -25,9 +24,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Tile")
-	F2DVectorInt TileLocation;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Tile")
 	bool bIsOccupied;

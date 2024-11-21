@@ -56,7 +56,6 @@ bool ACPP_Board::SetBoardSize(const F2DVectorInt Size)
 		for (int h = 0; h < Size.Y; h++)
 		{
 			auto NewTile = GetWorld()->SpawnActor<ACPP_Tile>(TileActor, FVector(0, 0, 0), FRotator(0, 0, 0));
-			NewTile->TileLocation = F2DVectorInt(w, h);
 			TileArray2D[w]->TileArray.Emplace(NewTile);
 		}
 	}
