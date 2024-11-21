@@ -21,7 +21,7 @@ ABoardersGameMode::ABoardersGameMode()
 	Player1 = nullptr;
 	Player2 = nullptr;
 
-
+	
 }
 
 void ABoardersGameMode::BeginPlay()
@@ -43,6 +43,9 @@ void ABoardersGameMode::BeginPlay()
 
 	
 	//EndGame_Implementation();
+
+	
+	
 }
 
 void ABoardersGameMode::Tick(float DeltaTime)
@@ -145,6 +148,22 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	//////////////////////////call delegate here and set count++ to keep track of who's turn it is
 
+	if(EffectSphereRef)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("not a null ptr"));
+		if (EffectSphereRef->WasCalled)
+		{
+			TurnCount++;
+			if (TurnCount == 3)
+			{
+				EffectSphereRef->SphereDelegate.ExecuteIfBound();
+
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("DELEGATE"));
+
+			}
+		}
+	}
+	
 }
 
 void ABoardersGameMode::SwitchPlayer()
@@ -219,15 +238,6 @@ UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> Widge
 		}
 	}
 	return UIInstance;
-}
-
-void ABoardersGameMode::ActivateDelegate()
-{
-	if (OnPlayersSecondTurn.IsBound())
-	{
-		OnPlayersSecondTurn.Execute();
-	}
-
 }
 
 

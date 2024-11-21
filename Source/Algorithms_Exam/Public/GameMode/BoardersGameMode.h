@@ -8,12 +8,13 @@
 #include "Player/PlayerPawn.h"
 #include "Components/ActorComponent.h" //UI
 #include "EndGameWidget.h"
+#include "Effects/CPP_EffectParent.h"
+#include "Effects/CPP_EffectSphere.h"
+
 #include "BoardersGameMode.generated.h"
 
 class UEndGameWidget;
 
-/* Effect Sphere delegate*/
-DECLARE_DELEGATE(FOnPlayersSecondTurn)  //DECLARE_DELEGATE_OneParam(DelegateName, Param1Type) Param1 should be of type you want to use 
 
 
 /**
@@ -23,6 +24,8 @@ UCLASS()
 class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueueInterface
 {
 	GENERATED_BODY()
+
+	int TurnCount=0;
 
 public:
 	ABoardersGameMode();
@@ -108,9 +111,19 @@ public:
 	/*UFUNCTION(BlueprintCallable, Category = "UI")
 	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
 
-	/*Delegates*/
-	FOnPlayersSecondTurn OnPlayersSecondTurn;
 
-	UFUNCTION()
-	void ActivateDelegate();
+
+
+
+
+
+
+	/*Delegates*/
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	/*TSubclassOf<ACPP_EffectSphere> EffectSphereRef;*/
+	ACPP_EffectSphere* EffectSphereRef;
+
+
+	
 };

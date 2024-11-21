@@ -7,7 +7,11 @@
 #include "CPP_Piece.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "CPP_Piece.h"
 #include "CPP_EffectSphere.generated.h"
+
+/* Effect Sphere delegate*/
+DECLARE_DYNAMIC_DELEGATE(FOnPlayerBeginOverlapDelegate);  //DECLARE_DELEGATE_OneParam(DelegateName, Param1Type) Param1 should be of type you want to use 
 
 /**
  * 
@@ -18,6 +22,9 @@ class ALGORITHMS_EXAM_API ACPP_EffectSphere : public ACPP_EffectParent
 	GENERATED_BODY()
 
 	FTimerHandle DestroySphere;
+
+	
+
 public:
 
 	ACPP_EffectSphere();
@@ -27,23 +34,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	USphereComponent* TriggerSphere;
 
+	/*Delegates*/
 
+	UPROPERTY()
+	FOnPlayerBeginOverlapDelegate SphereDelegate;
+	/**/
 
-
-	//ABoardersGameMode* CurrentGameMode = Cast<CurrentGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-
-	/*UPROPERTY()
-	ABoardersGameMode* CurrentGameMode = reinterpret_cast<ABoardersGameMode*>(GetWorld()->GetAuthGameMode());*/
-
-
-
-
+	UPROPERTY()
+	ACPP_Piece* PieceRef;
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result);
 
-	UFUNCTION()
-	void DestroyIfNoCollision();
+	UPROPERTY()
+	bool WasCalled = false;
 
+	UFUNCTION()
+	void DealDamage();
 
 };
