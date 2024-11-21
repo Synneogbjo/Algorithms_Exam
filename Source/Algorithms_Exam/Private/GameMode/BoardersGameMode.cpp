@@ -21,7 +21,6 @@ ABoardersGameMode::ABoardersGameMode()
 	Player1 = nullptr;
 	Player2 = nullptr;
 
-	
 }
 
 void ABoardersGameMode::BeginPlay()
@@ -38,10 +37,14 @@ void ABoardersGameMode::BeginPlay()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
-	
 
+	FActorSpawnParameters SpawnParam;
+	FVector SpawnLocation = {640.0f,-230.0f,30.0f};
 
-	
+	TArray<AActor*> Arrayofstuff;
+	TArray<AActor> a = UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACPP_EffectSphere::StaticClass(), Arrayofstuff);
+	 EffectSphereRef = a[0];
+		
 	//EndGame_Implementation();
 
 	

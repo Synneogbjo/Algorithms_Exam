@@ -13,7 +13,7 @@ ACPP_EffectSphere::ACPP_EffectSphere()
 	TriggerSphere->InitSphereRadius(3.0);
 	TriggerSphere->OnComponentBeginOverlap.AddDynamic(this, &ACPP_EffectSphere::OnBeginOverlap);
 
-	
+
 
 }
 
@@ -36,9 +36,12 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 
 	if (OtherActor->IsA(ACPP_Piece::StaticClass()))
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit")));
-		Cast<ACPP_Piece>(OtherActor)->Damage(1);
-		WasCalled = true;
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit")));
+			Cast<ACPP_Piece>(OtherActor)->Damage(1);
+			WasCalled = true;
+		}
 	}
 	
 	else

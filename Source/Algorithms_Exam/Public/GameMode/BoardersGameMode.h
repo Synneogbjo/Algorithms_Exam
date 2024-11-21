@@ -121,8 +121,9 @@ public:
 	/*Delegates*/
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
-	/*TSubclassOf<ACPP_EffectSphere> EffectSphereRef;*/
-	ACPP_EffectSphere* EffectSphereRef;
+	//TObjectPtr<ACPP_EffectSphere> EffectSphereRef;
+	TSubclassOf<ACPP_EffectSphere> EffectSphereRef;
+
 
 
 	
