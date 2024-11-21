@@ -16,7 +16,7 @@ UPlayerComponent::UPlayerComponent()
 	// ...
 
 	MaxPoints = 0;
-	
+	CurrentPoints = 0;
 
 }
 

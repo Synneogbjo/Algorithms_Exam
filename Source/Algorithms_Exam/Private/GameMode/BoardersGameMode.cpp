@@ -35,7 +35,6 @@ void ABoardersGameMode::BeginPlay()
 	if (PlayerController != nullptr)
 	{
 		SwitchPlayer();
-		//CurrentPlayer->PossessedBy(PlayerController);
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
@@ -112,7 +111,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	if (IsValid(CurrentPlayer))
 	{
-		CurrentPlayer->UnPossessed();;
+		CurrentPlayer->UnPossessed();
 		ResetPlayer(CurrentPlayer);
 	}
 
@@ -158,7 +157,7 @@ void ABoardersGameMode::SwitchPlayer()
 	{
 		Player2WidgetSwitch();
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
 }
 
@@ -175,7 +174,7 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		UPlayerComponent* PlayerComponent = Player->FindComponentByClass<UPlayerComponent>();
 		if (IsValid(PlayerComponent))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
 			PlayerComponent->RefillPoints();
 
 			for (auto Piece : PlayerComponent->SpawnedPieces)
@@ -251,7 +250,7 @@ void ABoardersGameMode::EndGame_Implementation()
 
 	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
-	if (Player1Component->SpawnedPieces.Num() <= 0)
+	if (Player1Component->SpawnedPieces.Num() <= 0 || Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if (UEndGameWidgetClass)
@@ -261,7 +260,7 @@ void ABoardersGameMode::EndGame_Implementation()
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
 
 	}
-	if (Player2Component->SpawnedPieces.Num() <= 0)
+	if (Player2Component->SpawnedPieces.Num() <= 0 || Player2Component->SpawnedPieces.Num() > Player1Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if(UEndGameWidgetClass)
