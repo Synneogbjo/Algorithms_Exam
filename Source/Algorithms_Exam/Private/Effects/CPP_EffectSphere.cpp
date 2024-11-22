@@ -39,7 +39,9 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit")));
-			Cast<ACPP_Piece>(OtherActor)->Damage(1);
+			PieceRef = Cast<ACPP_Piece>(OtherActor);
+			PieceRef->Damage(1);
+			IsInside = true;
 			WasCalled = true;
 		}
 	}
@@ -50,12 +52,23 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 	}
 }
 
-void ACPP_EffectSphere::DealDamage()
+void ACPP_EffectSphere::DealDamage(ACPP_Piece* PieceInside)
 {
-	if (PieceRef)
+	if (IsInside)
 	{
-		PieceRef->Damage(1);
+		if (IsValid(PieceRef))
+		{
+			PieceRef->Damage(1);
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ouch"));
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("fuck"));
+		}
 	}
+
+
+	
 }
 
 

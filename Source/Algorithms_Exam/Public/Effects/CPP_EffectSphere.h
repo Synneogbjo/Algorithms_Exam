@@ -11,7 +11,7 @@
 #include "CPP_EffectSphere.generated.h"
 
 /* Effect Sphere delegate*/
-DECLARE_DYNAMIC_DELEGATE(FOnPlayerBeginOverlapDelegate);  //DECLARE_DELEGATE_OneParam(DelegateName, Param1Type) Param1 should be of type you want to use 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOnDealDamageDelegate,class ACPP_Piece*, PieceInside);  //DECLARE_DELEGATE_OneParam(DelegateName, Param1Type) Param1 should be of type you want to use 
 
 /**
  * 
@@ -37,7 +37,7 @@ public:
 	/*Delegates*/
 
 	UPROPERTY()
-	FOnPlayerBeginOverlapDelegate SphereDelegate;
+	FOnDealDamageDelegate SphereDelegate;
 	/**/
 
 	UPROPERTY()
@@ -49,7 +49,12 @@ public:
 	UPROPERTY()
 	bool WasCalled = false;
 
+	UPROPERTY()
+	bool IsInside = false;
+
 	UFUNCTION()
-	void DealDamage();
+	void DealDamage(ACPP_Piece* PieceInside);
+
+
 
 };

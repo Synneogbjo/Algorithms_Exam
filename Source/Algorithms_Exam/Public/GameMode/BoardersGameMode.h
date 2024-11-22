@@ -111,20 +111,11 @@ public:
 	/*UFUNCTION(BlueprintCallable, Category = "UI")
 	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
 
-
-
-
-
-
-
-
-	/*Delegates*/
+	/*Effect Sphere*/
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
-	//TObjectPtr<ACPP_EffectSphere> EffectSphereRef;
-	TSubclassOf<ACPP_EffectSphere> EffectSphereRef;
+	TSubclassOf<ACPP_EffectSphere> EffectSphereClass;
 
-
-
-	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite ,Category = "Effects")
+	ACPP_EffectSphere* EffectSphereRef;
 };

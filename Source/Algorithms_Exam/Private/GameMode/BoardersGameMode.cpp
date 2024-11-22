@@ -7,6 +7,7 @@
 #include "Player/PlayerPawn.h"
 //#include "UIComponent.h"
 #include "EndGameWidget.h"
+#include "ToolBuilderUtil.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
@@ -38,12 +39,12 @@ void ABoardersGameMode::BeginPlay()
 
 	}
 
-	FActorSpawnParameters SpawnParam;
+	/*FActorSpawnParameters SpawnParam;
 	FVector SpawnLocation = {640.0f,-230.0f,30.0f};
 
 	TArray<AActor*> Arrayofstuff;
 	TArray<AActor> a = UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACPP_EffectSphere::StaticClass(), Arrayofstuff);
-	 EffectSphereRef = a[0];
+	 EffectSphereRef = a[0];*/
 		
 	//EndGame_Implementation();
 
@@ -82,11 +83,6 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 	return DequeueActor;
 }
 
-//FString ABoardersGameMode::SendPlayerName(FString Name)
-//{
-//	EndGameWidgetRef->DisplayWinner(Name);
-//	return Name;
-//}
 
 void ABoardersGameMode::SpawnPlayers()
 {
@@ -148,25 +144,6 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 		}
 	}
-
-	//////////////////////////call delegate here and set count++ to keep track of who's turn it is
-
-	if(EffectSphereRef)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("not a null ptr"));
-		if (EffectSphereRef->WasCalled)
-		{
-			TurnCount++;
-			if (TurnCount == 3)
-			{
-				EffectSphereRef->SphereDelegate.ExecuteIfBound();
-
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("DELEGATE"));
-
-			}
-		}
-	}
-	
 }
 
 void ABoardersGameMode::SwitchPlayer()
@@ -175,6 +152,20 @@ void ABoardersGameMode::SwitchPlayer()
 	PlayerController->Possess(CurrentPlayer);
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
 
+	/* Effect sphere long term damage*/
+	if(EffectSphereRef == nullptr)
+	{
+		EffectSphereRef = Cast<ACPP_EffectSphere>(UGameplayStatics::GetActorOfClass(GetWorld(),EffectSphereClass));
+		
+	}
+	if (IsValid(EffectSphereRef))
+	{
+		TurnCount++;
+		if (TurnCount == 2) //i want to call deal damage only when its my turn again
+		{
+			EffectSphereRef->SphereDelegate.ExecuteIfBound(EffectSphereRef->PieceRef); //this calls deal damage function again
+		}
+	}
 }
 
 void ABoardersGameMode::ResetPlayer(APawn* Player)
