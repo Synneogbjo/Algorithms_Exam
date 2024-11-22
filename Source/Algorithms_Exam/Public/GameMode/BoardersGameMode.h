@@ -8,9 +8,15 @@
 #include "Player/PlayerPawn.h"
 #include "Components/ActorComponent.h" //UI
 #include "EndGameWidget.h"
+#include "Effects/CPP_EffectParent.h"
+#include "Effects/CPP_EffectSphere.h"
+
 #include "BoardersGameMode.generated.h"
 
 class UEndGameWidget;
+
+
+
 /**
  * 
  */
@@ -18,6 +24,8 @@ UCLASS()
 class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueueInterface
 {
 	GENERATED_BODY()
+
+	int TurnCount=0;
 
 public:
 	ABoardersGameMode();
@@ -68,9 +76,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnPoint")
 	TSubclassOf<AActor> Player2SpawnPoint;
 
-	/*UFUNCTION(BlueprintCallable)
-	FString SendPlayerName(FString Name);*/
-
 	UFUNCTION()
 	void SpawnPlayers();
 
@@ -113,5 +118,11 @@ public:
 	/*UFUNCTION(BlueprintCallable, Category = "UI")
 	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
 
+	/*Effect Sphere*/
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	TSubclassOf<ACPP_EffectSphere> EffectSphereClass;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite ,Category = "Effects")
+	ACPP_EffectSphere* EffectSphereRef;
 };

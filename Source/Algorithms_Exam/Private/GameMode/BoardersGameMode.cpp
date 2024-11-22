@@ -7,6 +7,7 @@
 #include "Player/PlayerPawn.h"
 //#include "UIComponent.h"
 #include "EndGameWidget.h"
+#include "ToolBuilderUtil.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
@@ -20,7 +21,6 @@ ABoardersGameMode::ABoardersGameMode()
 	CurrentPlayer = nullptr;
 	Player1 = nullptr;
 	Player2 = nullptr;
-
 
 }
 
@@ -38,11 +38,18 @@ void ABoardersGameMode::BeginPlay()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
-	
 
+	/*FActorSpawnParameters SpawnParam;
+	FVector SpawnLocation = {640.0f,-230.0f,30.0f};
 
-	
+	TArray<AActor*> Arrayofstuff;
+	TArray<AActor> a = UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACPP_EffectSphere::StaticClass(), Arrayofstuff);
+	 EffectSphereRef = a[0];*/
+		
 	//EndGame_Implementation();
+
+	
+	
 }
 
 void ABoardersGameMode::Tick(float DeltaTime)
@@ -76,11 +83,6 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 	return DequeueActor;
 }
 
-//FString ABoardersGameMode::SendPlayerName(FString Name)
-//{
-//	EndGameWidgetRef->DisplayWinner(Name);
-//	return Name;
-//}
 
 void ABoardersGameMode::SpawnPlayers()
 {
@@ -142,7 +144,6 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 		}
 	}
-
 }
 
 void ABoardersGameMode::SwitchPlayer()
@@ -159,6 +160,20 @@ void ABoardersGameMode::SwitchPlayer()
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
+	/* Effect sphere long term damage*/
+	if(EffectSphereRef == nullptr)
+	{
+		EffectSphereRef = Cast<ACPP_EffectSphere>(UGameplayStatics::GetActorOfClass(GetWorld(),EffectSphereClass));
+		
+	}
+	if (IsValid(EffectSphereRef))
+	{
+		TurnCount++;
+		if (TurnCount == 2) //i want to call deal damage only when its my turn again
+		{
+			EffectSphereRef->SphereDelegate.ExecuteIfBound(EffectSphereRef->PieceRef); //this calls deal damage function again
+		}
+	}
 }
 
 void ABoardersGameMode::ResetPlayer(APawn* Player)
