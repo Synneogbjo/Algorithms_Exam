@@ -9,6 +9,8 @@
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "FRole.h"
+
 #include "CPP_Piece.generated.h"
 
 class ACPP_Board;
@@ -64,6 +66,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	TArray<F2DVectorInt> MovementOptions;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	FRole PieceRole;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	FColor DefaultTileColor;

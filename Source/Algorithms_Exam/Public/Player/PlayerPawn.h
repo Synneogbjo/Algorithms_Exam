@@ -72,7 +72,7 @@ public:
 	my_enum EDefault = Default;
 
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, category = "Piece")
 	ACPP_Piece* SavedPiece = nullptr;
 
 	UPROPERTY()

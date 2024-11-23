@@ -51,9 +51,8 @@ public:
 	UFUNCTION()
 	void RemoveTotalPieces(ACPP_Piece * RemovePiece);
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand")
 	UCPP_Hand* Hand;
-
 
 	//function that checks if the piece the player interacts belongs to him
 	UFUNCTION()
@@ -69,5 +68,6 @@ public:
 	UFUNCTION()
 	void RefillPoints();
 
-
+	UFUNCTION(BlueprintCallable, Category = "Cards")
+	TArray<int> GetCardIndexOfRole(FString RoleName);
 };

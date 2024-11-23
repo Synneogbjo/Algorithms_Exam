@@ -3,6 +3,7 @@
 
 #include "Player/PlayerComponent.h"
 
+#include "CPP_Card.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -28,7 +29,8 @@ void UPlayerComponent::BeginPlay()
 
 	// ...
 	RefillPoints();
-	
+
+	if (!Hand) Hand = NewObject<UCPP_Hand>();
 }
 
 
@@ -114,6 +116,21 @@ void UPlayerComponent::RefillPoints()
 	Points = MaxPoints;
 	CurrentPoints = MaxPoints;
 
+}
+
+TArray<int> UPlayerComponent::GetCardIndexOfRole(FString RoleName)
+{
+	TArray<int> CardIndexes;
+
+	for (int i = 0; i < Hand->Cards.Num(); i++)
+	{
+		if (Hand->Cards[i]->CardRole.RoleName == RoleName)
+		{
+			CardIndexes.Add(i);
+		}
+	}
+
+	return CardIndexes;
 }
 
 
