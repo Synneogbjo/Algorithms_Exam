@@ -2,7 +2,8 @@
 
 
 #include "Effects/CPP_EffectSphere.h"
-//#include "GameMode/BoardersGameMode.h"
+
+#include "Engine/Engine.h"
 
 
 ACPP_EffectSphere::ACPP_EffectSphere()
@@ -42,7 +43,7 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 			PieceRef = Cast<ACPP_Piece>(OtherActor);
 			PieceRef->Damage(1);
 			IsInside = true;
-			WasCalled = true;
+			
 		}
 	}
 	
@@ -59,17 +60,51 @@ void ACPP_EffectSphere::DealDamage(ACPP_Piece* PieceInside)
 		if (IsValid(PieceRef))
 		{
 			PieceRef->Damage(1);
+			
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ouch"));
 		}
 		else
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("fuck"));
 		}
+
 	}
 
 
 	
 }
+
+void ACPP_EffectSphere::UpdateCountEffect()
+{
+		Count++;
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"),Count));
+
+		if (Count ==2) //after dealing damage on his turn, player will also deal damage on his next turn
+		{
+			if (PieceRef)
+			{
+				DealDamage(PieceRef);//this calls deal damage function again
+				Destroy();
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("the end"));
+			}
+		}
+		if (Count > 2) {
+			Count = 0;
+		}
+}
+
+void ACPP_EffectSphere::UpdateCount()
+{
+	ICPP_Sphere_Interface::UpdateCount();
+	UpdateCountEffect();
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("this is what im calling"));
+}
+
+
+
+
+
+
 
 
 
