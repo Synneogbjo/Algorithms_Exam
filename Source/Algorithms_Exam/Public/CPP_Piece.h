@@ -65,6 +65,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	TArray<F2DVectorInt> MovementOptions;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	FColor DefaultTileColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	FColor HighlightedTileColor;
+
 	UPROPERTY()
 	int CurrentMovementCost;
 
@@ -100,6 +106,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hightlight")
 	void NotHighlightPiece();
 
-	
+	UFUNCTION(BlueprintCallable, Category = "Pathfinding")
+	void VisualizePathfinding(TArray<UCPP_AlgorithmPath*> Paths);
 
+	UFUNCTION(BlueprintCallable, Category = "Pathfinding")
+	void ClearVisualizePathfinding();
 };

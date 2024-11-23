@@ -35,8 +35,6 @@ void APlayerPawn::BeginPlay()
 			Subsystem->AddMappingContext(Imc, 0);
 		}
 	}
-
-
 }
 
 void APlayerPawn::Tick(float DeltaTime)
@@ -233,11 +231,14 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 
 void APlayerPawn::Deselect()
 {
+	if (!SavedPiece) return;
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
 	EDefault = Default;
 	HideCards();
 	SavedPiece->NotHighlightPiece();
+	SavedPiece->ClearVisualizePathfinding();
+
 	SavedPiece = nullptr;
 	
 }

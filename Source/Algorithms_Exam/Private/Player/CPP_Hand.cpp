@@ -5,7 +5,8 @@
 
 #include "CPP_Card.h"
 #include "CPP_Stack.h"
-#include "CPP_CountingSort.h"
+#include "F2DVectorInt.h"
+#include "CPP_Piece.h"
 
 void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 {
@@ -16,7 +17,7 @@ void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 	Cards.Add(Stack->Pop_Implementation());
 }
 
-ACPP_Card* UCPP_Hand::UseCard(int Index)
+ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation)
 {
 	if (Index < 0 || Index >= Cards.Num()) return nullptr;
 
@@ -29,7 +30,12 @@ ACPP_Card* UCPP_Hand::UseCard(int Index)
 		if (Pile->Role.ClassIndex == TargetCard->CardRole.ClassIndex)
 		{
 			DrawCard(Pile);
-			//Pile->DiscardPile.AddCardsFromDrawPile(TargetCard);
+
+			if (!Pile->DiscardPile) Pile->CreateDiscardPile();
+
+			TargetCard->SpawnEffects(PieceLocation);
+
+			Pile->DiscardPile->AddCardsFromDrawPile(TargetCard);
 
 			break;
 		}
