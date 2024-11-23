@@ -30,5 +30,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Pathfinding")
 	TArray<UCPP_AlgorithmPath*> RunPathfinding(F2DVectorInt StartPosition, TArray<F2DVectorInt> MovementOptions, ACPP_Board* Board, int Steps = 3);
-	
 };

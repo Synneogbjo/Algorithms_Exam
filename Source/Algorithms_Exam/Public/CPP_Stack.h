@@ -3,10 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h" 
+#include "CPP_DiscardPile.h"
 #include "CPP_Stacks_Interface.h"
 #include "UObject/NoExportTypes.h"
 #include "CPP_Stack.generated.h"
 
+class UCPP_DiscardPile;
 /**
  * 
  */
@@ -29,7 +31,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stack")
 	FRole Role;
 
-	//UPROPERTY()
-	//UCPP_DiscardPile* DiscardPile;
+	UPROPERTY()
+	UCPP_DiscardPile* DiscardPile = NewObject<UCPP_DiscardPile>();
+
+	UFUNCTION(BlueprintCallable)
+	void CreateDiscardPile();
 	
 };

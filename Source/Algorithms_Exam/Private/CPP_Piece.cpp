@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
+#include "Framework/Text/SyntaxHighlighterTextLayoutMarshaller.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "Player/PlayerComponent.h"
@@ -24,8 +25,6 @@ ACPP_Piece::ACPP_Piece()
 	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	MeshComponent->SetupAttachment(GetRootComponent());
 
-
-
 	/*
 	 * Variable Initialization
 	 */
@@ -36,6 +35,8 @@ ACPP_Piece::ACPP_Piece()
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
 
+	DefaultTileColor = FColor(255.f, 255.f, 255.f);
+	HighlightedTileColor = FColor(100.f, 255.f, 100.f);
 }
 
 // Called when the game starts or when spawned
@@ -192,9 +193,9 @@ void ACPP_Piece::Onclicked()
 			else break;
 		}
 
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Running Pathfinding!"));
-
 		LegalPaths = Pathfinding->RunPathfinding(BoardPosition, MovementOptions, CurrentBoard, Steps);
+
+		VisualizePathfinding(LegalPaths);
 
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%i | %i"), LegalPaths.Num(), Steps));
 	}
@@ -240,4 +241,46 @@ void ACPP_Piece::HighlightPiece_Implementation()
 {
 
 
+}
+
+void ACPP_Piece::VisualizePathfinding(TArray<UCPP_AlgorithmPath*> Paths)
+{
+	UE_LOG(LogTemp, Log, TEXT("Visualizing..."));
+
+	for (auto Path : Paths)
+	{
+		auto Tile = CurrentBoard->GetTileAt(Path->Position);
+
+		auto Material = Tile->Mesh->GetMaterial(0);
+		auto MaterialInstance = Tile->Mesh->CreateDynamicMaterialInstance(0, Material);
+
+		FColor Color = FColor(HighlightedTileColor);
+
+		if (Path->PathCost > 0) Color = FColor(Color.R / Path->PathCost, Color.G / Path->PathCost, Color.B / Path->PathCost);
+		else Color += FColor(25.f, 25.f, 25.f);
+
+		if (MaterialInstance)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Valid material"));
+			MaterialInstance->SetVectorParameterValue("Color", Color);
+		}
+	}
+}
+
+void ACPP_Piece::ClearVisualizePathfinding()
+{
+	for (auto Path : LegalPaths)
+	{
+		auto Tile = CurrentBoard->GetTileAt(Path->Position);
+
+		auto Material = Tile->Mesh->GetMaterial(0);
+		auto MaterialInstance = Tile->Mesh->CreateDynamicMaterialInstance(0, Material);
+
+		FColor Color = DefaultTileColor;
+
+		if (MaterialInstance)
+		{
+			MaterialInstance->SetVectorParameterValue("Color", Color);
+		}
+	}
 }

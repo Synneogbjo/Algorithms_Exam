@@ -3,7 +3,7 @@
 
 #include "CPP_Stack.h"
 
-//#include "CPP_DiscardPile.h"
+#include "CPP_DiscardPile.h"
 //#include "Kismet/GameplayStatics.h"
 
 
@@ -43,4 +43,9 @@ ACPP_Card* UCPP_Stack::Pop_Implementation()
 		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Popped")));
 	}
 	return ClassRef; // ClassRef can be used to add the popped card to the hand? or other card stock
+}
+
+void UCPP_Stack::CreateDiscardPile()
+{
+	if (!DiscardPile) DiscardPile = NewObject<UCPP_DiscardPile>();
 }

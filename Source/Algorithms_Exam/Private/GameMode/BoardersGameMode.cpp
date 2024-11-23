@@ -113,6 +113,19 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	if (IsValid(CurrentPlayer))
 	{
+		auto PlayerPawn = Cast<APlayerPawn>(CurrentPlayer);
+		if (PlayerPawn)
+		{
+			auto Piece = PlayerPawn->SavedPiece;
+
+			if (Piece)
+			{
+				Piece->ClearVisualizePathfinding();
+			}
+
+			PlayerPawn->Deselect();
+		}
+
 		CurrentPlayer->UnPossessed();
 		ResetPlayer(CurrentPlayer);
 	}
