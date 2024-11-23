@@ -10,7 +10,6 @@
 #include "EndGameWidget.h"
 #include "Effects/CPP_EffectParent.h"
 #include "Effects/CPP_EffectSphere.h"
-
 #include "BoardersGameMode.generated.h"
 
 class UEndGameWidget;
@@ -21,7 +20,7 @@ class UEndGameWidget;
  * 
  */
 UCLASS()
-class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueueInterface
+class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueueInterface, public ICPP_Sphere_Interface
 {
 	GENERATED_BODY()
 
@@ -125,4 +124,9 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite ,Category = "Effects")
 	ACPP_EffectSphere* EffectSphereRef;
+
+	UPROPERTY()
+	TArray<AActor*> FoundActors;
+
+	
 };

@@ -9,6 +9,8 @@
 #include "EndGameWidget.h"
 #include "ToolBuilderUtil.h"
 #include "Blueprint/UserWidget.h"
+#include "Effects/CPP_Sphere_Interface.h"
+#include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
 
@@ -173,19 +175,16 @@ void ABoardersGameMode::SwitchPlayer()
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
-	/* Effect sphere long term damage*/
-	if(EffectSphereRef == nullptr)
+	//find existing spheres
+	if(EffectSphereRef == nullptr)  
 	{
-		EffectSphereRef = Cast<ACPP_EffectSphere>(UGameplayStatics::GetActorOfClass(GetWorld(),EffectSphereClass));
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), EffectSphereClass, FoundActors);
 		
 	}
-	if (IsValid(EffectSphereRef))
+	 //if sphere/s exist, we run long term damage for each
+	for (int i= 0; i < FoundActors.Num(); i++)
 	{
-		TurnCount++;
-		if (TurnCount == 2) //i want to call deal damage only when its my turn again
-		{
-			EffectSphereRef->SphereDelegate.ExecuteIfBound(EffectSphereRef->PieceRef); //this calls deal damage function again
-		}
+		ICPP_Sphere_Interface::Execute_UpdateCount(FoundActors[i]);
 	}
 }
 
