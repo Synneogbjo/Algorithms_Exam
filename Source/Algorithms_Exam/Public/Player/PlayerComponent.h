@@ -60,7 +60,7 @@ public:
 	bool PieceBelongToPlayer(ACPP_Piece* InteractPiece);
 
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ActionCost(int32 Cost);
 
 	UFUNCTION()
