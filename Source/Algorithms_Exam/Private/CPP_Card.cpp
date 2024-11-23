@@ -34,6 +34,8 @@ void ACPP_Card::Tick(float DeltaTime)
 
 }
 
+/// Activates the card, and does all its effects
+/// @param PieceLocation Where the piece using the card is located on the board
 void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation)
 {
 	if (!Board)

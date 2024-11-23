@@ -7,6 +7,7 @@
 #include "Player/PlayerPawn.h"
 //#include "UIComponent.h"
 #include "EndGameWidget.h"
+#include "ToolBuilderUtil.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
@@ -21,7 +22,6 @@ ABoardersGameMode::ABoardersGameMode()
 	Player1 = nullptr;
 	Player2 = nullptr;
 
-
 }
 
 void ABoardersGameMode::BeginPlay()
@@ -34,15 +34,22 @@ void ABoardersGameMode::BeginPlay()
 	CurrentPlayer = PlayerArray[0];
 	if (PlayerController != nullptr)
 	{
-		CurrentPlayer->PossessedBy(PlayerController);
+		SwitchPlayer();
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
 
 	}
-	
 
+	/*FActorSpawnParameters SpawnParam;
+	FVector SpawnLocation = {640.0f,-230.0f,30.0f};
 
-	
+	TArray<AActor*> Arrayofstuff;
+	TArray<AActor> a = UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACPP_EffectSphere::StaticClass(), Arrayofstuff);
+	 EffectSphereRef = a[0];*/
+		
 	//EndGame_Implementation();
+
+	
+	
 }
 
 void ABoardersGameMode::Tick(float DeltaTime)
@@ -76,11 +83,6 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 	return DequeueActor;
 }
 
-//FString ABoardersGameMode::SendPlayerName(FString Name)
-//{
-//	EndGameWidgetRef->DisplayWinner(Name);
-//	return Name;
-//}
 
 void ABoardersGameMode::SpawnPlayers()
 {
@@ -111,6 +113,19 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	if (IsValid(CurrentPlayer))
 	{
+		auto PlayerPawn = Cast<APlayerPawn>(CurrentPlayer);
+		if (PlayerPawn)
+		{
+			auto Piece = PlayerPawn->SavedPiece;
+
+			if (Piece)
+			{
+				Piece->ClearVisualizePathfinding();
+			}
+
+			PlayerPawn->Deselect();
+		}
+
 		CurrentPlayer->UnPossessed();
 		ResetPlayer(CurrentPlayer);
 	}
@@ -142,15 +157,36 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 		}
 	}
-
 }
 
 void ABoardersGameMode::SwitchPlayer()
 {
 
 	PlayerController->Possess(CurrentPlayer);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Change to new player"));
+	if (CurrentPlayer ==Player1)
+	{
+		Player1WidgetSwitch();
+	}
+	else if (CurrentPlayer == Player2)
+	{
+		Player2WidgetSwitch();
+	}
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
+	/* Effect sphere long term damage*/
+	if(EffectSphereRef == nullptr)
+	{
+		EffectSphereRef = Cast<ACPP_EffectSphere>(UGameplayStatics::GetActorOfClass(GetWorld(),EffectSphereClass));
+		
+	}
+	if (IsValid(EffectSphereRef))
+	{
+		TurnCount++;
+		if (TurnCount == 2) //i want to call deal damage only when its my turn again
+		{
+			EffectSphereRef->SphereDelegate.ExecuteIfBound(EffectSphereRef->PieceRef); //this calls deal damage function again
+		}
+	}
 }
 
 void ABoardersGameMode::ResetPlayer(APawn* Player)
@@ -166,11 +202,14 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		UPlayerComponent* PlayerComponent = Player->FindComponentByClass<UPlayerComponent>();
 		if (IsValid(PlayerComponent))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
 			PlayerComponent->RefillPoints();
-		}
-			
 
+			for (auto Piece : PlayerComponent->SpawnedPieces)
+			{
+				Piece->CurrentMovementCost = 0;
+			}
+		}			
 
 	}
 	if (Player == Player2)
@@ -184,12 +223,24 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
 			PlayerComponent->RefillPoints();
-			
+
+			for (auto Piece : PlayerComponent->SpawnedPieces)
+			{
+				Piece->CurrentMovementCost = 0;
+			}			
 		}
 
 	}
 
+}
 
+void ABoardersGameMode::Player1WidgetSwitch_Implementation()
+{
+}
+
+
+void ABoardersGameMode::Player2WidgetSwitch_Implementation()
+{
 }
 
 FVector ABoardersGameMode::PLayer1SpawnLocation()
@@ -208,6 +259,8 @@ FVector ABoardersGameMode::PLayer2SpawnLocation()
 
 }
 
+
+
 UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> WidgetClass)
 {
 	if (WidgetClass) {
@@ -225,7 +278,7 @@ void ABoardersGameMode::EndGame_Implementation()
 
 	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
-	if (Player1Component->SpawnedPieces.Num() <= 0)
+	if (Player1Component->SpawnedPieces.Num() <= 0 || Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if (UEndGameWidgetClass)
@@ -235,7 +288,7 @@ void ABoardersGameMode::EndGame_Implementation()
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
 
 	}
-	if (Player2Component->SpawnedPieces.Num() <= 0)
+	if (Player2Component->SpawnedPieces.Num() <= 0 || Player2Component->SpawnedPieces.Num() > Player1Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if(UEndGameWidgetClass)
@@ -246,21 +299,5 @@ void ABoardersGameMode::EndGame_Implementation()
 	}
 }
 
-//void ABoardersGameMode::EndGame()
-//{
-//	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
-//	if (Player1Component->SpawnedPieces.Num()<= 0)
-//	{
-//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
-//
-//	}
-//	if (true)
-//	{
-//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
-//
-//	}
-//
-//
-//}
 
 

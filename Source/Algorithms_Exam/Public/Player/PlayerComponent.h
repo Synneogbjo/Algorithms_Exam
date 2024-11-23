@@ -22,6 +22,11 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+private:
+
+	UPROPERTY()
+	int32 CurrentPoints;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -35,11 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Points")
 	int32 MaxPoints;
 
-	UPROPERTY()
-	int32 Points;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Points")
+	int32 Points = 0;
 
-	UPROPERTY()
-	int32 CurrentPoints;
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Name")
 	FString PlayerName;
@@ -56,7 +60,7 @@ public:
 	bool PieceBelongToPlayer(ACPP_Piece* InteractPiece);
 
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ActionCost(int32 Cost);
 
 	UFUNCTION()
@@ -64,5 +68,6 @@ public:
 
 	UFUNCTION()
 	void RefillPoints();
+
 
 };

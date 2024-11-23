@@ -3,6 +3,7 @@
 
 #include "Player/PieceSpawner.h"
 
+#include "CPP_Board.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PlayerComponent.h"
 
@@ -18,6 +19,8 @@ APieceSpawner::APieceSpawner()
 void APieceSpawner::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Board = Cast<ACPP_Board>(UGameplayStatics::GetActorOfClass(GetWorld(), ACPP_Board::StaticClass()));
 
 	FTimerHandle TimerHandle;
 
@@ -36,28 +39,33 @@ void APieceSpawner::Tick(float DeltaTime)
 
 void APieceSpawner::SpawnPieces()
 {
+	if (!Board) return;
 
 	// a loop that will spawn one piece in one location 
 	for (int32 i = 0; i<SpawnPoints.Num(); i++)
 	{
-		AActor* SpawnPoint = SpawnPoints[i];
-		if (IsValid(SpawnPoint))
+		ACPP_Tile* SpawnTile = Board->GetTileAt(SpawnPoints[i]);
+
+		if (!SpawnTile) continue;
+
+		if (SpawnTile->bIsOccupied) continue;
+
+		FVector SpawnPoint = SpawnTile->GetActorLocation() + FVector(0.f,0.f, 100.f);
+
+		TSubclassOf<ACPP_Piece> Piece = Pieces[i];
+
+		if (IsValid(Piece))
 		{
-			FVector SpawnLocation = SpawnPoint->GetActorLocation() + FVector(0.0f,0.0f,180.0f);
+			ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnPoint, FRotator::ZeroRotator);
+			
+			AssignPlayer(SpawnedPiece);
 
-			TSubclassOf<ACPP_Piece> Piece = Pieces[i];
-			if (IsValid(Piece))
-			{
-					ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnLocation, FRotator::ZeroRotator);
-					
-					AssignPlayer(SpawnedPiece);
+			SpawnedPiece->BoardPosition = SpawnPoints[i];
 
-			}
-
+			SpawnTile->bIsOccupied = true;
+			SpawnTile->OccupyingActor = SpawnedPiece;
 
 		}
-
-
 	}
 
 }

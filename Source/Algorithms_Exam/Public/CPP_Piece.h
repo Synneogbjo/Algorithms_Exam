@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CPP_AlgorithmPath.h"
+#include "CPP_Pathfinding.h"
 #include "CPP_Tile.h"
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "FRole.h"
 #include "CPP_Piece.generated.h"
 
 class ACPP_Board;
@@ -22,6 +23,12 @@ class ALGORITHMS_EXAM_API ACPP_Piece : public AActor
 
 	UPROPERTY()
 	ACPP_Board* CurrentBoard;
+
+	UPROPERTY()
+	ACPP_Pathfinding* Pathfinding;
+
+	UPROPERTY()
+	TArray<UCPP_AlgorithmPath*> LegalPaths;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -59,8 +66,13 @@ public:
 	TArray<F2DVectorInt> MovementOptions;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
-	FRole PieceRole;
+	FColor DefaultTileColor;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
+	FColor HighlightedTileColor;
+
+	UPROPERTY()
+	int CurrentMovementCost;
 
 	/*
 	 * Functions
@@ -70,7 +82,10 @@ public:
 	int Damage(int Value);
 
 	UFUNCTION(BlueprintCallable, Category = "Piece")
-	bool MoveTowards(F2DVectorInt Direction);
+	bool MoveTo(F2DVectorInt TargetPosition);
+
+	UFUNCTION(BlueprintCallable, Category = "Piece")
+	int MoveAlongPath(UCPP_AlgorithmPath* Path);
 
 	UFUNCTION()
 	void DestroyPiece();
@@ -82,4 +97,18 @@ public:
 	void GetTile(ACPP_Tile* Tile);
 
 
+	//Hightlight Functions
+
+	UFUNCTION(BlueprintNativeEvent,BlueprintCallable, Category = "Hightlight")
+	void HighlightPiece();
+
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hightlight")
+	void NotHighlightPiece();
+
+	UFUNCTION(BlueprintCallable, Category = "Pathfinding")
+	void VisualizePathfinding(TArray<UCPP_AlgorithmPath*> Paths);
+
+	UFUNCTION(BlueprintCallable, Category = "Pathfinding")
+	void ClearVisualizePathfinding();
 };

@@ -104,4 +104,10 @@ public:
 	UFUNCTION()
 	void Deselect();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ShowCards();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void HideCards();
+
 };

@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
+#include "Framework/Text/SyntaxHighlighterTextLayoutMarshaller.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "Player/PlayerComponent.h"
@@ -24,8 +25,6 @@ ACPP_Piece::ACPP_Piece()
 	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	MeshComponent->SetupAttachment(GetRootComponent());
 
-
-
 	/*
 	 * Variable Initialization
 	 */
@@ -36,8 +35,8 @@ ACPP_Piece::ACPP_Piece()
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
 
-	
-
+	DefaultTileColor = FColor(255.f, 255.f, 255.f);
+	HighlightedTileColor = FColor(100.f, 255.f, 100.f);
 }
 
 // Called when the game starts or when spawned
@@ -83,16 +82,12 @@ int ACPP_Piece::Damage(int Value)
 /// <summary>
 /// Tries to move this Piece to another Tile based on the Direction inserted. Will only move if the inserted Direction is a legal move for this Piece, and the target Tile is not occupied.
 /// </summary>
-/// <param name="Direction"> Where to move this Piece to relative to its current location</param>
+/// <param name="TargetPosition"> Where to move this Piece to</param>
 /// <returns> Could the Piece move to the desired location </returns>
-bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
+bool ACPP_Piece::MoveTo(F2DVectorInt TargetPosition)
 {
-	if (!MovementOptions.Contains(Direction))
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("WARNING: Piece tried to move in a direction that is not allowed."));
-		return false;
-	}
 
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Moving to position"));
 	if (!CurrentBoard)
 	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("!!!WARNING: While moving, this piece has no pointer to the Board!"));
@@ -109,7 +104,6 @@ bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
 	}
 
 	//Verify that the target Tile exists
-	F2DVectorInt TargetPosition = BoardPosition + Direction;
 	ACPP_Tile* TargetTile = CurrentBoard->GetTileAt(TargetPosition);
 
 	if (!TargetTile)
@@ -127,11 +121,40 @@ bool ACPP_Piece::MoveTowards(F2DVectorInt Direction)
 
 	//Move this Piece from its current location to the target location
 	CurrentTile->OccupyingActor = nullptr;
+	CurrentTile->bIsOccupied = false;
+
+	auto TargetLocation = TargetTile->GetActorLocation();
+	TargetLocation.Z = GetActorLocation().Z;
+
+	SetActorLocation(TargetLocation);
 
 	TargetTile->OccupyingActor = this;
+	TargetTile->bIsOccupied = true;
 	BoardPosition = TargetPosition;
 
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Moved to position"));
+
 	return true;
+}
+
+int ACPP_Piece::MoveAlongPath(UCPP_AlgorithmPath* Path)
+{
+	int Cost = CurrentMovementCost;
+
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Started Moving..."));
+
+	if (Path->Parent)
+	{
+		if (Path->Parent->Position != BoardPosition) Cost = MoveAlongPath(Path->Parent);
+	}
+
+	if (MoveTo(Path->Position))
+	{
+		Cost += Path->PathCost;
+		CurrentMovementCost++;
+	}
+
+	return Cost;
 }
 
 void ACPP_Piece::DestroyPiece()
@@ -149,16 +172,37 @@ void ACPP_Piece::DestroyPiece()
 void ACPP_Piece::Onclicked()
 {
 	
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
-		APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
-		if (Player != nullptr)
-		{
-			//Player->PlayerComponent->ActionCost(2);
-		}
-		
-		//Move option appears
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("What do you want"));
+	
+	APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
+	if (Player != nullptr)
+	{
+		int Points = Player->PlayerComponent->Points;
+		int Steps = 0;
 
-		//Attack option appears
+		while (Points >= 0)
+		{
+			if (Points - (CurrentMovementCost + Steps + 1) >= 0)
+			{
+				Steps++;
+				Points -= (CurrentMovementCost + Steps);
+			}
+
+			else if (Steps > 100) break;
+
+			else break;
+		}
+
+		LegalPaths = Pathfinding->RunPathfinding(BoardPosition, MovementOptions, CurrentBoard, Steps);
+
+		VisualizePathfinding(LegalPaths);
+
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%i | %i"), LegalPaths.Num(), Steps));
+	}
+	
+	//Move option appears
+
+	//Attack option appears
 	
 
 }
@@ -168,5 +212,75 @@ void ACPP_Piece::GetTile(ACPP_Tile* Tile)
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Bjorn"));
 
+	for (auto Path : LegalPaths)
+	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Checking Path..."));
 
+		if (Path->Position == Tile->TileLocation)
+		{
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Starting Movement"));
+
+			APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
+
+			if (!IsValid(Player)) break;
+
+			Player->PlayerComponent->ActionCost(MoveAlongPath(Path));
+
+			break;
+		}
+	}
+}
+
+void ACPP_Piece::NotHighlightPiece_Implementation()
+{
+
+
+}
+
+void ACPP_Piece::HighlightPiece_Implementation()
+{
+
+
+}
+
+void ACPP_Piece::VisualizePathfinding(TArray<UCPP_AlgorithmPath*> Paths)
+{
+	UE_LOG(LogTemp, Log, TEXT("Visualizing..."));
+
+	for (auto Path : Paths)
+	{
+		auto Tile = CurrentBoard->GetTileAt(Path->Position);
+
+		auto Material = Tile->Mesh->GetMaterial(0);
+		auto MaterialInstance = Tile->Mesh->CreateDynamicMaterialInstance(0, Material);
+
+		FColor Color = FColor(HighlightedTileColor);
+
+		if (Path->PathCost > 0) Color = FColor(Color.R / Path->PathCost, Color.G / Path->PathCost, Color.B / Path->PathCost);
+		else Color += FColor(25.f, 25.f, 25.f);
+
+		if (MaterialInstance)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Valid material"));
+			MaterialInstance->SetVectorParameterValue("Color", Color);
+		}
+	}
+}
+
+void ACPP_Piece::ClearVisualizePathfinding()
+{
+	for (auto Path : LegalPaths)
+	{
+		auto Tile = CurrentBoard->GetTileAt(Path->Position);
+
+		auto Material = Tile->Mesh->GetMaterial(0);
+		auto MaterialInstance = Tile->Mesh->CreateDynamicMaterialInstance(0, Material);
+
+		FColor Color = DefaultTileColor;
+
+		if (MaterialInstance)
+		{
+			MaterialInstance->SetVectorParameterValue("Color", Color);
+		}
+	}
 }

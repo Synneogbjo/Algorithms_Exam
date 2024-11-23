@@ -35,8 +35,6 @@ void APlayerPawn::BeginPlay()
 			Subsystem->AddMappingContext(Imc, 0);
 		}
 	}
-
-
 }
 
 void APlayerPawn::Tick(float DeltaTime)
@@ -105,6 +103,7 @@ void APlayerPawn::OnClick()
 
 		if (EDefault == Clicked)
 		{
+
 			if (SavedPiece != nullptr)
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
@@ -122,16 +121,22 @@ void APlayerPawn::OnClick()
 
 			if (HitResult.GetActor() == SavedPiece)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Going to buy milk"));
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Going to buy milk"));
 				Deselect();
+
 			}
-			
+			if (EDefault == Default)
+			{
+				return;
+
+			}
 
 
 		}
 
 		if (EDefault == Default)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("new"));
 			if (IsValid(HitResult.GetActor()))
 			{
 
@@ -142,14 +147,16 @@ void APlayerPawn::OnClick()
 					// access the piece that the player clicked
 					Piece->Onclicked();
 					SavePreviousPiece(Piece);
+					ShowCards();
 					EDefault = Clicked;
-					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+					//PlayerComponent->ActionCost(1);
+					//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
 				}
 			}
 
 		}
 		
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *Piece->GetOwner()->GetName()));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%s"), *HitResult.GetActor()->GetOwner()->GetName()));
 
 	}
 
@@ -172,6 +179,10 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 				return true;
 				
 
+			}
+			else
+			{
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not my piece"));
 			}
 			
 
@@ -204,24 +215,42 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 {
 
 	SavedPiece = ClickedPiece;
+	SavedPiece->HighlightPiece();
 	if (SavedPiece == nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
 	}
 	
 
 }
 
+
 void APlayerPawn::Deselect()
 {
+	if (!SavedPiece) return;
 
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
 	EDefault = Default;
-	SavedPiece = nullptr;
+	HideCards();
+	SavedPiece->NotHighlightPiece();
+	SavedPiece->ClearVisualizePathfinding();
 
+	SavedPiece = nullptr;
+	
 }
+
+void APlayerPawn::HideCards_Implementation()
+{
+}
+
+void APlayerPawn::ShowCards_Implementation()
+{
+}
+
+
 
 
