@@ -11,22 +11,15 @@ ACPP_EffectSphere::ACPP_EffectSphere()
 	EffectType = DAMAGE;
 	TriggerSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SphereTrigger"));
 	TriggerSphere->SetupAttachment(GetRootComponent());
-	TriggerSphere->InitSphereRadius(3.0);
+	TriggerSphere->InitSphereRadius(50.0);
 	TriggerSphere->OnComponentBeginOverlap.AddDynamic(this, &ACPP_EffectSphere::OnBeginOverlap);
-
-
-
 }
 
 void ACPP_EffectSphere::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroyIfNoCollision, 0.5f);
-
-
-	SphereDelegate.BindDynamic(this,&ACPP_EffectSphere::DealDamage);
-
+	GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroySphereIfNoOverlap, 0.5f);
 }
 
 
@@ -65,7 +58,7 @@ void ACPP_EffectSphere::DealDamage(ACPP_Piece* PieceInside)
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("fuck"));
+			
 		}
 
 	}
@@ -77,15 +70,14 @@ void ACPP_EffectSphere::DealDamage(ACPP_Piece* PieceInside)
 void ACPP_EffectSphere::UpdateCountEffect()
 {
 		Count++;
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"),Count));
-
+		
 		if (Count ==2) //after dealing damage on his turn, player will also deal damage on his next turn
 		{
 			if (PieceRef)
 			{
 				DealDamage(PieceRef);//this calls deal damage function again
 				Destroy();
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("the end"));
+				
 			}
 		}
 		if (Count > 2) {
@@ -93,12 +85,20 @@ void ACPP_EffectSphere::UpdateCountEffect()
 		}
 }
 
-void ACPP_EffectSphere::UpdateCount()
+void ACPP_EffectSphere::UpdateCount_Implementation()
 {
-	ICPP_Sphere_Interface::UpdateCount();
 	UpdateCountEffect();
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("this is what im calling"));
 }
+
+void ACPP_EffectSphere::DestroySphereIfNoOverlap()
+{
+	if (IsInside==false)
+	{
+		Destroy();
+	}
+}
+
+
 
 
 

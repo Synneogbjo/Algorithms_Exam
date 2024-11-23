@@ -10,9 +10,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "CPP_EffectSphere.generated.h"
 
-/* Effect Sphere delegate*/
-DECLARE_DYNAMIC_DELEGATE_OneParam(FOnDealDamageDelegate,class ACPP_Piece*, PieceInside);  //DECLARE_DELEGATE_OneParam(DelegateName, Param1Type) Param1 should be of type you want to use 
-
 /**
  * 
  */
@@ -23,8 +20,6 @@ class ALGORITHMS_EXAM_API ACPP_EffectSphere : public ACPP_EffectParent, public I
 
 	FTimerHandle DestroySphere;
 
-	
-
 public:
 
 	ACPP_EffectSphere();
@@ -34,24 +29,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	USphereComponent* TriggerSphere;
 
-	/*Delegates*/
-
-	UPROPERTY()
-	FOnDealDamageDelegate SphereDelegate;
-	/**/
-
 	UPROPERTY()
 	ACPP_Piece* PieceRef;
-
-	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result);
-
-
+	
 	UPROPERTY()
 	bool IsInside = false;
 
 	UPROPERTY()
-	int32 Count=-1; //CHANGE LATER  to 0 
+	int32 Count=0; 
 
 	UFUNCTION()
 	void DealDamage(ACPP_Piece* PieceInside);
@@ -59,7 +44,10 @@ public:
 	UFUNCTION()
 	void UpdateCountEffect();
 
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result);
 
-	virtual void UpdateCount() override;
+	virtual void UpdateCount_Implementation() override;
 
+	void DestroySphereIfNoOverlap();
 };

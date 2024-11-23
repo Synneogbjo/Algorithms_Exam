@@ -162,21 +162,17 @@ void ABoardersGameMode::SwitchPlayer()
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
-	/* Effect sphere long term damage*/
+	//find existing spheres
 	if(EffectSphereRef == nullptr)  
 	{
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), EffectSphereClass, FoundActors);
-		//EffectSphereRef = Cast<ACPP_EffectSphere>(UGameplayStatics::GetActorOfClass(GetWorld(),EffectSphereClass)); //this will find sphere/s effect/s on the board 
 		
 	}
 	 //if sphere/s exist, we run long term damage for each
-	//CALL UPDATE COUNT() USING THE INTERFACE WHICH REFERENCES THE EFFECT ITSELF
-	for (auto i : FoundActors)
+	for (int i= 0; i < FoundActors.Num(); i++)
 	{
-		ICPP_Sphere_Interface::UpdateCount();
-
+		ICPP_Sphere_Interface::Execute_UpdateCount(FoundActors[i]);
 	}
-
 }
 
 void ABoardersGameMode::ResetPlayer(APawn* Player)
