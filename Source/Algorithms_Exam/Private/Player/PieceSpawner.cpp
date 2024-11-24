@@ -87,9 +87,11 @@ void APieceSpawner::AssignPlayer(ACPP_Piece* Piece)
 			//that's assign in the blueprint
 			PlayerComponent->FillArray(SpawnedPiece);
 			SpawnedPiece->SetOwner(CurrentPlayer);
+			SpawnedPiece->PieceRole.RoleTeam = CurrentPlayer->PlayerTeam;
 		}
 		
-
+		PlayerComponent->Hand = NewObject<UCPP_Hand>();
+		PlayerComponent->Hand->InitializeDrawPiles(PlayerComponent->SpawnedPieces);
 	}
 	
 

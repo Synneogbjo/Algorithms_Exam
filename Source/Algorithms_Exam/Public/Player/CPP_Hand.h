@@ -6,10 +6,12 @@
 #include "UObject/NoExportTypes.h"
 #include "CPP_Hand.generated.h"
 
+struct FRole;
 struct F2DVectorInt;
 class UCPP_Stack;
 class UCPP_CountingSort;
 class ACPP_Card;
+class ACPP_Piece;
 /**
  * 
  */
@@ -18,9 +20,6 @@ class ALGORITHMS_EXAM_API UCPP_Hand : public UObject
 {
 	GENERATED_BODY()
 
-	UPROPERTY()
-	TArray<UCPP_Stack*> DrawPiles;
-
 	void DrawCard(UCPP_Stack* Stack);
 
 public:
@@ -28,12 +27,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand")
 	int MaxCards = 8;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Hand")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hand")
 	TArray<ACPP_Card*> Cards;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Draw Piles")
+	TArray<UCPP_Stack*> DrawPiles;
 
 	UPROPERTY()
 	UCPP_CountingSort* Sorter;
 
 	UFUNCTION(BlueprintCallable, Category = "Hand")
 	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation);
+
+	UFUNCTION()
+	void InitializeDrawPiles(TArray<ACPP_Piece*> Pieces);
 };

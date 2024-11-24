@@ -29,8 +29,6 @@ void UPlayerComponent::BeginPlay()
 
 	// ...
 	RefillPoints();
-
-	if (!Hand) Hand = NewObject<UCPP_Hand>();
 }
 
 

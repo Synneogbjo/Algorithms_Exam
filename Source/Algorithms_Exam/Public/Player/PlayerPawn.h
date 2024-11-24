@@ -78,6 +78,8 @@ public:
 	UPROPERTY()
 	bool bRightMouseButton = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	FTeam PlayerTeam;
 
 	UFUNCTION()
 	void PlayerMovement(const FInputActionValue& Value);
