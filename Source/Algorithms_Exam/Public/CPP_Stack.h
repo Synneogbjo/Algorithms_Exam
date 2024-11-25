@@ -32,7 +32,7 @@ public:
 	FRole Role;
 
 	UPROPERTY()
-	UCPP_DiscardPile* DiscardPile = NewObject<UCPP_DiscardPile>();
+	UCPP_DiscardPile* DiscardPile;
 
 	UFUNCTION(BlueprintCallable)
 	void CreateDiscardPile();
