@@ -110,4 +110,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void HideCards();
 
+	
+
 };

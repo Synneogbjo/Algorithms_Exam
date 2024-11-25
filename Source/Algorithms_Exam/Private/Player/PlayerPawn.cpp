@@ -17,7 +17,6 @@ APlayerPawn::APlayerPawn()
 	Camera->SetupAttachment(RootComponent);
 	// this allow the camera to rotate
 	Camera->bUsePawnControlRotation = true;
-
 	PlayerComponent = CreateDefaultSubobject<UPlayerComponent>(TEXT("Player Component"));
 
 
@@ -36,6 +35,7 @@ void APlayerPawn::BeginPlay()
 		}
 	}
 
+	bRightMouseButton = false;
 
 }
 
@@ -46,7 +46,7 @@ void APlayerPawn::Tick(float DeltaTime)
 
 void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	
 
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 
@@ -54,13 +54,13 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerPawn::CameraLook);
 	EnhancedInputComponent->BindAction(ClickLeftAction, ETriggerEvent::Triggered, this, &APlayerPawn::OnClick);
 
-	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Ongoing, this, &APlayerPawn::RightMouseButtonIsclicked);
+	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Triggered, this, &APlayerPawn::RightMouseButtonIsclicked);
 	EnhancedInputComponent->BindAction(ClickRightAction, ETriggerEvent::Completed, this, &APlayerPawn::RightMouseButtonNotclicked);
 }
 
 void APlayerPawn::PlayerMovement(const FInputActionValue& Value)
 {
-
+	
 	const FVector2D MoveInput = Value.Get<FVector2D>();
 
 	if (Controller != nullptr)
@@ -80,21 +80,34 @@ void APlayerPawn::PlayerMovement(const FInputActionValue& Value)
 
 void APlayerPawn::CameraLook(const FInputActionValue& Value)
 {
-
-	const FVector2D LookInput = Value.Get<FVector2D>();
-
-	if (bRightMouseButton)
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("hmm"));
+	if(Controller != nullptr)
 	{
-		AddControllerYawInput(LookInput.X);
 
-		AddControllerPitchInput(LookInput.Y);
+		if (bRightMouseButton)
+		{
+			const FVector2D LookInput = Value.Get<FVector2D>();
+
+			AddControllerYawInput(LookInput.X);
+
+			AddControllerPitchInput(LookInput.Y);
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("moving"));
+
+		}
 
 	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("hmm"));
+	}
+	
 
 }
 
 void APlayerPawn::OnClick()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Clicked"));
+
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 
