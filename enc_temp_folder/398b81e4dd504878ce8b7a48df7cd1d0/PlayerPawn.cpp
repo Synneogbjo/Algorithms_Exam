@@ -64,12 +64,12 @@ void APlayerPawn::PlayerMovement(const FInputActionValue& Value)
 	{
 		const FRotator YawPlayerRotation = FRotator(0, GetControlRotation().Yaw, 0);
 
-		//FVector Direction = Camera.vec;
-		const FVector ForwardBackwards = FRotationMatrix(YawPlayerRotation).GetUnitAxis(EAxis::Y);
+		FRotator UpDirection = FRotator(GetControlRotation().Pitch,0,0);
+		const FVector ForwardBackwards = Camera->GetForwardVector();
 
-		const FVector RightDirection = FRotationMatrix(YawPlayerRotation).GetUnitAxis(EAxis::X);
+		const FVector RightDirection = FRotationMatrix(YawPlayerRotation).GetUnitAxis(EAxis::Y);
 
-
+		
 		AddMovementInput(ForwardBackwards, MoveInput.Y);
 		AddMovementInput(RightDirection, MoveInput.X);
 	}

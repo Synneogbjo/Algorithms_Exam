@@ -26,6 +26,8 @@ class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueu
 
 	int TurnCount=0;
 
+	
+
 public:
 	ABoardersGameMode();
 

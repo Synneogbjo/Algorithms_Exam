@@ -62,7 +62,8 @@ void ABoardersGameMode::Tick(float DeltaTime)
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle ,this, &ABoardersGameMode::SwitchPlayer,4);*/
 
 	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::EndGame);
-	
+
+
 }
 
 void ABoardersGameMode::Enqueue_Implementation(APawn* Actor)
@@ -104,7 +105,8 @@ void ABoardersGameMode::SpawnPlayers()
 
 void ABoardersGameMode::EndTurn_Implementation()
 {
-
+	
+	
 	if (PlayerArray.Num() == 0)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Empty"));
@@ -130,7 +132,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 		CurrentPlayer->UnPossessed();
 
-		ResetPlayer(CurrentPlayer);
+		
 	}
 
 
@@ -146,8 +148,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 	}
 
 
-
-
+	
 	if (!PlayerArray.IsEmpty())
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Assigned"));
