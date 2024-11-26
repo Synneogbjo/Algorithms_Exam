@@ -35,6 +35,7 @@ void UCPP_CountingSort::Sort()
 			// copying the content of sorted array to the original cards array
 			for (int32 i = 0; i < n; i++) {
 				CardsForSorting[i] = Sorted[i];
+
 			}
 			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("sorted")));
 		}
@@ -53,7 +54,7 @@ void UCPP_CountingSort::PrintArray()  //just for checking the sorting now
 	if (!CardsForSorting.IsEmpty()) {
 
 		for (auto& i : CardsForSorting) {
-			//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Value: %s"), i));
+			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Value: %d"), i->CardRole.ClassIndex));
 		}
 		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("number of cards: %d"), CardsForSorting.Num()));
 	}
