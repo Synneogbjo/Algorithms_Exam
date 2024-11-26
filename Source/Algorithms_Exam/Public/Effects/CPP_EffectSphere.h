@@ -29,6 +29,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	USphereComponent* TriggerSphere;
 
+	UPROPERTY(EditAnywhere)
+	class UMaterial* OnMaterial;
+
+	UPROPERTY(EditAnywhere)
+	class UMaterial* OffMaterial;
+
 	UPROPERTY()
 	ACPP_Piece* PieceRef;
 	
@@ -46,6 +52,9 @@ public:
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result);
+
+	UFUNCTION()
+	void OnEndOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	virtual void UpdateCount_Implementation() override;
 
