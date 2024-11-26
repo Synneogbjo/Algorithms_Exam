@@ -72,12 +72,14 @@ public:
 	my_enum EDefault = Default;
 
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, category = "Piece")
 	ACPP_Piece* SavedPiece = nullptr;
 
 	UPROPERTY()
 	bool bRightMouseButton = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	FTeam PlayerTeam;
 
 	UFUNCTION()
 	void PlayerMovement(const FInputActionValue& Value);

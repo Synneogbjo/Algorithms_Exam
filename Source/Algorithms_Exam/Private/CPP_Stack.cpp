@@ -4,6 +4,10 @@
 #include "CPP_Stack.h"
 
 #include "CPP_DiscardPile.h"
+#include "Kismet/KismetArrayLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Algo/RandomShuffle.h"
+
 //#include "Kismet/GameplayStatics.h"
 
 
@@ -48,4 +52,22 @@ ACPP_Card* UCPP_Stack::Pop_Implementation()
 void UCPP_Stack::CreateDiscardPile()
 {
 	if (!DiscardPile) DiscardPile = NewObject<UCPP_DiscardPile>();
+}
+
+void UCPP_Stack::InitializeStack()
+{
+	if (InitCardsClasses.IsEmpty()) return;
+
+	for (auto Class : InitCardsClasses)
+	{
+		AActor* InitCardActor = GetWorld()->SpawnActor(Class);
+
+		ACPP_Card* InitCard = Cast<ACPP_Card>(InitCardActor);
+
+		if (InitCard) Push_Implementation(InitCard);
+	}
+
+	Algo::RandomShuffle(CardsArray);
+
+	UE_LOG(LogTemp, Log, TEXT("Filled the CardsArray %i"), InitCardsClasses.Num());
 }

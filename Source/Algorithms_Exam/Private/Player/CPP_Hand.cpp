@@ -4,6 +4,7 @@
 #include "Player/CPP_Hand.h"
 
 #include "CPP_Card.h"
+#include "CPP_CountingSort.h"
 #include "CPP_Stack.h"
 #include "F2DVectorInt.h"
 #include "CPP_Piece.h"
@@ -42,4 +43,29 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation)
 	}
 
 	return TargetCard;
+}
+
+void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
+{
+	for (auto Class : DrawPileClasses)
+	{
+		if (Class->GetDefaultObject<UCPP_Stack>()->Role.RoleName == Piece->PieceRole.RoleName)
+		{
+			auto DrawPile = NewObject<UCPP_Stack>(this, Class);
+			DrawPile->Role = Piece->PieceRole;
+			DrawPile->InitializeStack();
+			DrawPile->CreateDiscardPile();
+
+			DrawPiles.Emplace(DrawPile);
+
+			return;
+		}
+	}
+
+	auto DrawPile = NewObject<UCPP_Stack>();
+	DrawPile->Role = Piece->PieceRole;
+	DrawPile->InitializeStack();
+	DrawPile->CreateDiscardPile();
+
+	DrawPiles.Emplace(DrawPile);
 }

@@ -34,6 +34,7 @@ ACPP_Piece::ACPP_Piece()
 	MaxHealth = Health = 4;
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
+	PieceRole = FRole(FTeam("Blue", FColor::Blue), "Warrior");
 
 	DefaultTileColor = FColor(255.f, 255.f, 255.f);
 	HighlightedTileColor = FColor(100.f, 255.f, 100.f);
