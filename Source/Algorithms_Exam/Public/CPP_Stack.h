@@ -25,8 +25,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Stack")
 	virtual ACPP_Card* Pop_Implementation() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stack")
 	TArray<ACPP_Card*> CardsArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stack")
+	TArray<TSubclassOf<ACPP_Card>> InitCardsClasses;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stack")
 	FRole Role;
@@ -36,5 +39,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CreateDiscardPile();
+
+	UFUNCTION(BlueprintCallable)
+	void InitializeStack();
 	
 };

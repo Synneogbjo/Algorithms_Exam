@@ -45,14 +45,27 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation)
 	return TargetCard;
 }
 
-void UCPP_Hand::InitializeDrawPiles(TArray<ACPP_Piece*> Pieces)
+void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
 {
-	for (auto Piece : Pieces)
+	for (auto Class : DrawPileClasses)
 	{
-		auto DrawPile = NewObject<UCPP_Stack>();
-		DrawPile->Role = Piece->PieceRole;
-		DrawPile->CreateDiscardPile();
+		if (Class->GetDefaultObject<UCPP_Stack>()->Role.RoleName == Piece->PieceRole.RoleName)
+		{
+			auto DrawPile = NewObject<UCPP_Stack>(this, Class);
+			DrawPile->Role = Piece->PieceRole;
+			DrawPile->InitializeStack();
+			DrawPile->CreateDiscardPile();
 
-		DrawPiles.Emplace(DrawPile);
+			DrawPiles.Emplace(DrawPile);
+
+			return;
+		}
 	}
+
+	auto DrawPile = NewObject<UCPP_Stack>();
+	DrawPile->Role = Piece->PieceRole;
+	DrawPile->InitializeStack();
+	DrawPile->CreateDiscardPile();
+
+	DrawPiles.Emplace(DrawPile);
 }

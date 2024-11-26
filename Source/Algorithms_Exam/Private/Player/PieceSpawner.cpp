@@ -90,8 +90,8 @@ void APieceSpawner::AssignPlayer(ACPP_Piece* Piece)
 			SpawnedPiece->PieceRole.RoleTeam = CurrentPlayer->PlayerTeam;
 		}
 		
-		PlayerComponent->Hand = NewObject<UCPP_Hand>();
-		PlayerComponent->Hand->InitializeDrawPiles(PlayerComponent->SpawnedPieces);
+		PlayerComponent->Hand = NewObject<UCPP_Hand>(this, PlayerComponent->HandClass);
+		PlayerComponent->Hand->InitializeDrawPile(SpawnedPiece);
 	}
 	
 

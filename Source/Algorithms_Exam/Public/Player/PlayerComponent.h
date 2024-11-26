@@ -54,6 +54,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand")
 	UCPP_Hand* Hand;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand")
+	TSubclassOf<UCPP_Hand> HandClass;
+
 	//function that checks if the piece the player interacts belongs to him
 	UFUNCTION()
 	bool PieceBelongToPlayer(ACPP_Piece* InteractPiece);

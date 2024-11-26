@@ -16,6 +16,7 @@ ACPP_Card::ACPP_Card()
 	CardCost = 0;
 	//CardRole = ? ;
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
+	Mesh->SetupAttachment(GetRootComponent());
 
 	CardEffects.Init(nullptr, 9);
 }

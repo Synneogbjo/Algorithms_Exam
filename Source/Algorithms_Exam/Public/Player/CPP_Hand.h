@@ -15,7 +15,7 @@ class ACPP_Piece;
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class ALGORITHMS_EXAM_API UCPP_Hand : public UObject
 {
 	GENERATED_BODY()
@@ -33,6 +33,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Draw Piles")
 	TArray<UCPP_Stack*> DrawPiles;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Draw Piles")
+	TArray<TSubclassOf<UCPP_Stack>> DrawPileClasses;
+
 	UPROPERTY()
 	UCPP_CountingSort* Sorter;
 
@@ -40,5 +43,5 @@ public:
 	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation);
 
 	UFUNCTION()
-	void InitializeDrawPiles(TArray<ACPP_Piece*> Pieces);
+	void InitializeDrawPile(ACPP_Piece* Piece);
 };
