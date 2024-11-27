@@ -7,7 +7,6 @@
 #include "CPP_Piece.h"
 #include "CPP_Sphere_Interface.h"
 #include "Components/SphereComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "CPP_EffectSphere.generated.h"
 
 /**
@@ -19,6 +18,10 @@ class ALGORITHMS_EXAM_API ACPP_EffectSphere : public ACPP_EffectParent, public I
 	GENERATED_BODY()
 
 	FTimerHandle DestroySphere;
+	
+	bool IsInside = false;
+	
+	int32 Count = 0;
 
 public:
 
@@ -29,20 +32,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	USphereComponent* TriggerSphere;
 
-	UPROPERTY(EditAnywhere)
-	class UMaterial* OnMaterial;
-
-	UPROPERTY(EditAnywhere)
-	class UMaterial* OffMaterial;
-
 	UPROPERTY()
 	ACPP_Piece* PieceRef;
-	
-	UPROPERTY()
-	bool IsInside = false;
-
-	UPROPERTY()
-	int32 Count=0; 
 
 	UFUNCTION()
 	void DealDamage(ACPP_Piece* PieceInside);
@@ -52,9 +43,6 @@ public:
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool fromSweep, const FHitResult& result);
-
-	UFUNCTION()
-	void OnEndOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	virtual void UpdateCount_Implementation() override;
 

@@ -8,7 +8,6 @@
 #include "Player/PlayerPawn.h"
 #include "Components/ActorComponent.h" //UI
 #include "EndGameWidget.h"
-#include "Effects/CPP_EffectParent.h"
 #include "Effects/CPP_EffectSphere.h"
 #include "BoardersGameMode.generated.h"
 
@@ -24,7 +23,6 @@ class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueu
 {
 	GENERATED_BODY()
 
-	int TurnCount=0;
 
 	bool bIsSmooth = false;
 	
@@ -116,9 +114,6 @@ public:
 
 	UPROPERTY()
 	UEndGameWidget* UIInstance;
-
-	/*UFUNCTION(BlueprintCallable, Category = "UI")
-	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
 
 	/*Effect Sphere*/
 

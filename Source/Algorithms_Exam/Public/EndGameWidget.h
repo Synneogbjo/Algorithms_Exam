@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "Components/WidgetComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "EndGameWidget.generated.h"
