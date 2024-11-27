@@ -37,7 +37,8 @@ void ACPP_Card::Tick(float DeltaTime)
 
 /// Activates the card, and does all its effects
 /// @param PieceLocation Where the piece using the card is located on the board
-void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation)
+///	@param bInvertDirection Whether to invert the placement of the effects. Needed when it is Player1's turn
+void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 {
 	if (!Board)
 	{
@@ -67,22 +68,13 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation)
 
 		if (!EffectClass) continue;
 
-		F2DVectorInt SpawnPosition =	F2DVectorInt(i % Modulo, static_cast<int>(floor(i / Modulo)))
+		F2DVectorInt SpawnPosition =	F2DVectorInt((Modulo - 1) * bInvertDirection - (i % Modulo), (Modulo - 1) * bInvertDirection - (static_cast<int>(floor(i / Modulo))))
 										- StartLocation + PieceLocation;
 
 		FVector SpawnLocation = Board->GetTileAt(SpawnPosition)->GetActorLocation();
 
 		AActor* SpawnedActor = GetWorld()->SpawnActor(EffectClass, &SpawnLocation);
 
-		/*if (SpawnedActor)
-		{
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Spawned Effect at %i, %i"), SpawnPosition.X, SpawnPosition.Y));
-		}
-
-		else
-		{
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Couldn't spawn Actor!"));
-		}*/
 	}
 }
 

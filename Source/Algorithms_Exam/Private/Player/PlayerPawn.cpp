@@ -189,7 +189,7 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not a piece"));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, Actor->GetName());
 		}
 	}
 
