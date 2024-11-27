@@ -2,7 +2,7 @@
 
 
 #include "CPP_CountingSort.h"
-void UCPP_CountingSort::Sort()
+TArray<ACPP_Card*> UCPP_CountingSort::Sort(TArray<ACPP_Card*> CardsForSorting)
 {
 	int32 n = CardsForSorting.Num();
 
@@ -47,35 +47,7 @@ void UCPP_CountingSort::Sort()
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("error")));
 	}
+
+	return CardsForSorting;
 }
 
-void UCPP_CountingSort::PrintArray()  //just for checking the sorting now
-{
-	if (!CardsForSorting.IsEmpty()) {
-
-		for (auto& i : CardsForSorting) {
-			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Value: %d"), i->CardRole.ClassIndex));
-		}
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("number of cards: %d"), CardsForSorting.Num()));
-	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("empty")));
-	}
-}
-
-void UCPP_CountingSort::FillHand(ACPP_Card* input)
-{
-	if (input) {
-		if (input->CardRole.ClassIndex) {
-			if (input->CardRole.ClassIndex > 0 && input->CardRole.ClassIndex < 5) {
-				CardsForSorting.Emplace(input);
-				GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Value: %d"), input->CardRole.ClassIndex));
-			}
-
-			else {
-				GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("wrong type card")));
-			}
-		}
-		
-	}
-}
