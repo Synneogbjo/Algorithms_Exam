@@ -37,15 +37,15 @@ TArray<ACPP_Card*> UCPP_CountingSort::Sort(TArray<ACPP_Card*> CardsForSorting)
 				CardsForSorting[i] = Sorted[i];
 
 			}
-			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("sorted")));
+			/*GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("sorted")));*/
 		}
 		else {
-			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("error")));
+			/*GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("error")));*/
 		}
 
 	}
 	else {
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("error")));
+		/*GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("error")));*/
 	}
 
 	return CardsForSorting;

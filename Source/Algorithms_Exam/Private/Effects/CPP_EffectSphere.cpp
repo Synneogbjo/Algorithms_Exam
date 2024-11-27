@@ -34,9 +34,7 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 	{
 		if (GEngine)
 		{
-			
 
-			GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit")));
 			PieceRef = Cast<ACPP_Piece>(OtherActor);
 			PieceRef->Damage(1);
 			IsInside = true;
@@ -59,7 +57,7 @@ void ACPP_EffectSphere::DealDamage(ACPP_Piece* PieceInside)
 		{
 			PieceRef->Damage(1);
 			
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("ouch"));
+			
 			DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
 		}
 		else
