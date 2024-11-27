@@ -13,6 +13,8 @@ APieceSpawner::APieceSpawner()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Rotation = FRotator(0.0f, 0.0f, 0.0f);
+
 }
 
 // Called when the game starts or when spawned
@@ -56,7 +58,7 @@ void APieceSpawner::SpawnPieces()
 
 		if (IsValid(Piece))
 		{
-			ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnPoint, FRotator::ZeroRotator);
+			ACPP_Piece* SpawnedPiece = GetWorld()->SpawnActor<ACPP_Piece>(Piece, SpawnPoint, Rotation);
 			
 			AssignPlayer(SpawnedPiece);
 
