@@ -8,6 +8,8 @@
 #include "CPP_Tile.h"
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "FRole.h"
 
@@ -31,6 +33,8 @@ class ALGORITHMS_EXAM_API ACPP_Piece : public AActor
 
 	UPROPERTY()
 	TArray<UCPP_AlgorithmPath*> LegalPaths;
+
+	
 	
 public:	
 	// Sets default values for this actor's properties
@@ -40,6 +44,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Effect")
+	UNiagaraSystem* NiagaraDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
+	UNiagaraSystem* NiagaraHeal;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -48,6 +58,7 @@ public:
 	 * Components
 	 */
 
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	UBoxComponent* TriggerBox;
 
