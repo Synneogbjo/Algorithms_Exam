@@ -115,7 +115,7 @@ void APlayerPawn::OnClick()
 					Deselect();
 
 				}
-				
+
 
 			}
 
@@ -241,6 +241,12 @@ void APlayerPawn::Deselect()
 
 	SavedPiece = nullptr;
 	
+}
+
+void APlayerPawn::CardWasUsed()
+{
+
+	Deselect();
 }
 
 void APlayerPawn::HideCards_Implementation()
