@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	TSubclassOf<APlayerPawn> Player;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
+	FRotator Rotation;
+
 	UFUNCTION()
 	void SpawnPieces();
 

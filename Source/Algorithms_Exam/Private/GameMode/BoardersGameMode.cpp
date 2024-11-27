@@ -90,8 +90,10 @@ void ABoardersGameMode::EndTurn_Implementation()
 	
 	if (PlayerArray.Num() == 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Empty"));
-
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Empty"));
+		}
 		return;
 	}
 
@@ -206,7 +208,7 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		UPlayerComponent* PlayerComponent = Player->FindComponentByClass<UPlayerComponent>();
 		if (IsValid(PlayerComponent))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Update Points"));
 			PlayerComponent->RefillPoints();
 
 			for (auto Piece : PlayerComponent->SpawnedPieces)
@@ -273,7 +275,11 @@ void ABoardersGameMode::EndGame_Implementation()
 		{
 			UIInstance->Text->SetText(FText::FromString(TEXT("Player2 wins!")));
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
+		}
+		
 
 	}
 	if (Player2Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
@@ -283,7 +289,11 @@ void ABoardersGameMode::EndGame_Implementation()
 		{
 			UIInstance->Text->SetText(FText::FromString(TEXT("Player1 wins!")));
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
+		}
+		
 	}
 	if (Player2Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() == Player2Component->SpawnedPieces.Num())
 	{
@@ -292,7 +302,12 @@ void ABoardersGameMode::EndGame_Implementation()
 		{
 			UIInstance->Text->SetText(FText::FromString(TEXT("Tie!, How Is This Possible")));
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tie"));
+
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tie"));
+		}
+		
 	}
 
 }

@@ -106,7 +106,6 @@ void APlayerPawn::OnClick()
 
 			if (SavedPiece != nullptr)
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
 				ACPP_Tile* TileClicked = Cast<ACPP_Tile>(HitResult.GetActor());
 				if (IsValid(TileClicked))
 				{
@@ -182,14 +181,22 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 			}
 			else
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not my piece"));
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not my piece"));
+				}
+				
 			}
 			
 
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, Actor->GetName());
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, Actor->GetName());
+			}
+			
 		}
 	}
 
@@ -208,7 +215,11 @@ void APlayerPawn::RightMouseButtonNotclicked()
 {
 
 	bRightMouseButton = false;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
+	}
+	
 }
 
 void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
@@ -218,11 +229,19 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 	SavedPiece->HighlightPiece();
 	if (SavedPiece == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
+		}
+		
 	}
 	else
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
+		}
+		
 	}
 	
 
