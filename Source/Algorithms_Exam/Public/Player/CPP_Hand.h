@@ -40,7 +40,7 @@ public:
 	UCPP_CountingSort* Sorter;
 
 	UFUNCTION(BlueprintCallable, Category = "Hand")
-	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation);
+	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection);
 
 	UFUNCTION()
 	void InitializeDrawPile(ACPP_Piece* Piece);

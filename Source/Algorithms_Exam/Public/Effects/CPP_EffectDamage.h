@@ -31,6 +31,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
+	int DamageAmount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	UBoxComponent* TriggerBox;
 
 	UFUNCTION()

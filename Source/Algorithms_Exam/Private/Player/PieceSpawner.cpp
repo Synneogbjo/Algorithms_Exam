@@ -50,7 +50,7 @@ void APieceSpawner::SpawnPieces()
 
 		if (SpawnTile->bIsOccupied) continue;
 
-		FVector SpawnPoint = SpawnTile->GetActorLocation() + FVector(0.f,0.f, 100.f);
+		FVector SpawnPoint = SpawnTile->GetActorLocation() + FVector(0.f,0.f,50.f);
 
 		TSubclassOf<ACPP_Piece> Piece = Pieces[i];
 
@@ -90,7 +90,7 @@ void APieceSpawner::AssignPlayer(ACPP_Piece* Piece)
 			SpawnedPiece->PieceRole.RoleTeam = CurrentPlayer->PlayerTeam;
 		}
 		
-		PlayerComponent->Hand = NewObject<UCPP_Hand>(this, PlayerComponent->HandClass);
+		if (!PlayerComponent->Hand) PlayerComponent->Hand = NewObject<UCPP_Hand>(this, PlayerComponent->HandClass);
 		PlayerComponent->Hand->InitializeDrawPile(SpawnedPiece);
 	}
 	
