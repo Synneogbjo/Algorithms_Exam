@@ -20,11 +20,11 @@ public:
 	void PrintArray();
 
 	UFUNCTION(BlueprintCallable, Category = "CountingSort")
-	void FillHand(ACPP_Card* input);  //int32 
+	void FillHand(ACPP_Card* input);  
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CountingSort")
-	TArray<ACPP_Card*> CardsForSorting; //array of cards, and then access their int32 through ->
+	TArray<ACPP_Card*> CardsForSorting; 
 	
 	
 };
