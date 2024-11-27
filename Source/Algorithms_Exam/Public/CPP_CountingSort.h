@@ -14,17 +14,7 @@ class ALGORITHMS_EXAM_API UCPP_CountingSort : public UObject
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable, Category = "CountingSort")
-	void Sort();
-
-	UFUNCTION(BlueprintCallable, Category = "CountingSort")
-	void PrintArray();
-
-	UFUNCTION(BlueprintCallable, Category = "CountingSort")
-	void FillHand(ACPP_Card* input);  //int32 
+	TArray<ACPP_Card*> Sort(TArray<ACPP_Card*> CardsForSorting);
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CountingSort")
-	TArray<ACPP_Card*> CardsForSorting; //array of cards, and then access their int32 through ->
-	
-	
 };
