@@ -26,6 +26,7 @@ class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueu
 
 	int TurnCount=0;
 
+	bool bIsSmooth = false;
 	
 
 public:
@@ -39,7 +40,6 @@ protected:
 	float time = 0;
 public:
 
-	virtual void Tick(float DeltaTime) override;
 
 
 	//From QueueInterface

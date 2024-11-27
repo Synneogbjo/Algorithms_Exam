@@ -54,17 +54,6 @@ void ABoardersGameMode::BeginPlay()
 	
 }
 
-void ABoardersGameMode::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	/*FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle ,this, &ABoardersGameMode::SwitchPlayer,4);*/
-
-	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::EndGame);
-
-
-}
 
 void ABoardersGameMode::Enqueue_Implementation(APawn* Actor)
 {
@@ -89,13 +78,14 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 
 void ABoardersGameMode::SpawnPlayers()
 {
-	const FRotator Rotation = FRotator::ZeroRotator;
+	const FRotator Rotation = FRotator(0.0,90.0,0.0);
+	const FRotator Rotation2 = FRotator(0.0,-90.0,0.0f);
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 
 	Player1 = GetWorld()->SpawnActor<APlayerPawn>(Player1Class, PLayer1SpawnLocation(), Rotation, SpawnParameters);
-	Player2 = GetWorld()->SpawnActor<APlayerPawn>(Player2Class, PLayer2SpawnLocation(), Rotation, SpawnParameters);
+	Player2 = GetWorld()->SpawnActor<APlayerPawn>(Player2Class, PLayer2SpawnLocation(), Rotation2, SpawnParameters);
 
 	Enqueue_Implementation(Player1);
 
@@ -132,7 +122,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 		CurrentPlayer->UnPossessed();
 
-		
+		ResetPlayer(CurrentPlayer);
 	}
 
 
@@ -220,7 +210,6 @@ void ABoardersGameMode::ResetPlayer(APawn* Player)
 		
 
 		Player->SetActorLocation(PLayer2SpawnLocation());
-
 		UPlayerComponent* PlayerComponent = Player->FindComponentByClass<UPlayerComponent>();
 		if (IsValid(PlayerComponent))
 		{
@@ -249,8 +238,9 @@ void ABoardersGameMode::Player2WidgetSwitch_Implementation()
 FVector ABoardersGameMode::PLayer1SpawnLocation()
 {
 	const AActor* SpawnPoint1 = UGameplayStatics::GetActorOfClass(GetWorld(), Player1SpawnPoint);
-
 	const FVector Player1Location = SpawnPoint1->GetActorLocation();
+
+
 	return Player1Location;
 }
 

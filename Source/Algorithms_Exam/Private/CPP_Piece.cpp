@@ -63,10 +63,10 @@ int ACPP_Piece::Damage(int Value)
 {
 	if (NiagaraDamage)
 	{
-		FVector Location = MeshComponent->GetComponentLocation() + FVector(0,0,60);
+		const FVector Location = MeshComponent->GetComponentLocation() + FVector(0,0,60);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraDamage, Location, MeshComponent->GetRelativeRotation());
 	}
-
+	
 	/*if (NiagaraHeal)
 	{
 		FVector Location = MeshComponent->GetComponentLocation() + FVector(0, 0, 25);
