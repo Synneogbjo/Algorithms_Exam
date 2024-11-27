@@ -13,6 +13,8 @@ ACPP_EffectDamage::ACPP_EffectDamage()
 
 	EffectType = DAMAGE;
 
+	DamageAmount = 1;
+
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	TriggerBox->SetupAttachment(GetRootComponent());
 	TriggerBox->SetBoxExtent(FVector(1, 1, 1));
@@ -40,7 +42,7 @@ void ACPP_EffectDamage::OnBeginOverlap(UPrimitiveComponent*OverlappedComp, AActo
 	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit actor")).Append(OtherActor->GetName()));
 
-		Cast<ACPP_Piece>(OtherActor)->Damage(1);
+		Cast<ACPP_Piece>(OtherActor)->Damage(DamageAmount);
 
 		Destroy();
 	}

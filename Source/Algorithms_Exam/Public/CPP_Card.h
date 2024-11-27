@@ -48,6 +48,6 @@ public:
 	ACPP_Board* Board;
 
 	UFUNCTION(BlueprintCallable, Category = "Card")
-	void SpawnEffects(F2DVectorInt PieceLocation);  //FTile instead of location?
+	void SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection);  //FTile instead of location?
 
 };

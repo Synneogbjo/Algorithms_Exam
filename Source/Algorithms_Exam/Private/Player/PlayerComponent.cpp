@@ -120,8 +120,12 @@ TArray<int> UPlayerComponent::GetCardIndexOfRole(FString RoleName)
 {
 	TArray<int> CardIndexes;
 
+	if (!Hand) return CardIndexes;
+
 	for (int i = 0; i < Hand->Cards.Num(); i++)
 	{
+		if (!Hand->Cards[i]) continue;
+
 		if (Hand->Cards[i]->CardRole.RoleName == RoleName)
 		{
 			CardIndexes.Add(i);

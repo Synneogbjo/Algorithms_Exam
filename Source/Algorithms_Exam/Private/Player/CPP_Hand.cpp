@@ -8,23 +8,38 @@
 #include "CPP_Stack.h"
 #include "F2DVectorInt.h"
 #include "CPP_Piece.h"
+#include "Kismet/GameplayStatics.h"
 
 void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 {
-	if (!Stack) return;
+	UE_LOG(LogTemp, Log, TEXT("Trying to draw card..."));
 
-	if (Cards.Num() >= MaxCards) return;
+	if (!Stack)
+	{
+		UE_LOG(LogTemp, Log, TEXT("No draw pile exists!"));
+		return;
+	}
+
+	if (!Cards.Contains(nullptr) && Cards.Num() >= MaxCards)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Hand is full!"));
+		return;
+	}
 
 	Cards.Add(Stack->Pop_Implementation());
+
+	UE_LOG(LogTemp, Log, TEXT("Drew a card!"));
 }
 
-ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation)
+ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection)
 {
 	if (Index < 0 || Index >= Cards.Num()) return nullptr;
 
 	ACPP_Card* TargetCard = Cards[Index];
 
-	Cards[Index] = nullptr;
+	if (!TargetCard) return nullptr;
+
+	Cards.RemoveAt(Index, 1, true);
 
 	for (auto Pile : DrawPiles)
 	{
@@ -34,7 +49,7 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation)
 
 			if (!Pile->DiscardPile) Pile->CreateDiscardPile();
 
-			TargetCard->SpawnEffects(PieceLocation);
+			TargetCard->SpawnEffects(PieceLocation, false);
 
 			Pile->DiscardPile->AddCardsFromDrawPile(TargetCard);
 
@@ -58,6 +73,9 @@ void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
 
 			DrawPiles.Emplace(DrawPile);
 
+			DrawCard(DrawPile);
+			DrawCard(DrawPile);
+
 			return;
 		}
 	}
@@ -68,4 +86,7 @@ void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
 	DrawPile->CreateDiscardPile();
 
 	DrawPiles.Emplace(DrawPile);
+
+	DrawCard(DrawPile);
+	DrawCard(DrawPile);
 }
