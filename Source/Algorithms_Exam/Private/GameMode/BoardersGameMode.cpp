@@ -41,16 +41,6 @@ void ABoardersGameMode::BeginPlay()
 
 	}
 
-	/*FActorSpawnParameters SpawnParam;
-	FVector SpawnLocation = {640.0f,-230.0f,30.0f};
-
-	TArray<AActor*> Arrayofstuff;
-	TArray<AActor> a = UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACPP_EffectSphere::StaticClass(), Arrayofstuff);
-	 EffectSphereRef = a[0];*/
-		
-	//EndGame_Implementation();
-
-	
 	
 }
 
@@ -78,6 +68,7 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 
 void ABoardersGameMode::SpawnPlayers()
 {
+	//spawns players at a give location in the world and places them into the queue
 	const FRotator Rotation = FRotator(0.0,90.0,0.0);
 	const FRotator Rotation2 = FRotator(0.0,-90.0,0.0f);
 	FActorSpawnParameters SpawnParameters;
@@ -104,12 +95,13 @@ void ABoardersGameMode::EndTurn_Implementation()
 		return;
 	}
 
-
+	//check is the player is valid
 	if (IsValid(CurrentPlayer))
 	{
 		auto PlayerPawn = Cast<APlayerPawn>(CurrentPlayer);
 		if (PlayerPawn)
 		{
+			// clean the pathfinding
 			auto Piece = PlayerPawn->SavedPiece;
 
 			if (Piece)
@@ -119,7 +111,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 			PlayerPawn->Deselect();
 		}
-
+		//UnPossesses the current player
 		CurrentPlayer->UnPossessed();
 
 		ResetPlayer(CurrentPlayer);
@@ -131,7 +123,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 	if (PlayerDequeued)
 	{
-
+		
 		//Enqueue the Player that was removed from the que back into it
 		Enqueue_Implementation(PlayerDequeued);
 
@@ -142,7 +134,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 	if (!PlayerArray.IsEmpty())
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Assigned"));
-
+		//Assigns Current Player to be the next player in the queue
 		CurrentPlayer = PlayerArray[0];
 
 		if (IsValid(CurrentPlayer) && IsValid(PlayerController))
@@ -155,7 +147,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 
 void ABoardersGameMode::SwitchPlayer()
 {
-
+	//Possesses the new Player and Set the correct widget corresponding to the active Player
 	PlayerController->Possess(CurrentPlayer);
 	if (CurrentPlayer == Player1)
 	{
@@ -178,6 +170,7 @@ void ABoardersGameMode::SwitchPlayer()
 	 //if sphere/s exist, we run long term damage for each
 	for (int i= 0; i < FoundActors.Num(); i++)
 	{
+		//check for every sphere present in game and call out the function UpdateCount in each sphere present in the world
 		ICPP_Sphere_Interface::Execute_UpdateCount(FoundActors[i]);
 	}
 }
@@ -268,10 +261,12 @@ UUserWidget* ABoardersGameMode::CreateUIWidget(TSubclassOf<UEndGameWidget> Widge
 
 void ABoardersGameMode::EndGame_Implementation()
 {
-
+	//Find the player component for each player
 	UPlayerComponent* Player1Component = Player1->FindComponentByClass<UPlayerComponent>();
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
-	if (Player1Component->SpawnedPieces.Num() <= 0 || Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
+
+	//Compares the size of the array SpawnPieces in each player to determine the winner or if it is a tie.
+	if (Player1Component->SpawnedPieces.Num() >= 0 || Player2Component->SpawnedPieces.Num() > Player1Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if (UEndGameWidgetClass)
@@ -281,7 +276,7 @@ void ABoardersGameMode::EndGame_Implementation()
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
 
 	}
-	if (Player2Component->SpawnedPieces.Num() <= 0 || Player2Component->SpawnedPieces.Num() > Player1Component->SpawnedPieces.Num())
+	if (Player2Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if(UEndGameWidgetClass)
@@ -290,6 +285,16 @@ void ABoardersGameMode::EndGame_Implementation()
 		}
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
 	}
+	if (Player2Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() == Player2Component->SpawnedPieces.Num())
+	{
+		CreateUIWidget(UEndGameWidgetClass);
+		if (UEndGameWidgetClass)
+		{
+			UIInstance->Text->SetText(FText::FromString(TEXT("Tie!, How Is This Possible")));
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tie"));
+	}
+
 }
 
 

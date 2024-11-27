@@ -8,7 +8,6 @@
 #include "Player/PlayerPawn.h"
 #include "Components/ActorComponent.h" //UI
 #include "EndGameWidget.h"
-#include "Effects/CPP_EffectParent.h"
 #include "Effects/CPP_EffectSphere.h"
 #include "BoardersGameMode.generated.h"
 
@@ -24,10 +23,7 @@ class ALGORITHMS_EXAM_API ABoardersGameMode : public AGameModeBase, public IQueu
 {
 	GENERATED_BODY()
 
-	int TurnCount=0;
 
-	bool bIsSmooth = false;
-	
 
 public:
 	ABoardersGameMode();
@@ -36,30 +32,13 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-	
-	float time = 0;
-public:
 
 
 
-	//From QueueInterface
-	virtual void Enqueue_Implementation(APawn* Actor) override;
-
-	virtual APawn* Dequeue_Implementation() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "QueueArray")
-	TArray<APawn*> PlayerArray;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
-	TSubclassOf<APlayerPawn> Player1Class;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
-	TSubclassOf<APlayerPawn> Player2Class;
-
+private:
 
 	UPROPERTY()
 	APawn* CurrentPlayer;
-
 
 	UPROPERTY()
 	APlayerPawn* Player1;
@@ -69,6 +48,26 @@ public:
 
 	UPROPERTY()
 	APlayerController* PlayerController = nullptr;
+	
+public:
+
+
+
+	//From QueueInterface functions
+	virtual void Enqueue_Implementation(APawn* Actor) override;
+
+	virtual APawn* Dequeue_Implementation() override;
+
+	//array that contains player references
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "QueueArray")
+	TArray<APawn*> PlayerArray;
+
+	//Each player class
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
+	TSubclassOf<APlayerPawn> Player1Class;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerClass")
+	TSubclassOf<APlayerPawn> Player2Class;
 
 
 	// spawn points for players
@@ -98,6 +97,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "PlayerWidgetSwitch")
 	void Player2WidgetSwitch();
 
+	//location to spawn players
 	UFUNCTION()
 	FVector PLayer1SpawnLocation();
 
@@ -117,8 +117,7 @@ public:
 	UPROPERTY()
 	UEndGameWidget* UIInstance;
 
-	/*UFUNCTION(BlueprintCallable, Category = "UI")
-	UEndGameWidget* GetUIWidget() { return UIInstance; }*/
+	
 
 	/*Effect Sphere*/
 

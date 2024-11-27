@@ -44,6 +44,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+private:
+
+	//Enum
+	my_enum EDefault = Default;
+
+	UPROPERTY()
+	bool bRightMouseButton = false;
+
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
@@ -68,15 +78,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Player Component")
 	class UPlayerComponent* PlayerComponent;
 
-	//Enum
-	my_enum EDefault = Default;
 
 
 	UPROPERTY(BlueprintReadOnly, category = "Piece")
 	ACPP_Piece* SavedPiece = nullptr;
 
-	UPROPERTY()
-	bool bRightMouseButton = false;
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	FTeam PlayerTeam;
