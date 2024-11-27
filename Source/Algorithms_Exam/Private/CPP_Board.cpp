@@ -127,13 +127,13 @@ ACPP_Tile* ACPP_Board::GetTileAt(F2DVectorInt Position)
 
 	if (TileArray2D.IsEmpty()) return nullptr;
 
-	if (Position.X >= TileArray2D.Num()) return nullptr;
-
+	if (Position.X < 0 || Position.X >= TileArray2D.Num() ) return nullptr;
+	
 	const TArray<ACPP_Tile*> T = TileArray2D[Position.X]->TileArray;
 
 	if (T.IsEmpty()) return nullptr;
 
-	if (Position.Y >= T.Num()) return nullptr;
+	if (Position.Y < 0 || Position.Y >= T.Num()) return nullptr;
 
 	//Returns pointer to desired tile
 	return T[Position.Y];

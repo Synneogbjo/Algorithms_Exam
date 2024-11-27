@@ -7,6 +7,7 @@
 #include "Effects/CPP_EffectParent.h"
 #include "CPP_Board.h"
 #include "Effects/CPP_EffectDamage.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ACPP_Card::ACPP_Card()
@@ -25,6 +26,8 @@ ACPP_Card::ACPP_Card()
 void ACPP_Card::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Board = Cast<ACPP_Board>(UGameplayStatics::GetActorOfClass(GetWorld(), ACPP_Board::StaticClass()));
 	
 }
 
@@ -42,6 +45,7 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 {
 	if (!Board)
 	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("Card could not find board!"));
 		return;
 	}
 
@@ -63,6 +67,7 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 	for (int i = 0; i < CardEffects.Num(); i++)
 	{
 		UClass* EffectClass = CardEffects[i];
+
 		//Skips all Effect Classes that are of the type ACPP_EffectLocation
 		if (EffectClass == ACPP_EffectLocation::StaticClass()) continue;
 
@@ -71,9 +76,18 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 		F2DVectorInt SpawnPosition =	F2DVectorInt((Modulo - 1) * bInvertDirection - (i % Modulo), (Modulo - 1) * bInvertDirection - (static_cast<int>(floor(i / Modulo))))
 										- StartLocation + PieceLocation;
 
+		ACPP_Tile* SpawnTile = Board->GetTileAt(SpawnPosition);
+
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Finding effect spawn location..."));
+
+		if (!SpawnTile) continue;
+
 		FVector SpawnLocation = Board->GetTileAt(SpawnPosition)->GetActorLocation();
 
 		AActor* SpawnedActor = GetWorld()->SpawnActor(EffectClass, &SpawnLocation);
+
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Spawned Effect!"));
+
 
 	}
 }

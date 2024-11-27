@@ -26,7 +26,7 @@ void ACPP_EffectDamage::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorldTimerManager().SetTimer(DestroyTimer, this, &ACPP_EffectDamage::DestroyIfNoCollision, 0.5f);
+	GetWorldTimerManager().SetTimer(DestroyTimer, this, &ACPP_EffectDamage::DestroyIfNoCollision, 5.5f);
 }
 
 // Called every frame
