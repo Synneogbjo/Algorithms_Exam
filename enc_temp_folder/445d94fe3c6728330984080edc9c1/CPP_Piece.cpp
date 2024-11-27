@@ -34,7 +34,6 @@ ACPP_Piece::ACPP_Piece()
 	MaxHealth = Health = 4;
 	BoardPosition = F2DVectorInt(-1, -1);
 	MovementOptions = TArray<F2DVectorInt>();
-	PieceRole = FRole(FTeam("Blue", FColor::Blue), "Warrior");
 
 	DefaultTileColor = FColor(255.f, 255.f, 255.f);
 	HighlightedTileColor = FColor(100.f, 255.f, 100.f);
@@ -61,18 +60,6 @@ void ACPP_Piece::Tick(float DeltaTime)
 /// <returns> Current Health after dealing Damage </returns>
 int ACPP_Piece::Damage(int Value)
 {
-	if (NiagaraDamage)
-	{
-		FVector Location = MeshComponent->GetComponentLocation() + FVector(0,0,60);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraDamage, Location, MeshComponent->GetRelativeRotation());
-	}
-
-	/*if (NiagaraHeal)
-	{
-		FVector Location = MeshComponent->GetComponentLocation() + FVector(0, 0, 25);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraHeal, Location, MeshComponent->GetRelativeRotation());
-	}*/
-
 	if ((Health - Value) >= MaxHealth)
 	{
 		Health = MaxHealth;

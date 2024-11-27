@@ -62,7 +62,7 @@ void ABoardersGameMode::Tick(float DeltaTime)
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle ,this, &ABoardersGameMode::SwitchPlayer,4);*/
 
 	//GetWorld()->GetTimerManager().SetTimerForNextTick(this, &ABoardersGameMode::EndGame);
-
+	
 }
 
 void ABoardersGameMode::Enqueue_Implementation(APawn* Actor)
@@ -129,6 +129,7 @@ void ABoardersGameMode::EndTurn_Implementation()
 		}
 
 		CurrentPlayer->UnPossessed();
+
 		ResetPlayer(CurrentPlayer);
 	}
 
@@ -165,7 +166,7 @@ void ABoardersGameMode::SwitchPlayer()
 {
 
 	PlayerController->Possess(CurrentPlayer);
-	if (CurrentPlayer ==Player1)
+	if (CurrentPlayer == Player1)
 	{
 		Player1WidgetSwitch();
 	}
@@ -173,6 +174,8 @@ void ABoardersGameMode::SwitchPlayer()
 	{
 		Player2WidgetSwitch();
 	}
+
+	
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s"), *CurrentPlayer->GetName()));
 
 	//find existing spheres

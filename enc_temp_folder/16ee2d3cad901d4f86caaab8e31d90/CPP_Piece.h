@@ -8,11 +8,7 @@
 #include "CPP_Tile.h"
 #include "GameFramework/Actor.h"
 #include "F2DVectorInt.h"
-#include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "FRole.h"
-
 #include "CPP_Piece.generated.h"
 
 class ACPP_Board;
@@ -44,12 +40,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Effect")
-	UNiagaraSystem* NiagaraDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
-	UNiagaraSystem* NiagaraHeal;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -77,9 +67,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	TArray<F2DVectorInt> MovementOptions;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
-	FRole PieceRole;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Piece")
 	FColor DefaultTileColor;

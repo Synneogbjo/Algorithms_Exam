@@ -35,7 +35,8 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-
+	
+	float time = 0;
 public:
 
 	virtual void Tick(float DeltaTime) override;
