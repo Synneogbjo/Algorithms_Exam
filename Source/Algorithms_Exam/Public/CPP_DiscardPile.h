@@ -19,19 +19,10 @@ public:
 
 	TArray<ACPP_Card*> DiscardPileArray;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<ACPP_Card*> ShuffledArray; //shuffle original array and empty it, put shuffled cards to here and then this can be called in stack (aka draw pile)
-
 	UFUNCTION(BlueprintCallable, Category = "DrawPile")
 	virtual void AddCardsFromDrawPile(ACPP_Card* Card);
 
 	UFUNCTION(BlueprintCallable, Category = "DrawPile")
-	virtual ACPP_Card* EmptyDiscardPile();
-
-	UFUNCTION(BlueprintCallable, Category = "DrawPile")
-	virtual void AddCardsToShuffledPile();
-
-	
-
+	virtual TArray<ACPP_Card*> EmptyDiscardPile();
 
 };
