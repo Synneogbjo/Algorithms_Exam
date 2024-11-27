@@ -44,16 +44,11 @@ void ACPP_EffectDamage::OnBeginOverlap(UPrimitiveComponent*OverlappedComp, AActo
 
 		Cast<ACPP_Piece>(OtherActor)->Damage(DamageAmount);
 
-		Destroy();
-	}
-	else
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Hit unknown actor! ")).Append(OtherActor->GetName()));
+		//Destroy();
 	}
 }
 
 void ACPP_EffectDamage::DestroyIfNoCollision()
 {
-	UE_LOG(LogTemp, Log, TEXT("Effect Damage Did not hit anything!"));
 	Destroy();
 }

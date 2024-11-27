@@ -63,6 +63,8 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 		}
 	}
 
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Playing card..."));
+
 	//Spawns all Card Effects on the matching Tile location
 	for (int i = 0; i < CardEffects.Num(); i++)
 	{
@@ -73,21 +75,23 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 
 		if (!EffectClass) continue;
 
-		F2DVectorInt SpawnPosition =	F2DVectorInt((Modulo - 1) * bInvertDirection - (i % Modulo), (Modulo - 1) * bInvertDirection - (static_cast<int>(floor(i / Modulo))))
-										- StartLocation + PieceLocation;
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT(""), SpawnPosition.X, SpawnPosition.Y));
+
+		//TODO: Logic for where to spawn the effects does not work properly
+
+		F2DVectorInt SpawnPosition = F2DVectorInt(i % Modulo, static_cast<int>(floor(i / Modulo))) - StartLocation + PieceLocation;
+
+		if (bInvertDirection) SpawnPosition = F2DVectorInt((Modulo - 1) - (i % Modulo), (Modulo - 1) - (static_cast<int>(floor(i / Modulo)))) + StartLocation + PieceLocation;
 
 		ACPP_Tile* SpawnTile = Board->GetTileAt(SpawnPosition);
 
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Finding effect spawn location..."));
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 25.f, FColor::White, FString::Printf(TEXT("%i Finding effect spawn location... %i, %i"), bInvertDirection, SpawnPosition.X, SpawnPosition.Y));
 
 		if (!SpawnTile) continue;
 
 		FVector SpawnLocation = Board->GetTileAt(SpawnPosition)->GetActorLocation();
 
 		AActor* SpawnedActor = GetWorld()->SpawnActor(EffectClass, &SpawnLocation);
-
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Spawned Effect!"));
-
 
 	}
 }
