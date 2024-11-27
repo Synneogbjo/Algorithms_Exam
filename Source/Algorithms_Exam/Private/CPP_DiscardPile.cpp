@@ -16,34 +16,11 @@ void UCPP_DiscardPile::AddCardsFromDrawPile(ACPP_Card* Card)
 	}
 }
 
-ACPP_Card* UCPP_DiscardPile::EmptyDiscardPile()
+TArray<ACPP_Card*> UCPP_DiscardPile::EmptyDiscardPile()
 {
-	
-	ACPP_Card* CardRef = nullptr;
-	if (!DiscardPileArray.IsEmpty())
-	{ 
-		CardRef = DiscardPileArray.Last();
-		DiscardPileArray.Pop();
-	}
-	return CardRef;
+	auto Cards = DiscardPileArray;
+
+	DiscardPileArray.Empty();
+
+	return Cards;
 }
-
-void UCPP_DiscardPile::AddCardsToShuffledPile()
-{
-	ACPP_Card* CardRef = nullptr;
-
-	int DiscardPileSize = DiscardPileArray.Num();
-
-	for (int i = 0; i < DiscardPileSize; i++) {
-		CardRef = EmptyDiscardPile();
-		//save shuffled cards inside shuffled array, ready to be sent to draw pile
-		if (!CardRef) return;
-		else {
-			ShuffledArray.Add(CardRef);
-			
-		}
-	}
-	
-}
-
-
