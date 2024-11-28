@@ -44,5 +44,5 @@ public:
 	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection, UPlayerComponent* PlayerComponent);
 
 	UFUNCTION()
-	void InitializeDrawPile(ACPP_Piece* Piece);
+	void InitializeDrawPile(ACPP_Piece* Piece, FVector Location);
 };

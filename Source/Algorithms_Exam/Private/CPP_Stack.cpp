@@ -3,6 +3,7 @@
 
 #include "CPP_Stack.h"
 
+#include "CPP_Board.h"
 #include "CPP_DiscardPile.h"
 #include "Kismet/KismetArrayLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -44,17 +45,26 @@ void UCPP_Stack::CreateDiscardPile()
 	if (!DiscardPile) DiscardPile = NewObject<UCPP_DiscardPile>();
 }
 
-void UCPP_Stack::InitializeStack()
+void UCPP_Stack::InitializeStack(FVector Location)
 {
 	if (InitCardsClasses.IsEmpty()) return;
 
-	for (auto Class : InitCardsClasses)
+	for (int i = 0; i < InitCardsClasses.Num(); i++)
 	{
-		AActor* InitCardActor = GetWorld()->SpawnActor(Class);
+		FActorSpawnParameters SpawnParameters;
+
+		AActor* InitCardActor = GetWorld()->SpawnActor(InitCardsClasses[i]);
 
 		ACPP_Card* InitCard = Cast<ACPP_Card>(InitCardActor);
 
-		if (InitCard) Push_Implementation(InitCard);
+		if (InitCard)
+		{
+			Push_Implementation(InitCard);
+
+			Location += FVector(0.f, 0.f, InitCard->Mesh->GetRelativeScale3D().Z + 10.f);
+
+			InitCard->SetActorLocation(Location);
+		}
 	}
 
 	Algo::RandomShuffle(CardsArray);
