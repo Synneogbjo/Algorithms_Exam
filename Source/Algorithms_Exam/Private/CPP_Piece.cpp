@@ -61,17 +61,26 @@ void ACPP_Piece::Tick(float DeltaTime)
 /// <returns> Current Health after dealing Damage </returns>
 int ACPP_Piece::Damage(int Value)
 {
-	if (NiagaraDamage)
+	if (Value > 0)
 	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("damage"));
+		if (NiagaraDamage)
+		{
 		const FVector Location = MeshComponent->GetComponentLocation() + FVector(0,0,60);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraDamage, Location, MeshComponent->GetRelativeRotation());
+		}
+
 	}
 
-	/*if (NiagaraHeal)
+	if (Value < 0)
 	{
-		FVector Location = MeshComponent->GetComponentLocation() + FVector(0, 0, 25);
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Heal"));
+		if (NiagaraHeal)
+		{
+		FVector Location = MeshComponent->GetComponentLocation() + FVector(0, 0, 0);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraHeal, Location, MeshComponent->GetRelativeRotation());
-	}*/
+		}
+	}
 
 	if ((Health - Value) >= MaxHealth)
 	{

@@ -54,5 +54,7 @@ public:
 
 	virtual void UpdateCount_Implementation() override;
 
-	void DestroySphereIfNoOverlap();
+
+	UFUNCTION()
+	void DestroySphereEffect();
 };
