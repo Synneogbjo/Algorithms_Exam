@@ -79,9 +79,16 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 
 		//TODO: Logic for where to spawn the effects does not work properly
 
-		F2DVectorInt SpawnPosition = F2DVectorInt(i % Modulo, static_cast<int>(floor(i / Modulo))) - StartLocation + PieceLocation;
+		F2DVectorInt SpawnPosition	= F2DVectorInt((i % Modulo), static_cast<int>(floor(i / Modulo)))
+			- StartLocation + PieceLocation;
 
-		if (bInvertDirection) SpawnPosition = F2DVectorInt((Modulo - 1) - (i % Modulo), (Modulo - 1) - (static_cast<int>(floor(i / Modulo)))) + StartLocation + PieceLocation;
+		if (bInvertDirection)
+		{
+			SpawnPosition			=	F2DVectorInt(-(i % Modulo), -static_cast<int>(floor(i / Modulo)))
+										+ StartLocation + PieceLocation;
+
+			UE_LOG(LogTemp, Log, TEXT("%i, %i | %i, %i"), -(i % Modulo), -(static_cast<int>(floor(i / Modulo))), SpawnPosition.X, SpawnPosition.Y);
+		}
 
 		ACPP_Tile* SpawnTile = Board->GetTileAt(SpawnPosition);
 
