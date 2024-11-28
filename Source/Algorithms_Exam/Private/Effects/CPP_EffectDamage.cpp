@@ -26,7 +26,7 @@ void ACPP_EffectDamage::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorldTimerManager().SetTimer(DestroyTimer, this, &ACPP_EffectDamage::DestroyIfNoCollision, 0.5f);
+	GetWorldTimerManager().SetTimer(DestroyTimer, this, &ACPP_EffectDamage::DestroyIfNoCollision, 2.f);
 }
 
 // Called every frame
@@ -44,16 +44,11 @@ void ACPP_EffectDamage::OnBeginOverlap(UPrimitiveComponent*OverlappedComp, AActo
 
 		Cast<ACPP_Piece>(OtherActor)->Damage(DamageAmount);
 
-		Destroy();
-	}
-	else
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Hit unknown actor! ")).Append(OtherActor->GetName()));
+		//Destroy();
 	}
 }
 
 void ACPP_EffectDamage::DestroyIfNoCollision()
 {
-	UE_LOG(LogTemp, Log, TEXT("Effect Damage Did not hit anything!"));
 	Destroy();
 }

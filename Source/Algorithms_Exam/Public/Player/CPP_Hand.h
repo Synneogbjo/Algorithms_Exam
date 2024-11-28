@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "CPP_Hand.generated.h"
 
+class UPlayerComponent;
 struct FRole;
 struct F2DVectorInt;
 class UCPP_Stack;
@@ -40,7 +41,7 @@ public:
 	UCPP_CountingSort* Sorter;
 
 	UFUNCTION(BlueprintCallable, Category = "Hand")
-	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection);
+	ACPP_Card* UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection, UPlayerComponent* PlayerComponent);
 
 	UFUNCTION()
 	void InitializeDrawPile(ACPP_Piece* Piece);

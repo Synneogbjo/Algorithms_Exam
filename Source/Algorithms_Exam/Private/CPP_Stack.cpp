@@ -20,6 +20,16 @@ void UCPP_Stack::Push_Implementation(ACPP_Card* Card)
 ACPP_Card* UCPP_Stack::Pop_Implementation()
 {
 	ACPP_Card* ClassRef = nullptr;
+	if (CardsArray.IsEmpty())
+	{
+		auto Cards = DiscardPile->EmptyDiscardPile();
+
+		for (auto Card : Cards)
+		{
+			Push_Implementation(Card);
+		}
+	}
+
 	if (!CardsArray.IsEmpty())
 	{
 		ClassRef = CardsArray.Last();
