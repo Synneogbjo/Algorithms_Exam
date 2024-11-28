@@ -20,6 +20,11 @@ void ACPP_EffectSphere::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (NiagaraSmoke)
+	{
+		const FVector Location = TriggerSphere->GetRelativeLocation();
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSmoke, Location, FRotator::ZeroRotator);
+	}
 	GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroySphereIfNoOverlap, 0.5f);
 
 }

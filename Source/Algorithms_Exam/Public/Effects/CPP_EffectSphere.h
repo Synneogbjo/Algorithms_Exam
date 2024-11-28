@@ -6,6 +6,8 @@
 #include "Effects/CPP_EffectParent.h"
 #include "CPP_Piece.h"
 #include "CPP_Sphere_Interface.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Components/SphereComponent.h"
 #include "CPP_EffectSphere.generated.h"
 
@@ -22,6 +24,10 @@ class ALGORITHMS_EXAM_API ACPP_EffectSphere : public ACPP_EffectParent, public I
 	bool IsInside = false;
 	
 	int32 Count = 0;
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
+	UNiagaraSystem* NiagaraSmoke;
+
 
 public:
 
