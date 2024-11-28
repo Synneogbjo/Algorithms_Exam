@@ -224,6 +224,7 @@ void APlayerPawn::RightMouseButtonNotclicked()
 
 void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 {
+	if (!ClickedPiece) return;
 
 	SavedPiece = ClickedPiece;
 	SavedPiece->HighlightPiece();
@@ -250,10 +251,11 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 
 void APlayerPawn::Deselect()
 {
+	EDefault = Default;
+
 	if (!SavedPiece) return;
 
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
-	EDefault = Default;
 	HideCards();
 	SavedPiece->NotHighlightPiece();
 	SavedPiece->ClearVisualizePathfinding();
