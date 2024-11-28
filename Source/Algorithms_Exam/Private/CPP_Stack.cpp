@@ -34,7 +34,7 @@ ACPP_Card* UCPP_Stack::Pop_Implementation()
 	{
 		ClassRef = CardsArray.Last();
 		CardsArray.Pop();
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Popped")));
+		
 	}
 	return ClassRef; // ClassRef can be used to add the popped card to the hand or other card stock
 }

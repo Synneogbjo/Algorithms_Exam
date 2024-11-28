@@ -15,7 +15,6 @@ ACPP_Card::ACPP_Card()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CardCost = 0;
-	//CardRole = ? ;
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 	Mesh->SetupAttachment(GetRootComponent());
 
