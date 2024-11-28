@@ -93,7 +93,23 @@ void APieceSpawner::AssignPlayer(ACPP_Piece* Piece)
 		}
 		
 		if (!PlayerComponent->Hand) PlayerComponent->Hand = NewObject<UCPP_Hand>(this, PlayerComponent->HandClass);
-		PlayerComponent->Hand->InitializeDrawPile(SpawnedPiece);
+
+		FVector SpawnLocation = Board->GetActorLocation();
+
+		//Sets spawn location of first draw pile
+		SpawnLocation += bInvertStackSpawnLocation ?
+			-(Board->Mesh->GetRelativeScale3D() * 50) - FVector(CardSize.Y + StackMargin, 0.f, 0.f)
+			: (Board->Mesh->GetRelativeScale3D() * 50) + FVector(CardSize.Y + StackMargin, 0.f, 0.f);
+
+		//Updates spawn location if draw pile is not the first one initialized for this player
+		if (PlayerComponent->Hand)
+		{
+			SpawnLocation += bInvertStackSpawnLocation ?
+				FVector(0, (CardSize.X + StackMargin) * PlayerComponent->Hand->DrawPiles.Num(), 0)
+				: -FVector(0, (CardSize.X + StackMargin) * PlayerComponent->Hand->DrawPiles.Num(), 0);
+		}
+
+		PlayerComponent->Hand->InitializeDrawPile(SpawnedPiece, SpawnLocation);
 	}
 	
 

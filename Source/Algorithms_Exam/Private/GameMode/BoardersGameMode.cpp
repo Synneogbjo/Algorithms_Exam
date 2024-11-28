@@ -38,7 +38,7 @@ void ABoardersGameMode::BeginPlay()
 	{
 		SwitchPlayer();
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
-
+		
 	}
 
 	

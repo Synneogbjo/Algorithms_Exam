@@ -42,6 +42,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pieces")
 	FRotator Rotation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stacks")
+	float StackMargin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stacks")
+	bool bInvertStackSpawnLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cards")
+	FVector CardSize;
+
 	UFUNCTION()
 	void SpawnPieces();
 

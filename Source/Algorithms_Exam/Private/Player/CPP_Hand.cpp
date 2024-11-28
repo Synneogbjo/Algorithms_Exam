@@ -13,23 +13,17 @@
 
 void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 {
-	UE_LOG(LogTemp, Log, TEXT("Trying to draw card..."));
-
 	if (!Stack)
 	{
-		UE_LOG(LogTemp, Log, TEXT("No draw pile exists!"));
 		return;
 	}
 
 	if (!Cards.Contains(nullptr) && Cards.Num() >= MaxCards)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Hand is full!"));
 		return;
 	}
 
 	Cards.Add(Stack->Pop_Implementation());
-
-	UE_LOG(LogTemp, Log, TEXT("Drew a card!"));
 }
 
 ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection, UPlayerComponent* PlayerComponent)
@@ -68,7 +62,7 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInver
 	return TargetCard;
 }
 
-void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
+void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece, FVector Location)
 {
 	for (auto Class : DrawPileClasses)
 	{
@@ -76,7 +70,7 @@ void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
 		{
 			auto DrawPile = NewObject<UCPP_Stack>(this, Class);
 			DrawPile->Role = Piece->PieceRole;
-			DrawPile->InitializeStack();
+			DrawPile->InitializeStack(Location);
 			DrawPile->CreateDiscardPile();
 
 			DrawPiles.Emplace(DrawPile);
@@ -90,7 +84,7 @@ void UCPP_Hand::InitializeDrawPile(ACPP_Piece* Piece)
 
 	auto DrawPile = NewObject<UCPP_Stack>();
 	DrawPile->Role = Piece->PieceRole;
-	DrawPile->InitializeStack();
+	DrawPile->InitializeStack(Location);
 	DrawPile->CreateDiscardPile();
 
 	DrawPiles.Emplace(DrawPile);

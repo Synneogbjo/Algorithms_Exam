@@ -41,6 +41,6 @@ public:
 	void CreateDiscardPile();
 
 	UFUNCTION(BlueprintCallable)
-	void InitializeStack();
+	void InitializeStack(FVector Location);
 	
 };
