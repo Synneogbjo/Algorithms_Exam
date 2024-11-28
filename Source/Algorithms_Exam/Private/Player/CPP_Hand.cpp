@@ -9,6 +9,7 @@
 #include "F2DVectorInt.h"
 #include "CPP_Piece.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PlayerComponent.h"
 
 void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 {
@@ -31,7 +32,7 @@ void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 	UE_LOG(LogTemp, Log, TEXT("Drew a card!"));
 }
 
-ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection)
+ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection, UPlayerComponent* PlayerComponent)
 {
 	if (Index < 0 || Index >= Cards.Num()) return nullptr;
 
@@ -39,7 +40,14 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInver
 
 	if (!TargetCard) return nullptr;
 
+	if (TargetCard->CardCost > PlayerComponent->Points)
+	{
+		return nullptr;
+	}
+
 	Cards.RemoveAt(Index, 1, true);
+
+	PlayerComponent->Points -= TargetCard->CardCost;
 
 	for (auto Pile : DrawPiles)
 	{
@@ -49,7 +57,7 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInver
 
 			if (!Pile->DiscardPile) Pile->CreateDiscardPile();
 
-			TargetCard->SpawnEffects(PieceLocation, false);
+			TargetCard->SpawnEffects(PieceLocation, bInvertCardDirection);
 
 			Pile->DiscardPile->AddCardsFromDrawPile(TargetCard);
 
