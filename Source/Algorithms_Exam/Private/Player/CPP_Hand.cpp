@@ -28,7 +28,7 @@ void UCPP_Hand::DrawCard(UCPP_Stack* Stack)
 
 ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInvertCardDirection, UPlayerComponent* PlayerComponent)
 {
-	if (Index < 0 || Index >= Cards.Num()) return nullptr;
+	if (Index < 0 || Index >= Cards.Num() || !PlayerComponent) return nullptr;
 
 	ACPP_Card* TargetCard = Cards[Index];
 
