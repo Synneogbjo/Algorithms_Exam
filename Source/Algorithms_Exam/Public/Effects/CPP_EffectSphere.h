@@ -28,6 +28,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	UNiagaraSystem* NiagaraSmoke;
 
+	UPROPERTY()
+	UNiagaraComponent* NiagaraComponent;
 
 public:
 
