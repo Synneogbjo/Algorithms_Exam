@@ -103,6 +103,14 @@ void ACPP_EffectSphere::UpdateCount_Implementation()
 	UpdateCountEffect();
 }
 
+void ACPP_EffectSphere::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if(PieceRef)
+	{
+		PieceRef = nullptr;
+	}
+}
+
 void ACPP_EffectSphere::DestroySphereEffect()
 {
 	NiagaraComponent->DestroyComponent();

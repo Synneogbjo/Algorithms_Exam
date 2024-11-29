@@ -54,6 +54,9 @@ public:
 
 	virtual void UpdateCount_Implementation() override;
 
+	UFUNCTION()
+	void OnEndOverlap(UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 
 	UFUNCTION()
 	void DestroySphereEffect();
