@@ -25,7 +25,7 @@ void ACPP_EffectSphere::BeginPlay()
 		const FVector Location = TriggerSphere->GetRelativeLocation();
 		NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSmoke, Location, FRotator::ZeroRotator);
 	}
-	GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroySphereIfNoOverlap, 0.7f);
+
 
 }
 
@@ -81,9 +81,16 @@ void ACPP_EffectSphere::UpdateCountEffect()
 			if (PieceRef)
 			{
 				DealDamage(PieceRef);
-				NiagaraComponent->DestroyComponent();
-				Destroy();
+				NiagaraComponent->Deactivate();
+				GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroySphereEffect, 1.2f);
+
 				
+			}
+			else
+			{
+				NiagaraComponent->Deactivate();
+				GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroySphereEffect, 1.2f);
+
 			}
 		}
 		if (Count > 2) {
@@ -96,15 +103,15 @@ void ACPP_EffectSphere::UpdateCount_Implementation()
 	UpdateCountEffect();
 }
 
-void ACPP_EffectSphere::DestroySphereIfNoOverlap()
+void ACPP_EffectSphere::DestroySphereEffect()
 {
-	if (IsInside==false)
-	{
-		NiagaraComponent->DestroyComponent();
-		Destroy();
-		
-	}
+	NiagaraComponent->DestroyComponent();
+	Destroy();
+
 }
+
+
+
 
 
 
