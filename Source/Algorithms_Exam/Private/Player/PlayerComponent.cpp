@@ -5,6 +5,7 @@
 
 #include "CPP_Card.h"
 #include "Blueprint/UserWidget.h"
+#include "GameMode/BoardersGameMode.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -56,6 +57,11 @@ void UPlayerComponent::RemoveTotalPieces(ACPP_Piece* RemovePiece)
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%p"),RemovePiece));
 	
 	SpawnedPieces.Remove(RemovePiece);
+	if (SpawnedPieces.Num()==0)
+	{
+		ABoardersGameMode* GameMode= Cast<ABoardersGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		GameMode->EndGame_Implementation();
+	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%d"), SpawnedPieces.Num()));
 
 }

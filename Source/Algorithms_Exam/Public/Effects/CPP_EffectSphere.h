@@ -28,6 +28,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effect")
 	UNiagaraSystem* NiagaraSmoke;
 
+	UPROPERTY()
+	UNiagaraComponent* NiagaraComponent;
 
 public:
 
@@ -52,5 +54,7 @@ public:
 
 	virtual void UpdateCount_Implementation() override;
 
-	
+
+	UFUNCTION()
+	void DestroySphereEffect();
 };

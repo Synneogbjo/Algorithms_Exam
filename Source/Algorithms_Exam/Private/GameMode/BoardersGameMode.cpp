@@ -38,7 +38,7 @@ void ABoardersGameMode::BeginPlay()
 	{
 		SwitchPlayer();
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Player1"));
-
+		
 	}
 
 	
@@ -268,7 +268,7 @@ void ABoardersGameMode::EndGame_Implementation()
 	UPlayerComponent* Player2Component = Player2->FindComponentByClass<UPlayerComponent>();
 
 	//Compares the size of the array SpawnPieces in each player to determine the winner or if it is a tie.
-	if (Player1Component->SpawnedPieces.Num() >= 0 || Player2Component->SpawnedPieces.Num() > Player1Component->SpawnedPieces.Num())
+	if (Player1Component->SpawnedPieces.Num() >= 0 && Player2Component->SpawnedPieces.Num() > Player1Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if (UEndGameWidgetClass)
@@ -282,7 +282,7 @@ void ABoardersGameMode::EndGame_Implementation()
 		
 
 	}
-	if (Player2Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
+	if (Player2Component->SpawnedPieces.Num() >= 0 && Player1Component->SpawnedPieces.Num() > Player2Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if(UEndGameWidgetClass)
@@ -295,7 +295,7 @@ void ABoardersGameMode::EndGame_Implementation()
 		}
 		
 	}
-	if (Player2Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() >= 0 || Player1Component->SpawnedPieces.Num() == Player2Component->SpawnedPieces.Num())
+	if (Player2Component->SpawnedPieces.Num() >= 0 && Player1Component->SpawnedPieces.Num() >= 0 && Player1Component->SpawnedPieces.Num() == Player2Component->SpawnedPieces.Num())
 	{
 		CreateUIWidget(UEndGameWidgetClass);
 		if (UEndGameWidgetClass)
