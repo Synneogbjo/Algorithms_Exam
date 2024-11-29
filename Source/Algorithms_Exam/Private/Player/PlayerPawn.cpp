@@ -20,7 +20,7 @@ APlayerPawn::APlayerPawn()
 
 	PlayerComponent = CreateDefaultSubobject<UPlayerComponent>(TEXT("Player Component"));
 
-
+	Sensativity = 0;
 
 }
 
@@ -83,9 +83,9 @@ void APlayerPawn::CameraLook(const FInputActionValue& Value)
 
 	if (Controller != nullptr && bRightMouseButton)
 	{
-		AddControllerYawInput(LookInput.X);
+		AddControllerYawInput(LookInput.X *Sensativity);
 
-		AddControllerPitchInput(LookInput.Y);
+		AddControllerPitchInput(LookInput.Y* Sensativity);
 
 	}
 
