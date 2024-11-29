@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FTeam.h"
-
+#include "Engine/Texture2D.h"
 #include "FRole.generated.h"
 
 class UPaperSprite;
@@ -22,7 +22,7 @@ public:
 
 	FRole();
 	FRole(FTeam SetTeam, FString SetName);
-	FRole(FTeam SetTeam, FString SetName, UPaperSprite* SetSprite);
+	FRole(FTeam SetTeam, FString SetName, UTexture2D* SetSprite);
 	~FRole();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Role")
@@ -32,7 +32,7 @@ public:
 	FString RoleName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Role")
-	UPaperSprite* RoleSprite;
+	UTexture2D* RoleSprite;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Role")
 	int32 ClassIndex=1;

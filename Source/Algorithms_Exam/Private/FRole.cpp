@@ -19,7 +19,7 @@ FRole::FRole(FTeam SetTeam, FString SetName)
 	RoleSprite = nullptr;
 }
 
-FRole::FRole(FTeam SetTeam, FString SetName, UPaperSprite* SetSprite)
+FRole::FRole(FTeam SetTeam, FString SetName, UTexture2D* SetSprite)
 {
 	RoleTeam = SetTeam;
 	RoleName = SetName;

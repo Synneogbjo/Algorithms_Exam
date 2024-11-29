@@ -25,7 +25,7 @@ void ACPP_EffectSphere::BeginPlay()
 		const FVector Location = TriggerSphere->GetRelativeLocation();
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NiagaraSmoke, Location, FRotator::ZeroRotator);
 	}
-	GetWorldTimerManager().SetTimer(DestroySphere, this, &ACPP_EffectSphere::DestroySphereIfNoOverlap, 0.5f);
+	
 
 }
 
@@ -95,13 +95,7 @@ void ACPP_EffectSphere::UpdateCount_Implementation()
 	UpdateCountEffect();
 }
 
-void ACPP_EffectSphere::DestroySphereIfNoOverlap()
-{
-	if (IsInside==false)
-	{
-		Destroy();
-	}
-}
+
 
 
 
