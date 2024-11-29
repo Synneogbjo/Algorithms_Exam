@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FTeam.h"
-#include "Engine/Texture2D.h"
+#include "Components/Image.h"
 #include "FRole.generated.h"
 
 class UPaperSprite;
