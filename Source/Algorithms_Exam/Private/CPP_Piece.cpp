@@ -185,6 +185,13 @@ void ACPP_Piece::DestroyPiece()
 	if (Player != nullptr)
 	{
 		Player->PlayerComponent->RemoveTotalPieces(this);
+
+		if (auto Tile = CurrentBoard->GetTileAt(BoardPosition))
+		{
+			Tile->OccupyingActor = nullptr;
+			Tile->bIsOccupied = false;
+		}
+
 		Destroy();
 	}
 
