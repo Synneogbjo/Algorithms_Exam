@@ -43,7 +43,7 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 			PieceRef = Cast<ACPP_Piece>(OtherActor);
 			PieceRef->Damage(1);
 			IsInside = true;
-			DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
+			//DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
 		}
 	}
 	
@@ -63,7 +63,7 @@ void ACPP_EffectSphere::DealDamage(ACPP_Piece* PieceInside)
 			PieceRef->Damage(1);
 			
 			
-			DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
+			//DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
 		}
 		else
 		{

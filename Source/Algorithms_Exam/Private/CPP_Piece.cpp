@@ -109,10 +109,10 @@ int ACPP_Piece::Damage(int Value)
 bool ACPP_Piece::MoveTo(F2DVectorInt TargetPosition)
 {
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Moving to position"));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Moving to position"));
 	if (!CurrentBoard)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("!!!WARNING: While moving, this piece has no pointer to the Board!"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("!!!WARNING: While moving, this piece has no pointer to the Board!"));
 		return false;
 	}
 
@@ -121,7 +121,7 @@ bool ACPP_Piece::MoveTo(F2DVectorInt TargetPosition)
 
 	if (CurrentTile->OccupyingActor != this)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("!!!WARNING: While moving, this piece's stored location did not coincide with the board!"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("!!!WARNING: While moving, this piece's stored location did not coincide with the board!"));
 		return false;
 	}
 
@@ -130,14 +130,14 @@ bool ACPP_Piece::MoveTo(F2DVectorInt TargetPosition)
 
 	if (!TargetTile)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("WARNING: Piece tried to move to a location out of bounds. X %d | Y %d"), TargetPosition.X, TargetPosition.Y));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("WARNING: Piece tried to move to a location out of bounds. X %d | Y %d"), TargetPosition.X, TargetPosition.Y));
 		return false;
 	}
 
 	//Check if target Tile is occupied
 	if (TargetTile->bIsOccupied)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("COMMENT: Piece tried to move to X %d | Y %d, but it is already occupied."), TargetPosition.X, TargetPosition.Y));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("COMMENT: Piece tried to move to X %d | Y %d, but it is already occupied."), TargetPosition.X, TargetPosition.Y));
 		return false;
 	}
 
@@ -154,7 +154,7 @@ bool ACPP_Piece::MoveTo(F2DVectorInt TargetPosition)
 	TargetTile->bIsOccupied = true;
 	BoardPosition = TargetPosition;
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Moved to position"));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Moved to position"));
 
 	return true;
 }
@@ -163,7 +163,7 @@ int ACPP_Piece::MoveAlongPath(UCPP_AlgorithmPath* Path)
 {
 	int Cost = CurrentMovementCost;
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Started Moving..."));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Started Moving..."));
 
 	if (Path->Parent)
 	{
@@ -226,7 +226,7 @@ void ACPP_Piece::Onclicked()
 
 		VisualizePathfinding(LegalPaths);
 
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%i | %i"), LegalPaths.Num(), Steps));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%i | %i"), LegalPaths.Num(), Steps));
 	}
 	
 	//Move option appears
@@ -239,7 +239,7 @@ void ACPP_Piece::Onclicked()
 void ACPP_Piece::GetTile(ACPP_Tile* Tile)
 {
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Bjorn"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Bjorn"));
 
 	for (auto Path : LegalPaths)
 	{

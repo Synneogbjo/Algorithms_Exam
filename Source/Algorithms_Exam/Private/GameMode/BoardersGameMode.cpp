@@ -6,8 +6,6 @@
 #include "EndGameWidget.h"
 #include "Player/PlayerPawn.h"
 //#include "UIComponent.h"
-#include "EndGameWidget.h"
-#include "ToolBuilderUtil.h"
 #include "Blueprint/UserWidget.h"
 #include "Effects/CPP_Sphere_Interface.h"
 #include "Engine/Engine.h"
@@ -55,13 +53,15 @@ APawn* ABoardersGameMode::Dequeue_Implementation()
 {
 	APawn* DequeueActor = nullptr;
 
+	//check if the array is not empty
 	if (!PlayerArray.IsEmpty())
 	{
+		//assigns  DequeueActor to be the player in the index 0 of the array and remove it
 		DequeueActor = PlayerArray[0];
 		PlayerArray.RemoveAt(0);
 
 	}
-
+	//returns the DequeuedPlayer
 	return DequeueActor;
 }
 
@@ -90,10 +90,10 @@ void ABoardersGameMode::EndTurn_Implementation()
 	
 	if (PlayerArray.Num() == 0)
 	{
-		if (GEngine)
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Empty"));
-		}
+		}*/
 		return;
 	}
 
@@ -275,10 +275,10 @@ void ABoardersGameMode::EndGame_Implementation()
 		{
 			UIInstance->Text->SetText(FText::FromString(TEXT("Player2 wins!")));
 		}
-		if (GEngine)
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 2 wins"));
-		}
+		}*/
 		
 
 	}
@@ -289,10 +289,10 @@ void ABoardersGameMode::EndGame_Implementation()
 		{
 			UIInstance->Text->SetText(FText::FromString(TEXT("Player1 wins!")));
 		}
-		if (GEngine)
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("End Game Player 1 wins"));
-		}
+		}*/
 		
 	}
 	if (Player2Component->SpawnedPieces.Num() >= 0 && Player1Component->SpawnedPieces.Num() >= 0 && Player1Component->SpawnedPieces.Num() == Player2Component->SpawnedPieces.Num())
@@ -303,10 +303,10 @@ void ABoardersGameMode::EndGame_Implementation()
 			UIInstance->Text->SetText(FText::FromString(TEXT("Tie!, How Is This Possible")));
 		}
 
-		if (GEngine)
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tie"));
-		}
+		}*/
 		
 	}
 

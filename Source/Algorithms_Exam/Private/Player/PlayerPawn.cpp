@@ -135,7 +135,7 @@ void APlayerPawn::OnClick()
 
 		if (EDefault == Default)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("new"));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("new"));
 			if (IsValid(HitResult.GetActor()))
 			{
 
@@ -181,10 +181,10 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 			}
 			else
 			{
-				if (GEngine)
+				/*if (GEngine)
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Not my piece"));
-				}
+				}*/
 				
 			}
 			
@@ -192,11 +192,11 @@ bool APlayerPawn::CheckActor(AActor* Actor)
 		}
 		else
 		{
-			if (GEngine)
+			/*if (GEngine)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, Actor->GetName());
 			}
-			
+			*/
 		}
 	}
 
@@ -215,10 +215,10 @@ void APlayerPawn::RightMouseButtonNotclicked()
 {
 
 	bRightMouseButton = false;
-	if (GEngine)
+	/*if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Noo"));
-	}
+	}*/
 	
 }
 
@@ -230,19 +230,19 @@ void APlayerPawn::SavePreviousPiece(ACPP_Piece* ClickedPiece)
 	SavedPiece->HighlightPiece();
 	if (SavedPiece == nullptr)
 	{
-		if (GEngine)
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("you aint' getting this"));
 		}
-		
+		*/
 	}
 	else
 	{
-		if (GEngine)
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("give it to me"));
 		}
-		
+		*/
 	}
 	
 
@@ -253,9 +253,12 @@ void APlayerPawn::Deselect()
 {
 	EDefault = Default;
 
-	if (!SavedPiece) return;
+	if (!SavedPiece)
+	{
+		return;
+	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Deselected"));
 	HideCards();
 	SavedPiece->NotHighlightPiece();
 	SavedPiece->ClearVisualizePathfinding();
