@@ -127,7 +127,9 @@ void ACPP_Card::RemoveVisualizeEffects()
 
 	for (int i = 0; i < VisualizedEffectsArray.Num(); i++)
 	{
-		VisualizedEffectsArray[i]->Destroy();
+		auto Visual = VisualizedEffectsArray[i];
+
+		if (Visual) Visual->Destroy();
 
 		UE_LOG(LogTemp, Log, TEXT("Removed Visual %i"), i);
 	}
