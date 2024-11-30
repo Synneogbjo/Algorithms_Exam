@@ -63,7 +63,7 @@ int ACPP_Piece::Damage(int Value)
 {
 	if (Value > 0)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("damage"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("damage"));
 		if (NiagaraDamage)
 		{
 		const FVector Location = MeshComponent->GetComponentLocation() + FVector(0,0,60);
@@ -74,7 +74,7 @@ int ACPP_Piece::Damage(int Value)
 
 	if (Value < 0)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Heal"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Heal"));
 		if (NiagaraHeal)
 		{
 		FVector Location = MeshComponent->GetComponentLocation() + FVector(0, 0, 0);
@@ -243,11 +243,11 @@ void ACPP_Piece::GetTile(ACPP_Tile* Tile)
 
 	for (auto Path : LegalPaths)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Checking Path..."));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Checking Path..."));
 
 		if (Path->Position == Tile->TileLocation)
 		{
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Starting Movement"));
+			//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Starting Movement"));
 
 			APlayerPawn* Player = Cast<APlayerPawn>(GetOwner());
 
@@ -274,7 +274,7 @@ void ACPP_Piece::HighlightPiece_Implementation()
 
 void ACPP_Piece::VisualizePathfinding(TArray<UCPP_AlgorithmPath*> Paths)
 {
-	UE_LOG(LogTemp, Log, TEXT("Visualizing..."));
+	//UE_LOG(LogTemp, Log, TEXT("Visualizing..."));
 
 	for (auto Path : Paths)
 	{
@@ -290,7 +290,7 @@ void ACPP_Piece::VisualizePathfinding(TArray<UCPP_AlgorithmPath*> Paths)
 
 		if (MaterialInstance)
 		{
-			UE_LOG(LogTemp, Log, TEXT("Valid material"));
+			//UE_LOG(LogTemp, Log, TEXT("Valid material"));
 			MaterialInstance->SetVectorParameterValue("Color", Color);
 		}
 	}
