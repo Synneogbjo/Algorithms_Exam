@@ -69,5 +69,5 @@ void UCPP_Stack::InitializeStack(FVector Location)
 
 	Algo::RandomShuffle(CardsArray);
 
-	UE_LOG(LogTemp, Log, TEXT("Filled the CardsArray %i"), InitCardsClasses.Num());
+	//UE_LOG(LogTemp, Log, TEXT("Filled the CardsArray %i"), InitCardsClasses.Num());
 }

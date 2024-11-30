@@ -120,7 +120,7 @@ void ACPP_Card::VisualizeEffects(TArray<FVector> EffectLocations)
 
 		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass() || EffectLocations[i].Size() >= FVector(INFINITY - 1).Size()) continue;
 
-		UE_LOG(LogTemp, Log, TEXT("%p"), CardEffects[i]->StaticClass());
+		//UE_LOG(LogTemp, Log, TEXT("%p"), CardEffects[i]->StaticClass());
 
 		VisualizedEffectsArray.Emplace(GetWorld()->SpawnActor(EffectVisualActor, &EffectLocations[i]));
 	}
@@ -128,7 +128,7 @@ void ACPP_Card::VisualizeEffects(TArray<FVector> EffectLocations)
 
 void ACPP_Card::RemoveVisualizeEffects()
 {
-	UE_LOG(LogTemp, Log, TEXT("Removing Visuals"))
+	//UE_LOG(LogTemp, Log, TEXT("Removing Visuals"))
 
 	for (int i = 0; i < VisualizedEffectsArray.Num(); i++)
 	{
@@ -136,7 +136,7 @@ void ACPP_Card::RemoveVisualizeEffects()
 
 		if (Visual) Visual->Destroy();
 
-		UE_LOG(LogTemp, Log, TEXT("Removed Visual %i"), i);
+		//UE_LOG(LogTemp, Log, TEXT("Removed Visual %i"), i);
 	}
 
 	VisualizedEffectsArray.Empty();

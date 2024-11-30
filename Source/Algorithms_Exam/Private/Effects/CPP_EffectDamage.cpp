@@ -40,7 +40,7 @@ void ACPP_EffectDamage::OnBeginOverlap(UPrimitiveComponent*OverlappedComp, AActo
 {
 	if (OtherActor->IsA(ACPP_Piece::StaticClass()))
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit actor")).Append(OtherActor->GetName()));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, FString::Printf(TEXT("Hit actor")).Append(OtherActor->GetName()));
 
 		Cast<ACPP_Piece>(OtherActor)->Damage(DamageAmount);
 

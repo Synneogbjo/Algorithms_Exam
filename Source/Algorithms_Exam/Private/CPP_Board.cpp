@@ -61,7 +61,7 @@ bool ACPP_Board::SetBoardSize(const F2DVectorInt Size)
 		}
 	}
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("Created a Board of size %d, %d"), Size.X, Size.Y));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("Created a Board of size %d, %d"), Size.X, Size.Y));
 
 	return bNoErrors;
 }

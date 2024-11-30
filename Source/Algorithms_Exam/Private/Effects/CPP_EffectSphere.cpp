@@ -37,14 +37,11 @@ void ACPP_EffectSphere::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, clas
 
 	if (OtherActor->IsA(ACPP_Piece::StaticClass()))
 	{
-		if (GEngine)
-		{
-
-			PieceRef = Cast<ACPP_Piece>(OtherActor);
-			PieceRef->Damage(1);
-			IsInside = true;
-			//DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
-		}
+		PieceRef = Cast<ACPP_Piece>(OtherActor);
+		PieceRef->Damage(1);
+		IsInside = true;
+		//DrawDebugBox(GetWorld(), GetActorLocation(), FVector(50, 50, 50), FColor::Black, false, 3.f, 0, 10);
+		
 	}
 	
 	else

@@ -18,28 +18,28 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 {
 	TArray<UCPP_AlgorithmPath*> LegalPaths = {};
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pathfinding Started"));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pathfinding Started"));
 
 	//Failsafe checks
 	if (MovementOptions.IsEmpty())
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Movement Options!!"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Movement Options!!"));
 		return LegalPaths;
 	}
 
 	if (!Board)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Board!"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Board!"));
 		return LegalPaths;
 	}
 
 	if (!StartPosition.WithinRange((Board->GetBoardSize())))
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Out of Range!!!"));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Out of Range!!!"));
 		return LegalPaths;
 	}
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pathfinding continued"));
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Pathfinding continued"));
 
 	//Traversal Queue
 	TArray<UCPP_AlgorithmPath*> PositionQueue;
@@ -58,7 +58,7 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 	//Pathfinding loop
 	while (!PositionQueue.IsEmpty() && Steps < StepAmount)
 	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Looping..."));
+		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Looping..."));
 
 		Steps++;
 
@@ -104,12 +104,12 @@ TArray<UCPP_AlgorithmPath*> ACPP_Pathfinding::RunPathfinding(F2DVectorInt StartP
 				PositionQueue.Add(NewPath);
 				LegalPaths.Add(NewPath);
 
-				UE_LOG(LogTemp, Log, TEXT("Added position %d,%d"), TargetPosition.X, TargetPosition.Y);
+				//UE_LOG(LogTemp, Log, TEXT("Added position %d,%d"), TargetPosition.X, TargetPosition.Y);
 			}
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Legal Path Amount: %d | Iteration Count: %d"), LegalPaths.Num(), IterationCounter);
+	//UE_LOG(LogTemp, Warning, TEXT("Legal Path Amount: %d | Iteration Count: %d"), LegalPaths.Num(), IterationCounter);
 
 	return LegalPaths;
 }
