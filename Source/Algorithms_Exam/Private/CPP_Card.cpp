@@ -78,7 +78,12 @@ TArray<FVector> ACPP_Card::FindCardEffectLocations(F2DVectorInt PieceLocation, b
 
 		ACPP_Tile* SpawnTile = Board->GetTileAt(SpawnPosition);
 
-		if (!SpawnTile) continue;
+		if (!SpawnTile)
+		{
+			EffectLocations.Emplace(FVector(INFINITY));
+
+			continue;
+		}
 
 		EffectLocations.Emplace(Board->GetTileAt(SpawnPosition)->GetActorLocation());
 	}
@@ -97,7 +102,7 @@ void ACPP_Card::SpawnEffects(TArray<FVector> EffectLocations)
 	{
 		if (i >= CardEffects.Num()) return;
 
-		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass()) continue;
+		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass() || EffectLocations[i].Size() >= FVector(INFINITY - 1).Size()) continue;
 
 		GetWorld()->SpawnActor(CardEffects[i], &EffectLocations[i]);
 	}
@@ -113,7 +118,7 @@ void ACPP_Card::VisualizeEffects(TArray<FVector> EffectLocations)
 	{
 		if (i >= CardEffects.Num()) return;
 
-		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass()) continue;
+		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass() || EffectLocations[i].Size() >= FVector(INFINITY - 1).Size()) continue;
 
 		UE_LOG(LogTemp, Log, TEXT("%p"), CardEffects[i]->StaticClass());
 
