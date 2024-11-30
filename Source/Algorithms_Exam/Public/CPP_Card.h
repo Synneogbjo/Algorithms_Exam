@@ -17,6 +17,9 @@ class ALGORITHMS_EXAM_API ACPP_Card : public AActor
 {
 	GENERATED_BODY()
 
+	UPROPERTY()
+	TArray<AActor*> VisualizedEffectsArray;
+
 public:	
 	// Sets default values for this actor's properties
 	ACPP_Card();
@@ -44,10 +47,22 @@ public:
 	UPROPERTY(EditFixedSize, EditAnywhere, BlueprintReadWrite, Category = "Card")
 	TArray<TSubclassOf<ACPP_EffectParent>> CardEffects; //An array containing which type of attack is used
 
+	UPROPERTY(EditFixedSize, EditAnywhere, BlueprintReadWrite, Category = "Card")
+	TSubclassOf<AActor> EffectVisualActor;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Card")
 	ACPP_Board* Board;
 
 	UFUNCTION(BlueprintCallable, Category = "Card")
-	void SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection);  //FTile instead of location?
+	void SpawnEffects(TArray<FVector> EffectLocations);  //FTile instead of location?
+
+	UFUNCTION(BlueprintCallable, Category = "Card")
+	void VisualizeEffects(TArray<FVector> EffectLocations);
+
+	UFUNCTION(BlueprintCallable, Category = "Card")
+	void RemoveVisualizeEffects();
+
+	UFUNCTION(BlueprintCallable, Category = "Card")
+	TArray<FVector> FindCardEffectLocations(F2DVectorInt PieceLocation, bool bInvertDirection);
 
 };

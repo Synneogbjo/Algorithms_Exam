@@ -37,18 +37,13 @@ void ACPP_Card::Tick(float DeltaTime)
 
 }
 
-/// Activates the card, and does all its effects
-/// @param PieceLocation Where the piece using the card is located on the board
-///	@param bInvertDirection Whether to invert the placement of the effects. Needed when it is Player1's turn
-void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
+TArray<FVector> ACPP_Card::FindCardEffectLocations(F2DVectorInt PieceLocation, bool bInvertDirection)
 {
-	if (!Board)
-	{
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("Card could not find board!"));
-		return;
-	}
+	TArray<FVector> EffectLocations;
 
-	F2DVectorInt StartLocation(0,0);
+	if (!Board) return EffectLocations;
+
+	F2DVectorInt StartLocation(0, 0);
 
 	int Modulo = static_cast<int>(sqrt(CardEffects.Num()));
 
@@ -62,43 +57,80 @@ void ACPP_Card::SpawnEffects(F2DVectorInt PieceLocation, bool bInvertDirection)
 		}
 	}
 
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Playing card..."));
-
 	//Spawns all Card Effects on the matching Tile location
 	for (int i = 0; i < CardEffects.Num(); i++)
 	{
 		UClass* EffectClass = CardEffects[i];
 
-		//Skips all Effect Classes that are of the type ACPP_EffectLocation
-		if (EffectClass == ACPP_EffectLocation::StaticClass()) continue;
-
-		if (!EffectClass) continue;
-
 		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT(""), SpawnPosition.X, SpawnPosition.Y));
 
 		//TODO: Logic for where to spawn the effects does not work properly
 
-		F2DVectorInt SpawnPosition	= F2DVectorInt((i % Modulo), static_cast<int>(floor(i / Modulo)))
+		F2DVectorInt SpawnPosition = F2DVectorInt((i % Modulo), static_cast<int>(floor(i / Modulo)))
 			- StartLocation + PieceLocation;
 
 		if (bInvertDirection)
 		{
-			SpawnPosition			=	F2DVectorInt(-(i % Modulo), -static_cast<int>(floor(i / Modulo)))
-										+ StartLocation + PieceLocation;
+			SpawnPosition = F2DVectorInt(-(i % Modulo), -static_cast<int>(floor(i / Modulo)))
+				+ StartLocation + PieceLocation;
 
-			UE_LOG(LogTemp, Log, TEXT("%i, %i | %i, %i"), -(i % Modulo), -(static_cast<int>(floor(i / Modulo))), SpawnPosition.X, SpawnPosition.Y);
 		}
 
 		ACPP_Tile* SpawnTile = Board->GetTileAt(SpawnPosition);
 
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 25.f, FColor::White, FString::Printf(TEXT("%i Finding effect spawn location... %i, %i"), bInvertDirection, SpawnPosition.X, SpawnPosition.Y));
-
 		if (!SpawnTile) continue;
 
-		FVector SpawnLocation = Board->GetTileAt(SpawnPosition)->GetActorLocation();
+		EffectLocations.Emplace(Board->GetTileAt(SpawnPosition)->GetActorLocation());
+	}
 
-		AActor* SpawnedActor = GetWorld()->SpawnActor(EffectClass, &SpawnLocation);
+	return EffectLocations;
+}
 
+/// Activates the card, and does all its effects
+/// @param PieceLocation Where the piece using the card is located on the board
+///	@param bInvertDirection Whether to invert the placement of the effects. Needed when it is Player1's turn
+void ACPP_Card::SpawnEffects(TArray<FVector> EffectLocations)
+{
+	if (!Board || EffectLocations.IsEmpty()) return;
+
+	for (int i = 0; i < EffectLocations.Num(); i++)
+	{
+		if (i >= CardEffects.Num()) return;
+
+		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass()) continue;
+
+		GetWorld()->SpawnActor(CardEffects[i], &EffectLocations[i]);
 	}
 }
 
+void ACPP_Card::VisualizeEffects(TArray<FVector> EffectLocations)
+{
+	if (!Board || EffectLocations.IsEmpty()) return;
+
+	RemoveVisualizeEffects();
+
+	for (int i = 0; i < EffectLocations.Num(); i++)
+	{
+		if (i >= CardEffects.Num()) return;
+
+		if (CardEffects[i] == nullptr || CardEffects[i]->StaticClass() == ACPP_EffectLocation::StaticClass()) continue;
+
+		UE_LOG(LogTemp, Log, TEXT("%p"), CardEffects[i]->StaticClass());
+
+		VisualizedEffectsArray.Emplace(GetWorld()->SpawnActor(EffectVisualActor, &EffectLocations[i]));
+	}
+}
+
+void ACPP_Card::RemoveVisualizeEffects()
+{
+	UE_LOG(LogTemp, Log, TEXT("Removing Visuals"))
+
+	for (int i = 0; i < VisualizedEffectsArray.Num(); i++)
+	{
+		VisualizedEffectsArray[i]->Destroy();
+
+		UE_LOG(LogTemp, Log, TEXT("Removed Visual %i"), i);
+	}
+
+	VisualizedEffectsArray.Empty();
+}

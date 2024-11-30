@@ -51,7 +51,7 @@ ACPP_Card* UCPP_Hand::UseCard(int Index, F2DVectorInt PieceLocation, bool bInver
 
 			if (!Pile->DiscardPile) Pile->CreateDiscardPile();
 
-			TargetCard->SpawnEffects(PieceLocation, bInvertCardDirection);
+			TargetCard->SpawnEffects(TargetCard->FindCardEffectLocations(PieceLocation, bInvertCardDirection));
 
 			Pile->DiscardPile->AddCardsFromDrawPile(TargetCard);
 
